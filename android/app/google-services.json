@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "375052010339",
+    "project_id": "sokohub-7537b",
+    "storage_bucket": "sokohub-7537b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375052010339:android:fd629f0cbd96b13527c956",
+        "android_client_info": {
+          "package_name": "com.example.sokohub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375052010339-h2bll450l23s6shhtv1jc786n7h20ijd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sokohub",
+            "certificate_hash": "3fe592cb7f5e90e202a0ffa960b636620e9866f0"
+          }
+        },
+        {
+          "client_id": "375052010339-g656hoek0aocq9coe0vgi52t1pjafa96.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgbE6YpSHB0NN913XIikwaodWvLi6Fzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375052010339-g656hoek0aocq9coe0vgi52t1pjafa96.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "375052010339-mge37ku9qu9orujfkbrkken3tea8jbh5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sokohub"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375052010339:android:dc5cd41e160b074f27c956",
+        "android_client_info": {
+          "package_name": "com.example.sokohub_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375052010339-g656hoek0aocq9coe0vgi52t1pjafa96.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgbE6YpSHB0NN913XIikwaodWvLi6Fzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375052010339-g656hoek0aocq9coe0vgi52t1pjafa96.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "375052010339-mge37ku9qu9orujfkbrkken3tea8jbh5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sokohub"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
