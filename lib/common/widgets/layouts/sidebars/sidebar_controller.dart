@@ -5,7 +5,7 @@ import 'package:sokohub_admin/utils/device/device_utility.dart';
 class SidebarController  extends GetxController{
  // static SidebarController get instance => Get.find();
 
-  final activeItem = ITRoutes.login.obs;
+  final activeItem = ITRoutes.dashboard.obs;
   final hoverItem = ''.obs;
 
 void changeAtiveItem(String route) => activeItem.value = route;

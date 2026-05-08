@@ -41,9 +41,9 @@ class ITSidebar extends StatelessWidget {
                     Text('MENU', style: Theme.of(context).textTheme.bodySmall!.apply(letterSpacingDelta: 1.2),),
 
                     // Menu Items
-                    const ITMenuItemes(route: ITRoutes.login, icon: Iconsax.status, itemName: 'Dashboard',),
-                    const ITMenuItemes(route: ITRoutes.login, icon: Iconsax.image, itemName: 'Media',),
-                    const ITMenuItemes(route: ITRoutes.login, icon: Iconsax.picture_frame, itemName: 'Banners',)
+                    const ITMenuItemes(route: ITRoutes.dashboard, icon: Iconsax.status, itemName: 'Dashboard',),
+                    const ITMenuItemes(route: ITRoutes.media, icon: Iconsax.image, itemName: 'Media',),
+                   // const ITMenuItemes(route: ITRoutes.login, icon: Iconsax.picture_frame, itemName: 'Banners',)
 
                   ],
                 ),

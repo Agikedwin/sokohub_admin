@@ -10,7 +10,7 @@ class DashboardDesktopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DashboardController controller = Get.put(DashboardController());
+    final DashboardController1 controller = Get.put(DashboardController1());
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(30),
@@ -55,7 +55,7 @@ class DashboardDesktopScreen extends StatelessWidget {
 }
 
 class MyData extends DataTableSource {
-  final DashboardController controller = Get.put(DashboardController());
+  final DashboardController1 controller = Get.put(DashboardController1());
   @override
   DataRow? getRow(int index) {
     final data = controller.filteredDataList[index];
@@ -82,7 +82,7 @@ class MyData extends DataTableSource {
   
 }
 
-class DashboardController extends GetxController {
+class DashboardController1 extends GetxController {
     var dataList = <Map<String, String>>[].obs;
   var filteredDataList = <Map<String, String>>[].obs;
 

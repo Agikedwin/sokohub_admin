@@ -3,7 +3,7 @@ class ITRoutes {
   static const forgetPassword = '/forget-password';
   static const resetPassword = '/reset-password';
   static const dashboard = '/dashboard';
-  static const media = '/dashboard';
+  static const media = '/media';
 
 
   static const banners = '/banners';
@@ -12,6 +12,7 @@ class ITRoutes {
 
   static List siderbarMenuItems = [
     //login,forgetPassword,resetPassword
+    dashboard, login, forgetPassword
   ] ;
 
 

@@ -1,10 +1,18 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/texts/section_heading.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/dashboard_controller.dart';
+import 'package:sokohub_admin/features/online_shop/screens/dashboard.dart';
+import 'package:sokohub_admin/features/online_shop/screens/responsive_screens/tablets/data_table.dart';
 import 'package:sokohub_admin/features/online_shop/screens/responsive_screens/widgets/dashboard_card.dart';
+import 'package:sokohub_admin/features/online_shop/screens/responsive_screens/widgets/order_status_pie_chart.dart';
+import 'package:sokohub_admin/features/online_shop/screens/responsive_screens/widgets/weekly_sales.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
+import 'package:sokohub_admin/utils/device/device_utility.dart';
 
 class DashboardDestopScreen extends StatelessWidget {
   const DashboardDestopScreen({super.key});
@@ -70,43 +78,51 @@ class DashboardDestopScreen extends StatelessWidget {
                 ],
               ),
 
-               const SizedBox(
-                    height: TSizes.spaceBtwSections,
-                  ),
+              const SizedBox(
+                height: TSizes.spaceBtwSections,
+              ),
 
               /// GRAPHS
-              const Row(
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     flex: 2,
                     child: Column(
                       children: [
                         /// Bar Graphs
-                        
-                        TRoundedContainer(),
-                         SizedBox(
-                    height: TSizes.spaceBtwSections,
-                  ),
+
+                        WeeklySalesScreen(),
+                        SizedBox(
+                          height: TSizes.spaceBtwSections,
+                        ),
 
                         /// Orders
-                         TRoundedContainer(),
+                        TRoundedContainer(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Recent Orders', style: Theme.of(context).textTheme.headlineSmall),
+                              SizedBox(
+                              width: TSizes.spaceBtwSections,
+                            ),
+                            const DashboardOrderTable()
 
-                        
+
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                   SizedBox(
-                    height: TSizes.spaceBtwSections,
+                  SizedBox(
+                    width: TSizes.spaceBtwSections,
                   ),
 
-
                   /// Pie Chart
-                   Expanded(child: TRoundedContainer()),
-
+                  Expanded(child: OrderStatusPieChart()),
                 ],
-
               )
-              
             ],
           ),
         ),
