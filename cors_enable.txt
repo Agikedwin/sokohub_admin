@@ -1,0 +1,16 @@
+
+RUN on the firebase console[Selecte project, open terminal]
+echo '[
+  {
+    "origin": ["*"],
+    "method": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    "responseHeader": ["Content-Type", "Authorization"],
+    "maxAgeSeconds": 3600
+  }
+]' > cors.json
+
+
+gsutil cors set cors.json gs://sokohub-7537b.firebasestorage.app
+
+gsutil cors get gs://sokohub-7537b.firebasestorage.app
+	

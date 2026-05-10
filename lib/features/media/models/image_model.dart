@@ -87,7 +87,7 @@ class ImageModel {
   ) {
     final data = snapshot.data();
 
-    if (data == null) {
+    if (data!.isEmpty) {
       return ImageModel.empty();
     }
 
