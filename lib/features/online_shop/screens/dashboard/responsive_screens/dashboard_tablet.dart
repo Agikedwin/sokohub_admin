@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
-import 'package:sokohub_admin/features/online_shop/screens/responsive_screens/tablets/data_table.dart';
-import 'package:sokohub_admin/features/online_shop/screens/responsive_screens/widgets/dashboard_card.dart';
-import 'package:sokohub_admin/features/online_shop/screens/responsive_screens/widgets/order_status_pie_chart.dart';
-import 'package:sokohub_admin/features/online_shop/screens/responsive_screens/widgets/weekly_sales.dart';
+import 'package:sokohub_admin/features/online_shop/screens/dashboard/responsive_screens/tablets/data_table.dart';
+import 'package:sokohub_admin/features/online_shop/screens/dashboard/responsive_screens/widgets/dashboard_card.dart';
+import 'package:sokohub_admin/features/online_shop/screens/dashboard/responsive_screens/widgets/order_status_pie_chart.dart';
+import 'package:sokohub_admin/features/online_shop/screens/dashboard/responsive_screens/widgets/weekly_sales.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
 class DashboardTabletScreen extends StatelessWidget {

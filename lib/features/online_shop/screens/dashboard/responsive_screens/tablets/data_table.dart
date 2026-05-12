@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sokohub_admin/common/widgets/data_table/paginated_data_table.dart';
-import 'package:sokohub_admin/features/online_shop/screens/responsive_screens/tablets/table_source.dart';
+import 'package:sokohub_admin/features/online_shop/screens/dashboard/responsive_screens/tablets/table_source.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
 class DashboardOrderTable extends StatelessWidget {

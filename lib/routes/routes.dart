@@ -5,15 +5,22 @@ class ITRoutes {
   static const dashboard = '/dashboard';
   static const media = '/media';
 
-
+  /// Banners
   static const banners = '/banners';
   static const createBanner = '/createBanner';
   static const editBanner = '/editBanner';
 
+  ///Category
+  static const categories = '/categories';
+  static const createCategory = '/createCategory';
+  static const editCategory = '/editCategory';
+
+  ///Category
+  static const brands = '/brands';
+  static const createBrand = '/createBrand';
+  static const editBrand = '/editBrand';
+
   static List siderbarMenuItems = [
-    //login,forgetPassword,resetPassword
-    dashboard, login, forgetPassword
-  ] ;
-
-
+    dashboard, media, categories, brands
+  ];
 }

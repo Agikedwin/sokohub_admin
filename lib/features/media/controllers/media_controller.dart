@@ -6,6 +6,9 @@ import 'package:get/get.dart';
 import 'package:sokohub_admin/common/widgets/loaders/circular_loader.dart';
 import 'package:sokohub_admin/data/repositories/media/media_repository.dart';
 import 'package:sokohub_admin/features/media/models/image_model.dart';
+import 'package:sokohub_admin/features/media/screens/widgets/media_content.dart';
+import 'package:sokohub_admin/features/media/screens/widgets/media_uploader.dart';
+import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
@@ -360,6 +363,37 @@ void removeCloudImageConfirmation(ImageModel imgae){
       TFullScreenLoader.stopLoading();
       TLoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
     }
+  }
+
+  Future<List<ImageModel>?> selectImageFromMedia({
+    List<String>? seletedUrls, bool allowSelection = true, 
+    bool multipleSelection = false
+  }) async{
+    showImageUploaderSection.value  = true;
+    List<ImageModel>? selectedImages = 
+    await Get.bottomSheet<List<ImageModel>>(
+      isScrollControlled: true,
+      backgroundColor: TColors.primaryBackground,
+      FractionallySizedBox(
+        heightFactor: 1,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(TSizes.defaultSpace),
+            child: Column(
+              children: [
+                const MediaUploader(),
+                MediaContent(
+                  allowSelection: allowSelection,
+                 allowMultipleSelection: multipleSelection,
+                  alreadySelectedUrls:   seletedUrls ?? [],
+                  )
+              ],
+            ),
+          ),
+        ),
+      )
+    );
+    return selectedImages;
   }
 
 }

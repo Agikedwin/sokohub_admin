@@ -5,11 +5,12 @@ import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/texts/section_heading.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/dashboard_controller.dart';
-import 'package:sokohub_admin/features/online_shop/screens/dashboard.dart';
-import 'package:sokohub_admin/features/online_shop/screens/responsive_screens/tablets/data_table.dart';
-import 'package:sokohub_admin/features/online_shop/screens/responsive_screens/widgets/dashboard_card.dart';
-import 'package:sokohub_admin/features/online_shop/screens/responsive_screens/widgets/order_status_pie_chart.dart';
-import 'package:sokohub_admin/features/online_shop/screens/responsive_screens/widgets/weekly_sales.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/product_images_controller.dart';
+import 'package:sokohub_admin/features/online_shop/screens/dashboard/dashboard.dart';
+import 'package:sokohub_admin/features/online_shop/screens/dashboard/responsive_screens/tablets/data_table.dart';
+import 'package:sokohub_admin/features/online_shop/screens/dashboard/responsive_screens/widgets/dashboard_card.dart';
+import 'package:sokohub_admin/features/online_shop/screens/dashboard/responsive_screens/widgets/order_status_pie_chart.dart';
+import 'package:sokohub_admin/features/online_shop/screens/dashboard/responsive_screens/widgets/weekly_sales.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 import 'package:sokohub_admin/utils/device/device_utility.dart';
@@ -19,6 +20,7 @@ class DashboardDestopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller  = Get.put(ProductImagesController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -31,6 +33,9 @@ class DashboardDestopScreen extends StatelessWidget {
                 'Dashboard',
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
+              ElevatedButton(onPressed: () => controller.selectThumnailImage(), child: Text('Select Single Image')),
+              const SizedBox(height: TSizes.spaceBtwSections,),
+               ElevatedButton(onPressed: () => controller.selectMultipeProductImages(), child: Text('Select Multiple  Images')),
               const SizedBox(
                 height: TSizes.spaceBtwSections,
               ),

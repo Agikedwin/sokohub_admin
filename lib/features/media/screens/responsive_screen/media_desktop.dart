@@ -30,8 +30,8 @@ class MediaDesktopScreen extends StatelessWidget {
                   TBreadcrumbsWithHeading(
                     heading: 'Media',
                     breadcrumbItems: [
-                      ITRoutes.login,
-                      'some test'
+                      ITRoutes.media,
+                      //'some test'
                     ],
                     returnToPreviousScreen: false,
                   ),
@@ -58,7 +58,7 @@ class MediaDesktopScreen extends StatelessWidget {
 
 
               /// Media
-              MediaContent()
+              MediaContent(allowSelection: false, allowMultipleSelection: false,)
               
             ],
           ),
