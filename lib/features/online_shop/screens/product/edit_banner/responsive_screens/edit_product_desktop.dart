@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
+import 'package:sokohub_admin/features/online_shop/models/banner_model.dart';
 import 'package:sokohub_admin/features/online_shop/models/brand_model.dart';
+import 'package:sokohub_admin/features/online_shop/screens/banner/edit_banner/widgets/edit_banner_form.dart';
 import 'package:sokohub_admin/features/online_shop/screens/brands/edit_brand/widgets/edit_brand_form.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
-class EditBrandDesktopScreen extends StatelessWidget {
-  const EditBrandDesktopScreen({super.key, required this.brand});
+class EditProductDesktopScreen extends StatelessWidget {
+  const EditProductDesktopScreen({super.key, required this.banner});
  
-  final BrandModel brand;
+  final BannerModel banner;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +22,11 @@ class EditBrandDesktopScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Breadcrumbs
-              const TBreadcrumbsWithHeading(returnToPreviousScreen: true, heading: 'Update Brand', breadcrumbItems: [ITRoutes.categories, 'Update Brand']),
+              const TBreadcrumbsWithHeading(returnToPreviousScreen: true, heading: 'Update Banner', breadcrumbItems: [ITRoutes.banners, 'Update Banner']),
               SizedBox(height: TSizes.spaceBtwSections,),
 
               // Form
-              EditBrandForm()
+              EditBannerForm(banner: BannerModel(name: '', imageUrl: 'imageUrl', active: true, targetScreen: 'targetScreen'),)
               
 
               

@@ -4,8 +4,8 @@ import 'package:sokohub_admin/features/online_shop/screens/brands/create_brand/c
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
-class CreateBrandTabletScreen extends StatelessWidget {
-  const CreateBrandTabletScreen({super.key});
+class CreateBannerTabletScreen extends StatelessWidget {
+  const CreateBannerTabletScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class CreateBrandTabletScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Breadcrumbs
-              const TBreadcrumbsWithHeading(returnToPreviousScreen: true, heading: 'Create Brand', breadcrumbItems: [ITRoutes.createCategory, 'Create Brand']),
+              const TBreadcrumbsWithHeading(returnToPreviousScreen: true, heading: 'Create Banner', breadcrumbItems: [ITRoutes.banners, 'Create Banner']),
               SizedBox(height: TSizes.spaceBtwSections,),
 
               // Form

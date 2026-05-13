@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/device/device_utility.dart';
 
 class ITTableHeader extends StatelessWidget {

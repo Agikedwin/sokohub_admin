@@ -15,12 +15,20 @@ class ITRoutes {
   static const createCategory = '/createCategory';
   static const editCategory = '/editCategory';
 
-  ///Category
+  ///Brands
   static const brands = '/brands';
   static const createBrand = '/createBrand';
   static const editBrand = '/editBrand';
 
+    ///Products
+  static const products = '/product';
+  static const createProduct = '/createProduct';
+  static const editProduct = '/editProduct';
+
+
+
+
   static List siderbarMenuItems = [
-    dashboard, media, categories, brands
+    dashboard, media, categories, brands, banners
   ];
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
-import 'package:sokohub_admin/features/online_shop/screens/category/create_category/create_category.dart';
+import 'package:sokohub_admin/features/online_shop/screens/brands/create_brand/create_brand_form.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
@@ -17,11 +17,11 @@ class CreateBrandMobileScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Breadcrumbs
-              const TBreadcrumbsWithHeading(returnToPreviousScreen: true, heading: 'Create Categories', breadcrumbItems: [ITRoutes.createCategory, 'Create Categories']),
+              const TBreadcrumbsWithHeading(returnToPreviousScreen: true, heading: 'Create Brand', breadcrumbItems: [ITRoutes.createCategory, 'Create Brand']),
               SizedBox(height: TSizes.spaceBtwSections,),
 
               // Form
-               CreateCategoryForm(),
+               CreateBrandForm(),
 
              
 
