@@ -25,10 +25,20 @@ class ITRoutes {
   static const createProduct = '/createProduct';
   static const editProduct = '/editProduct';
 
+   ///Products
+  static const customers = '/customers';
+  static const customerDetail = '/customerDetail';
+  static const editCustomer = '/editCustomer';
+
+   ///Products
+  static const orders = '/orders';
+  static const ordersDetail = '/ordersDetail';
+
+
 
 
 
   static List siderbarMenuItems = [
-    dashboard, media, categories, brands, banners
+    dashboard, media, categories, brands, banners, customers, orders, ordersDetail
   ];
 }

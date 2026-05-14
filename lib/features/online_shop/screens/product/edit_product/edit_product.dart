@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sokohub_admin/common/widgets/layouts/templates/site_layout.dart';
 import 'package:sokohub_admin/features/online_shop/models/banner_model.dart';
 
-import 'package:sokohub_admin/features/online_shop/screens/product/edit_banner/responsive_screens/edit_product_desktop.dart';
-import 'package:sokohub_admin/features/online_shop/screens/product/edit_banner/responsive_screens/edit_product_mobile.dart';
-import 'package:sokohub_admin/features/online_shop/screens/product/edit_banner/responsive_screens/edit_product_tablet.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/responsive_screens/edit_product_desktop.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/responsive_screens/edit_product_mobile.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/responsive_screens/edit_product_tablet.dart';
 
 
 

@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
-import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/additional_images.dart';
-import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/bottom_navigation_widget.dart';
-import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/brand_widget.dart';
-import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/categories_widget.dart';
-import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/thumbnail_image_widget.dart';
-import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/visibility_widget.dart';
-import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/attributes_widget.dart';
-import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/product_type_widget.dart';
-import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/stock_pricing_widget.dart';
-import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/title_description.dart';
-import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/variation_widget.dart';
-
+import 'package:sokohub_admin/features/online_shop/models/banner_model.dart';
+import 'package:sokohub_admin/features/online_shop/models/brand_model.dart';
+import 'package:sokohub_admin/features/online_shop/screens/banner/edit_banner/widgets/edit_banner_form.dart';
+import 'package:sokohub_admin/features/online_shop/screens/brands/edit_brand/widgets/edit_brand_form.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/widgets/additional_images.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/widgets/attributes_widget.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/widgets/bottom_navigation_widget.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/widgets/brand_widget.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/widgets/categories_widget.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/widgets/product_type_widget.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/widgets/stock_pricing_widget.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/widgets/thumbnail_image_widget.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/widgets/title_description.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/widgets/variation_widget.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/widgets/visibility_widget.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 import 'package:sokohub_admin/utils/device/device_utility.dart';
 
-class CreateProductDesktopScreen extends StatelessWidget {
-  const CreateProductDesktopScreen({super.key});
+class EditProductDesktopScreen extends StatelessWidget {
+  const EditProductDesktopScreen({super.key, required this.banner});
+ 
+  final BannerModel banner;
 
   @override
   Widget build(BuildContext context) {
@@ -78,14 +82,12 @@ class CreateProductDesktopScreen extends StatelessWidget {
                               SizedBox(height: TSizes.spaceBtwSections ),
 
 
-                             
+                              //  Variations
+                              const ProductVariations()
 
                             ],
                           ),
-                        ),
-                          SizedBox(height: TSizes.spaceBtwSections /2 ),
-                         //  Variations
-                              const ProductVariations()
+                        )
                      ],
                       
                     )
@@ -93,10 +95,10 @@ class CreateProductDesktopScreen extends StatelessWidget {
 
                   ),
                   SizedBox(width:TSizes.defaultSpace),
+
                   // Sidebar
                   Expanded(
                     child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Product Thumbnail
                          const ProductThumbnailImageWidget(),
@@ -137,7 +139,9 @@ class CreateProductDesktopScreen extends StatelessWidget {
                         const ProductVisibilityWidget(),
                         SizedBox(height: TSizes.spaceBtwSections ),
 
-                        ProductBottomNavigationWidget()
+                        ProductBottomNavigationWidget(),
+                        SizedBox(height: TSizes.spaceBtwSections ),
+
                       ],
                     ),
                   )

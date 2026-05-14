@@ -3,12 +3,19 @@ import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/utils/device/device_utility.dart';
 
 class ITTableHeader extends StatelessWidget {
-  const ITTableHeader({super.key, this.onPressed, required this.buttonText, this.searchController, this.searchOnChanged});
+  const ITTableHeader({
+    super.key, this.onPressed, 
+  required this.buttonText, 
+  this.searchController,
+   this.searchOnChanged, 
+   this.showLeftWidget = true,
+   });
 
   final Function()? onPressed;
   final String buttonText;
   final TextEditingController? searchController;
   final Function(String)? searchOnChanged;
+  final bool  showLeftWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +23,7 @@ class ITTableHeader extends StatelessWidget {
       children: [
         Expanded(
             flex: !TDeviceUtils.isDesktopScreen(context) ? 3 : 1,
-            child: Row(
+            child: showLeftWidget ? Row(
               children: [
                 SizedBox(
                     width: 200,
@@ -24,7 +31,7 @@ class ITTableHeader extends StatelessWidget {
                         onPressed: onPressed,
                         child:  Text(buttonText))),
               ],
-            )),
+            ) : SizedBox.shrink()) ,
         Expanded(
           flex: TDeviceUtils.isDesktopScreen(context) ? 2 : 1,
           child: TextFormField(
