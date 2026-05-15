@@ -39,8 +39,10 @@ class MediaContent extends StatelessWidget {
         children: [
           /// Meadia images header
           Row(
+             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
+               
                 children: [
                   Text('Select Folder',
                       style: Theme.of(context).textTheme.headlineSmall),

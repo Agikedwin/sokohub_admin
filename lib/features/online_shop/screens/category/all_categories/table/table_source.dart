@@ -4,27 +4,32 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/icons/table_action_icon_buttons.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/category_controller.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
-import 'package:sokohub_admin/utils/constants/image_strings.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
 class CategoryRows extends DataTableSource{
+  final controller = CategoryController.instance;
   @override
   DataRow? getRow(int index) {
    
+   final category = controller.filteredItems[index];
+   final parentCategory = controller.allItems.firstWhereOrNull((item) => item.id == category.parentId);
     return DataRow2(
+      selected: controller.selectedRows[index],
+      onSelectChanged: (value) => controller.selectedRows[index] = value ?? false,
       cells: [
         DataCell(
           Row(
             children: [
-              const TRoundedImage(
+               TRoundedImage(
                 width: 50,
                 height: 50,
                 padding: TSizes.sm,
-                image: TImages.applePay,
-                imageType: ImageType.asset ,
+                image: category.image,
+                imageType: ImageType.network ,
                 borderRadius:  TSizes.borderRadiusMd,
                 backgroundColor: TColors.primaryBackground,
 
@@ -33,7 +38,7 @@ class CategoryRows extends DataTableSource{
 
               Expanded(
                 child: Text(
-                  'Name',
+                  category.name,
                   style: Theme.of(Get.context!).textTheme.bodyLarge!.apply(color: TColors.primary),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -42,12 +47,13 @@ class CategoryRows extends DataTableSource{
             ],
           )
         ),
-       const  DataCell(Text('Parent')),
-        const  DataCell(Icon(Iconsax.heart5, color: TColors.primary,)),
-           DataCell(Text(DateTime.now().toString())),
+         DataCell(Text(parentCategory != null ? parentCategory.name : '')),
+
+        DataCell( category.isFeatured ? const Icon(Iconsax.heart5, color: TColors.primary) : const Icon(Iconsax.heart),),
+           DataCell(Text(category.createdAt == null ? '' : category.formattedDate)),
               DataCell(TTableActionButtons(
-                onEditPressed: () => Get.toNamed(ITRoutes.editCategory, arguments: 'category'),
-                onDeletePressed: () => {},
+                onEditPressed: () => Get.toNamed(ITRoutes.editCategory, arguments: category),
+                onDeletePressed: () => controller.confirmAndDeleteItem(category),
               )),
       ]
     );
@@ -57,7 +63,7 @@ class CategoryRows extends DataTableSource{
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => 5;
+  int get rowCount => controller.filteredItems.length;
 
   @override
   int get selectedRowCount => 0;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
+import 'package:sokohub_admin/features/online_shop/models/cart_item_model.dart';
 import 'package:sokohub_admin/features/online_shop/models/order_model.dart';
 import 'package:sokohub_admin/features/online_shop/screens/customer/customer_detail/table/customer_order_table.dart';
 import 'package:sokohub_admin/features/persionalizations/models/user_model.dart';
@@ -22,6 +23,11 @@ class OrderItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final order = OrderModel(id: 'id', status: OrderStatus.shipped, userId: 'userId', 
+    totalAmount: 9000, orderDate: DateTime.now(),
+    items: [CartItemModel(productId: '12', title: 'Test', price: 200, totalAmount: 800, quantity: 5, variationId: 'single',
+     brandName: 'Nike')]);
+    
     final subTotal =  0.0;// order.items!.fold(0.0, (previousvalue, element) => previousvalue + (element.price * element.quantity));
     return   TRoundedContainer(
 

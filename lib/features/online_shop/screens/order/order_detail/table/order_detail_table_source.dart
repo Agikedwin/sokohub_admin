@@ -2,6 +2,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
+import 'package:sokohub_admin/features/online_shop/models/cart_item_model.dart';
 
 import 'package:sokohub_admin/features/online_shop/models/order_model.dart';
 import 'package:sokohub_admin/routes/routes.dart';
@@ -14,7 +15,12 @@ class OrderDetailsRows extends DataTableSource{
   @override
   DataRow? getRow(int index) {
 
-    final order = OrderModel(id: 'id', status: OrderStatus.shipped, userId: 'userId', totalAmount: 9000, orderDate: DateTime.now());
+    final order = OrderModel(id: 'id', status: OrderStatus.shipped, userId: 'userId', 
+    totalAmount: 9000, orderDate: DateTime.now(),
+    items: [CartItemModel(productId: '12', title: 'Test', price: 200, totalAmount: 800, quantity: 5, variationId: 'single',
+     brandName: 'Nike')]
+    
+    );
    const totalAmount = '59807';
     return DataRow2(
       selected: false,

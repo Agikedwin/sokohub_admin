@@ -14,7 +14,10 @@ import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
 class OrderDetailDesktopScreen extends StatelessWidget {
-  const OrderDetailDesktopScreen({super.key, required this.order, });
+  const OrderDetailDesktopScreen({
+    super.key,
+    required this.order,
+  });
 
   final OrderModel order;
 
@@ -28,11 +31,14 @@ class OrderDetailDesktopScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Breadcrumbs
-               TBreadcrumbsWithHeading(
-                returnToPreviousScreen: true, 
-                heading: order.id, 
-                breadcrumbItems: [ ITRoutes.orders, 'Details']),
-              SizedBox(height: TSizes.spaceBtwSections,),
+              TBreadcrumbsWithHeading(
+                      returnToPreviousScreen: true,
+                      heading: order.id,
+                      breadcrumbItems: [ITRoutes.orders, 'Details']
+                      ),
+                      SizedBox(
+                        height: TSizes.spaceBtwSections,
+                      ),
 
               //  Body
 
@@ -46,35 +52,44 @@ class OrderDetailDesktopScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         // Order Info
-                        OrderInfo(order: order,),
-                         SizedBox(height: TSizes.spaceBtwItems,),
+                        OrderInfo(
+                          order: order,
+                        ),
+                        SizedBox(
+                          height: TSizes.spaceBtwItems,
+                        ),
 
-                         // Items
-                          OrderItems(order: order),
+                        // Items
+                        OrderItems(order: order),
 
-                         SizedBox(height: TSizes.spaceBtwItems,),
-                         // Transactins
-                          OrderTransactions(order: order,)                         
+                        SizedBox(
+                          height: TSizes.spaceBtwItems,
+                        ),
+                        // Transactins
+                        OrderTransactions(
+                          order: order,
+                        )
                       ],
                     ),
                   ),
-                  SizedBox(width: TSizes.spaceBtwItems,),
+                  SizedBox(
+                    width: TSizes.spaceBtwItems,
+                  ),
 
                   // Right side User Information
-                   Expanded(
-                    child: Column(
-                      children: [
-                        // Customer Info
-                        OrderCustomerInfo(order: order),
-                         SizedBox(width: TSizes.spaceBtwItems,),
-                      ],
-                    )
-                    )
+                  Expanded(
+                      child: Column(
+                    children: [
+                      // Customer Info
+                      OrderCustomerInfo(order: order),
+                      SizedBox(
+                        width: TSizes.spaceBtwItems,
+                      ),
+                    ],
+                  ))
                 ],
               )
-            
-
-              ],
+            ],
           ),
         ),
       ),

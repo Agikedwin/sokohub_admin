@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 
-import 'package:sokohub_admin/features/online_shop/screens/category/create_category/create_category.dart';
+import 'package:sokohub_admin/features/online_shop/screens/category/create_category/create_category_form.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 

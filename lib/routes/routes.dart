@@ -34,9 +34,10 @@ class ITRoutes {
   static const orders = '/orders';
   static const ordersDetail = '/ordersDetail';
 
-
-
-
+     // Profile and settings
+  static const profile = '/profile';
+  static const settings = '/settings';
+  
 
   static List siderbarMenuItems = [
     dashboard, media, categories, brands, banners, customers, orders, ordersDetail

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/features/authentication/screens/forget_password/forget_password.dart';
 import 'package:sokohub_admin/features/authentication/screens/login/login.dart';
@@ -22,6 +24,8 @@ import 'package:sokohub_admin/features/online_shop/screens/product/all_products/
 import 'package:sokohub_admin/features/online_shop/screens/product/create_product/create_product.dart';
 import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/edit_product.dart';
 import 'package:sokohub_admin/features/online_shop/screens/responsive_skeleton.dart';
+import 'package:sokohub_admin/features/persionalizations/screen/profile/profile.dart';
+import 'package:sokohub_admin/features/persionalizations/screen/settings/settings.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/routes/routes_middleware.dart';
 
@@ -63,5 +67,10 @@ class ITAppRoutes {
         // Orders
        GetPage(name: ITRoutes.orders, page: () => const OrderScreen(), middlewares: [ITRoutesMiddleware()]),
        GetPage(name: ITRoutes.ordersDetail, page: () => const OrderDetailScreen(), middlewares: [ITRoutesMiddleware()]),
+
+     
+       // Profile
+       GetPage(name: ITRoutes.profile, page: () => const ProfileScreen(), middlewares: [ITRoutesMiddleware()]),
+       GetPage(name: ITRoutes.settings, page: () => const SettingsScreen(), middlewares: [ITRoutesMiddleware()]),
   ];
 }

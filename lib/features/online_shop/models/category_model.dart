@@ -1,19 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sokohub_admin/utils/formatters/formatter.dart';
 
 class CategoryModel {
   String id;
   String name;
   String image;
-  String? parentId;
+  String parentId;
   bool isFeatured;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   CategoryModel({
     required this.id,
     required this.name,
     required this.image,
-    required this.isFeatured,
-    this.parentId,
+     this.isFeatured = false,
+     this.parentId = '',
+    this.createdAt,
+    this.updatedAt,
   });
+
+  String get formattedDate => TFormatter.formatDate(createdAt);
+   String get formattedUpdatedAtdate => TFormatter.formatDate(updatedAt);
 
   /// Empty helper Function
   static CategoryModel empty() => CategoryModel(
@@ -22,6 +30,8 @@ class CategoryModel {
         image: '',
         isFeatured: false,
         parentId: '',
+        createdAt: null,
+        updatedAt: null,
       );
 
   /// Convert model to JSON structure (for Firebase storage)
@@ -31,35 +41,59 @@ class CategoryModel {
       'Image': image,
       'ParentId': parentId,
       'IsFeatured': isFeatured,
+      'CreatedAt': createdAt = DateTime.now(),
+      'UpdatedAt': updatedAt,
     };
   }
 
-  /// Create CategoryModel from JSON (Firestore / API)
-  factory CategoryModel.fromJson(Map<String, dynamic> json, String id) {
-    return CategoryModel(
-      id: id,
-      name: json['Name'] ?? '',
-      image: json['Image'] ?? '',
-      parentId: json['ParentId'] ?? '',
-      isFeatured: json['IsFeatured'] ?? false,
-    );
-  }
+
 
   /// Create CategoryModel from Firebase DocumentSnapshot
-  factory CategoryModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>>  document) {
-    if(document.data() != null){
+  factory CategoryModel.fromSnapshot(
+    DocumentSnapshot<Map<String, dynamic>> document,
+  ) {
+    if (document.data() != null) {
       final data = document.data()!;
-    
-    return CategoryModel(
-      id: document.id,
-      name: data['Name'] ?? '',
-      image: data['Image'] ?? '',
-      parentId: data['ParentId'] ?? '',
-      isFeatured: data['IsFeatured'] ?? false,
-    );
-  }else {
-    return CategoryModel.empty();
 
+      return CategoryModel(
+        id: document.id,
+        name: data['Name'] ?? '',
+        image: data['Image'] ?? '',
+        parentId: data['ParentId'] ?? '',
+        isFeatured: data['IsFeatured'] ?? false,
+
+        createdAt: data.containsKey('CreatedAt') ? (data['CreatedAt'] as Timestamp).toDate() : null,
+
+        updatedAt:  data.containsKey('UpdatedAt') ? (data['UpdatedAt'] as Timestamp).toDate() : null,
+      );
+    } else {
+      return CategoryModel.empty();
+    }
   }
+
+  /// CopyWith Method
+  CategoryModel copyWith({
+    String? id,
+    String? name,
+    String? image,
+    String? parentId,
+    bool? isFeatured,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return CategoryModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      image: image ?? this.image,
+      parentId: parentId ?? this.parentId,
+      isFeatured: isFeatured ?? this.isFeatured,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'CategoryModel(id: $id, name: $name)';
   }
 }
