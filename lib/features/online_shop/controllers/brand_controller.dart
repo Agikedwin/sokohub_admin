@@ -1,39 +1,71 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/data/abstract/base_data_table_controller.dart';
-import 'package:sokohub_admin/data/repositories/categories/category_repository.dart';
+import 'package:sokohub_admin/data/repositories/brand/brand_repository.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/category_controller.dart';
+import 'package:sokohub_admin/features/online_shop/models/brand_category_model.dart';
+import 'package:sokohub_admin/features/online_shop/models/brand_model.dart';
 import 'package:sokohub_admin/features/online_shop/models/category_model.dart';
 
 
 
-class CategoryController extends TBaseController<CategoryModel>{
+class BrandController extends TBaseController<BrandModel>{
 
-  static CategoryController get instance => Get.find();
+  static BrandController get instance => Get.find();
 
+   final brandRepository = Get.put(BrandRepository());
 
-  final categoryRepository = Get.put(CategoryRepository());
+  final categoryController = Get.put(CategoryController());
+
 
 
   @override
-  bool containsSearchQuery(CategoryModel item, String query) {
+  Future<List<BrandModel>> fetchItems()  async{
+    // Fetch brands
+    final fetchedBrands = await brandRepository.getAllBrands();
+    print('----------');
+    print(fetchedBrands.toList());
+
+    // Fetch brand category from relation Data
+    final fetchBrandCategiries = await brandRepository.getAllBrandForCategory();
+
+     print('----------2');
+    print(fetchBrandCategiries.toList());
+
+     // Fetch brand categories is data not already exixt
+     if(categoryController.allItems.isEmpty) await categoryController.fetchItems();
+
+    // loop all brands and fetch categories of eacg
+    for(var brand in fetchedBrands){
+      print('----------2');
+    print(brand.toJson());
+      //Extract categoryIds from the document
+      List<String> categoryIds = fetchBrandCategiries
+      .where((brandCategory) => brandCategory.brandId == brand.id)
+      .map((brandCategory) => brandCategory.categoryId).toList();
+
+      brand.brandCategories = categoryController.allItems.where((category) => categoryIds.contains(category.id)).toList();
+    }
+    print('&&&&&&&&&&&');
+    print(fetchedBrands.length);
+    return fetchedBrands;
+  }
+  
+  
+  @override
+  bool containsSearchQuery(BrandModel item, String query) {
     return item.name.toLowerCase().contains(query.toLowerCase());
   }
   
   @override
-  Future<void> deleteItems(CategoryModel item) async{
-    await categoryRepository.deleteCategory(item.id);
+  Future<void> deleteItems(BrandModel item) async{
+    throw UnimplementedError();
   }
-  
-  @override
-  Future<List<CategoryModel>> fetchItems()  async{
-    return await categoryRepository.getAllCategories();
-  }
-  
+
 
 
   ///Sorting
   void sortByName(int sortColumnIndex, bool ascending){
-    sortByProperty(sortColumnIndex, ascending, (CategoryModel category) => category.name.toLowerCase());
+    sortByProperty(sortColumnIndex, ascending, (BrandModel b) => b.name.toLowerCase());
   }
   
 

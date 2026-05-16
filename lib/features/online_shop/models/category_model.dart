@@ -41,7 +41,7 @@ class CategoryModel {
       'Image': image,
       'ParentId': parentId,
       'IsFeatured': isFeatured,
-      'CreatedAt': createdAt = DateTime.now(),
+      'CreatedAt':  createdAt ?? DateTime.now(),
       'UpdatedAt': updatedAt,
     };
   }
@@ -49,27 +49,29 @@ class CategoryModel {
 
 
   /// Create CategoryModel from Firebase DocumentSnapshot
-  factory CategoryModel.fromSnapshot(
-    DocumentSnapshot<Map<String, dynamic>> document,
-  ) {
-    if (document.data() != null) {
-      final data = document.data()!;
+ factory CategoryModel.fromSnapshot(
+  DocumentSnapshot<Map<String, dynamic>> document,
+) {
+  final data = document.data();
 
-      return CategoryModel(
-        id: document.id,
-        name: data['Name'] ?? '',
-        image: data['Image'] ?? '',
-        parentId: data['ParentId'] ?? '',
-        isFeatured: data['IsFeatured'] ?? false,
+  if (data == null) return CategoryModel.empty();
 
-        createdAt: data.containsKey('CreatedAt') ? (data['CreatedAt'] as Timestamp).toDate() : null,
+  return CategoryModel(
+    id: document.id,
+    name: data['Name'] ?? '',
+    image: data['Image'] ?? '',
+    parentId: data['ParentId'] ?? '',
+    isFeatured: data['IsFeatured'] ?? false,
 
-        updatedAt:  data.containsKey('UpdatedAt') ? (data['UpdatedAt'] as Timestamp).toDate() : null,
-      );
-    } else {
-      return CategoryModel.empty();
-    }
-  }
+    createdAt: data['CreatedAt'] != null
+        ? (data['CreatedAt'] as Timestamp).toDate()
+        : null,
+
+    updatedAt: data['UpdatedAt'] != null
+        ? (data['UpdatedAt'] as Timestamp).toDate()
+        : null,
+  );
+}
 
   /// CopyWith Method
   CategoryModel copyWith({

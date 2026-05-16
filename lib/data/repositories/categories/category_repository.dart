@@ -35,7 +35,9 @@ class CategoryRepository  extends GetxController{
       throw TFirebaseException(e.code).message;    
     } on PlatformException catch (e) {
       throw TFormatException(e.code).message;
-    } catch (e) {
+    } catch (e, trace) {
+      print(';;;;;;;;;;;;;;;;;;; $e');
+      print(e);
       throw 'Some thing went wrong, Please try again';
     }
   }

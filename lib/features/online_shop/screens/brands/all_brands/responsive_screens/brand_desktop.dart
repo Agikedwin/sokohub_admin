@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/data_table/table_header.dart';
+import 'package:sokohub_admin/common/widgets/loaders/loader_animation.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/brand_controller.dart';
 import 'package:sokohub_admin/features/online_shop/screens/brands/all_brands/table/data_table.dart';
 import 'package:sokohub_admin/features/online_shop/screens/category/all_categories/table/data_table.dart';
 import 'package:sokohub_admin/routes/routes.dart';
@@ -14,6 +17,7 @@ class BrandDesktopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(BrandController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -36,7 +40,10 @@ class BrandDesktopScreen extends StatelessWidget {
                     ITTableHeader(buttonText: 'Create New Brand', onPressed: ()  => Get.toNamed(ITRoutes.createBrand)),
 
                     // Table
-                   BrandTable(),
+                   Obx((){
+                    if(controller.isLoading.value) return const TLoaderAnimation();
+                    return const BrandTable();
+                   }),
                  ],
 
 

@@ -54,6 +54,7 @@ class EditCategoryForm extends StatelessWidget {
                   labelText: 'Parent Category',
                   prefixIcon: Icon(Iconsax.bezier),
                 ),
+                initialValue: editController.selectedParent.value.id.isNotEmpty ? editController.selectedParent.value : null,
                  onChanged: (newValue) => editController.selectedParent.value = newValue!,
                 items:  categoryController.allItems
                 .map((item) => DropdownMenuItem(
@@ -87,7 +88,7 @@ class EditCategoryForm extends StatelessWidget {
                   const SizedBox(height: TSizes.spaceBtwInputFields * 2  ,),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(onPressed: () => editController.updateCategory(category), child: const Text('Create')),
+                    child: ElevatedButton(onPressed: () => editController.updateCategory(category), child: const Text('Update')),
                   ),
 
                   const SizedBox(height: TSizes.spaceBtwInputFields * 2  ,),

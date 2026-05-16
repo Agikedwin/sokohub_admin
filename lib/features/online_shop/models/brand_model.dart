@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sokohub_admin/features/online_shop/models/category_model.dart';
+import 'package:sokohub_admin/utils/formatters/formatter.dart';
 
 class BrandModel {
   String id;
@@ -6,6 +8,11 @@ class BrandModel {
   String image;
   int? productCount;
   bool? isFeatured;
+    DateTime? createdAt;
+  DateTime? updatedAt;
+
+  // Not Mapped
+  List<CategoryModel>? brandCategories;
 
   BrandModel({
     required this.id,
@@ -13,7 +20,13 @@ class BrandModel {
     required this.image,
      this.isFeatured,
      this.productCount,
-  });
+      this.createdAt,
+          this.updatedAt,
+          this.brandCategories
+        });
+
+  String get formattedDate => TFormatter.formatDate(createdAt);
+   String get formattedUpdatedAtdate => TFormatter.formatDate(updatedAt);
 
   /// Empty helper Function
   static BrandModel empty() => BrandModel(
@@ -29,7 +42,9 @@ class BrandModel {
       'Name': name,
       'Image': image,
       'productCount': productCount,
-      'IsFeatured': isFeatured,
+      'IsFeatured': isFeatured = false,
+       'CreatedAt':  createdAt ?? DateTime.now(),
+      'UpdatedAt': updatedAt,
     };
   }
 
@@ -41,6 +56,14 @@ class BrandModel {
       image: json['Image'] ?? '',
       productCount: json['ProductCount'] ?? 0,
       isFeatured: json['IsFeatured'] ?? false,
+      createdAt: json['CreatedAt'] != null
+        ? (json['CreatedAt'] as Timestamp).toDate()
+        : null,
+
+    updatedAt: json['UpdatedAt'] != null
+        ? (json['UpdatedAt'] as Timestamp).toDate()
+        : null,
+  
     );
   }
 
@@ -55,6 +78,14 @@ class BrandModel {
       image: data['Image'] ?? '',
       productCount: data['productCount'] ?? 0,
       isFeatured: data['IsFeatured'] ?? false,
+      createdAt: data['CreatedAt'] != null
+        ? (data['CreatedAt'] as Timestamp).toDate()
+        : null,
+
+    updatedAt: data['UpdatedAt'] != null
+        ? (data['UpdatedAt'] as Timestamp).toDate()
+        : null,
+  
     );
   }else {
     return BrandModel.empty();

@@ -77,12 +77,16 @@ void init(CategoryModel category){
 
            // Update Data list
 
-          // CategoryController.instance.addItemTolist(newRecord);
+          CategoryController.instance.updateItemFromlist(category);
+          
+         
 
            resetFields();
 
            // Remove Loader
         TFullScreenLoader.stopLoading();
+        // Navigate back to the list
+         Get.back();
 
         // Success message
         TLoaders.successSnackBar(title: 'Congratulations', message: 'New record successfully added');        
@@ -96,7 +100,7 @@ void init(CategoryModel category){
   } 
 
 
-  // Method to reser fields
+  // Method to reset fields
  void resetFields() {
   selectedParent(CategoryModel.empty());
   isLoading(false);
