@@ -2,7 +2,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/common/widgets/data_table/paginated_data_table.dart';
-import 'package:sokohub_admin/features/online_shop/controllers/category_controller.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/category/category_controller.dart';
 import 'package:sokohub_admin/features/online_shop/screens/category/all_categories/table/table_source.dart';
 
 class CategoryTable extends StatelessWidget {

@@ -24,7 +24,7 @@ class EditBrandDesktopScreen extends StatelessWidget {
               SizedBox(height: TSizes.spaceBtwSections,),
 
               // Form
-              EditBrandForm()
+              EditBrandForm(brand: brand,)
               
 
               

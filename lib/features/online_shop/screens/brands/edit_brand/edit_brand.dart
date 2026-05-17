@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/utils.dart';
 import 'package:sokohub_admin/common/widgets/layouts/templates/site_layout.dart';
 import 'package:sokohub_admin/features/online_shop/models/brand_model.dart';
 import 'package:sokohub_admin/features/online_shop/models/category_model.dart';
@@ -13,7 +15,7 @@ class EditBrandScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    // final category = Get.arguments;
-   final  brand = BrandModel(id: '', name: '', image: '', isFeatured: false);
+   final  brand = Get.arguments;
     return  ITSiteLayoutTemplate(
 
       desktop: EditBrandDesktopScreen(brand: brand ,),

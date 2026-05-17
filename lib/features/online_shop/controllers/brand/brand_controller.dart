@@ -1,10 +1,8 @@
 import 'package:get/get.dart';
 import 'package:sokohub_admin/data/abstract/base_data_table_controller.dart';
 import 'package:sokohub_admin/data/repositories/brand/brand_repository.dart';
-import 'package:sokohub_admin/features/online_shop/controllers/category_controller.dart';
-import 'package:sokohub_admin/features/online_shop/models/brand_category_model.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/category/category_controller.dart';
 import 'package:sokohub_admin/features/online_shop/models/brand_model.dart';
-import 'package:sokohub_admin/features/online_shop/models/category_model.dart';
 
 
 
@@ -22,22 +20,19 @@ class BrandController extends TBaseController<BrandModel>{
   Future<List<BrandModel>> fetchItems()  async{
     // Fetch brands
     final fetchedBrands = await brandRepository.getAllBrands();
-    print('----------');
-    print(fetchedBrands.toList());
+
 
     // Fetch brand category from relation Data
     final fetchBrandCategiries = await brandRepository.getAllBrandForCategory();
 
-     print('----------2');
-    print(fetchBrandCategiries.toList());
+
 
      // Fetch brand categories is data not already exixt
      if(categoryController.allItems.isEmpty) await categoryController.fetchItems();
 
     // loop all brands and fetch categories of eacg
     for(var brand in fetchedBrands){
-      print('----------2');
-    print(brand.toJson());
+   
       //Extract categoryIds from the document
       List<String> categoryIds = fetchBrandCategiries
       .where((brandCategory) => brandCategory.brandId == brand.id)
@@ -45,8 +40,7 @@ class BrandController extends TBaseController<BrandModel>{
 
       brand.brandCategories = categoryController.allItems.where((category) => categoryIds.contains(category.id)).toList();
     }
-    print('&&&&&&&&&&&');
-    print(fetchedBrands.length);
+ 
     return fetchedBrands;
   }
   
@@ -58,7 +52,7 @@ class BrandController extends TBaseController<BrandModel>{
   
   @override
   Future<void> deleteItems(BrandModel item) async{
-    throw UnimplementedError();
+    await brandRepository.deleteBrand(item);
   }
 
 

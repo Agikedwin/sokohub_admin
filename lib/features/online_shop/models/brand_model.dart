@@ -42,7 +42,7 @@ class BrandModel {
       'Name': name,
       'Image': image,
       'productCount': productCount,
-      'IsFeatured': isFeatured = false,
+      'IsFeatured': isFeatured,
        'CreatedAt':  createdAt ?? DateTime.now(),
       'UpdatedAt': updatedAt,
     };

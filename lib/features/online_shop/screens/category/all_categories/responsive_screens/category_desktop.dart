@@ -6,7 +6,7 @@ import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/data_table/table_header.dart';
 import 'package:sokohub_admin/common/widgets/loaders/loader_animation.dart';
-import 'package:sokohub_admin/features/online_shop/controllers/category_controller.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/category/category_controller.dart';
 import 'package:sokohub_admin/features/online_shop/screens/category/all_categories/table/data_table.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:sokohub_admin/data/repositories/categories/category_repository.dart';
 import 'package:sokohub_admin/features/media/controllers/media_controller.dart';
 import 'package:sokohub_admin/features/media/models/image_model.dart';
-import 'package:sokohub_admin/features/online_shop/controllers/category_controller.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/category/category_controller.dart';
 import 'package:sokohub_admin/features/online_shop/models/category_model.dart';
 import 'package:sokohub_admin/utils/helpers/network_manager.dart';
 import 'package:sokohub_admin/utils/popups/full_screen_loader.dart';

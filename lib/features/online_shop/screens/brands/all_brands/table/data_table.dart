@@ -2,7 +2,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/common/widgets/data_table/paginated_data_table.dart';
-import 'package:sokohub_admin/features/online_shop/controllers/brand_controller.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/brand/brand_controller.dart';
 import 'package:sokohub_admin/features/online_shop/screens/brands/all_brands/table/table_source.dart';
 import 'package:sokohub_admin/utils/device/device_utility.dart';
 
@@ -23,6 +23,8 @@ class BrandTable extends StatelessWidget {
         minWidth: 700,
         tableHeight: 760, //lgTable ? 96 * 11.5 : 64,
         dataRowHeight: 64, // lgTable ? 96 : 64,
+        sortAscending: controller.sortAscending.value,
+        sortColumnIndex: controller.sortColumnIndex.value, 
         columns:  [
           DataColumn2(
             label: Text('Brand',),
