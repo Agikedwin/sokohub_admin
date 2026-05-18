@@ -1,8 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/instance_manager.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/product/create_product_controller.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
@@ -15,13 +18,28 @@ class ProductAttributesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Controllers
+     final productController = CreateProductController.instance;
+     //final attributeController = Get.put(ProductAttributeController());
+    // final variationController = Get.put(ProductVariationController());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Divider(color: TColors.primaryBackground,),
-        const SizedBox(height: TSizes.spaceBtwItems,),
-
+        Obx((){
+          return productController.productType.value == ProductType.single
+          ? const Column(
+            children: [
+               Divider(color: TColors.primaryBackground,),
+               SizedBox(height: TSizes.spaceBtwItems,),
+            ],
+          ): SizedBox.shrink();
+        }),
+        Text('Add Product Attributes', style:  Theme.of(context).textTheme.headlineSmall,),
+         const SizedBox(height: TSizes.spaceBtwItems,),
+        
+        //Form to add new attributes
         Form(
+          //key: ,
           child: TDeviceUtils.isDesktopScreen(context) 
           ? Row(
             crossAxisAlignment: CrossAxisAlignment.start,

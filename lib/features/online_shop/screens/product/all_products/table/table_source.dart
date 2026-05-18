@@ -1,32 +1,34 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/icons/table_action_icon_buttons.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
-import 'package:sokohub_admin/features/online_shop/models/banner_model.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/product/product_controller.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
-import 'package:sokohub_admin/utils/device/device_utility.dart';
 
 class ProductRows extends DataTableSource{
+  final controller = ProductController.instance;
   @override
   DataRow? getRow(int index) {
-   
+   final product = controller.filteredItems[index];
     return DataRow2(
+      selected: controller.selectedRows[index],
+      onTap: () => Get.toNamed(ITRoutes.editProduct, arguments: product),
+      onSelectChanged: (value) => controller.selectedRows[index] = value ?? false,
       cells: [
         DataCell(
           Row(
             children: [
-              const TRoundedImage(
+               TRoundedImage(
                 width: 50,
                 height:50,
                 padding: TSizes.sm,
-                image: TImages.paypal,
-                imageType: ImageType.asset ,
+                image: product.thumbnail,
+                imageType: ImageType.network ,
                 borderRadius:  TSizes.borderRadiusMd,
                 backgroundColor: TColors.primaryBackground,
 
@@ -35,25 +37,25 @@ class ProductRows extends DataTableSource{
 
               Flexible(
                 child: Text(
-                  'Product Title',
+                  product.title,
                   style: Theme.of(Get.context!).textTheme.bodyLarge!.apply(color: TColors.primary),
-                  overflow: TextOverflow.ellipsis,
                   )
               )
             ],
           )
         ),
-        const DataCell(Text('254')),
+         DataCell(Text(controller.getProductStockTotal(product))),
+          DataCell(Text(controller.getProductSoldQuantity(product))),
 
         DataCell(
           Row(
             children: [
-              const TRoundedImage(
-                width: 50,
-                height:50,
+               TRoundedImage(
+                width: 35,
+                height:35,
                 padding: TSizes.sm,
-                image: TImages.paypal,
-                imageType: ImageType.asset ,
+                image: product.brand != null ? product.brand!.image : TImages.defaultImage,
+                imageType: product.brand != null ? ImageType.network : ImageType.asset ,
                 borderRadius:  TSizes.borderRadiusMd,
                 backgroundColor: TColors.primaryBackground,
 
@@ -62,7 +64,7 @@ class ProductRows extends DataTableSource{
 
               Flexible(
                 child: Text(
-                  'Puma',
+                  product.brand != null ? product.brand!.name : '',
                   style: Theme.of(Get.context!).textTheme.bodyLarge!.apply(color: TColors.primary),
                   overflow: TextOverflow.ellipsis,
                   )
@@ -70,11 +72,11 @@ class ProductRows extends DataTableSource{
             ],
           )
         ),
-         const DataCell(Text('Ksh 896')),
-           DataCell(Text(DateTime.now().toString())),
+          DataCell(Text('\Ksh ${controller.getProductPrice(product)}')),
+           DataCell(Text(product.formattedDate)),
               DataCell(TTableActionButtons(
-                onEditPressed: () => Get.toNamed(ITRoutes.editProduct, arguments: BannerModel(name: '', imageUrl: '', active: false, targetScreen: ''), ),
-                onDeletePressed: () => {},
+                onEditPressed: () => Get.toNamed(ITRoutes.editProduct, arguments: product ),
+                onDeletePressed: () => controller.confirmAndDeleteItem(product),
               )),
       ]
     );
@@ -82,11 +84,10 @@ class ProductRows extends DataTableSource{
 
   @override
   bool get isRowCountApproximate => false;
+  @override
+  int get rowCount => controller.filteredItems.length;
 
   @override
-  int get rowCount => 100;
-
-  @override
-  int get selectedRowCount => 0;
+  int get selectedRowCount => controller.selectedRows.where((selected) => selected).length;
   
 }

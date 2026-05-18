@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/route_manager.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:sokohub_admin/common/widgets/chips/rounded_choice_chips.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/images/image_uploader.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/banner/create_banner_controller.dart';
+import 'package:sokohub_admin/routes/app_screens.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
@@ -13,10 +16,12 @@ class CreateBannerForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(CreateBannerController());
     return TRoundedContainer(
       width: 500,
       padding: const EdgeInsets.all(TSizes.defaultSpace),
       child: Form(
+        key: controller.formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -26,6 +31,7 @@ class CreateBannerForm extends StatelessWidget {
             const SizedBox(height: TSizes.spaceBtwSections ,),
 
             TextFormField(
+              controller: controller.name,
               validator: (value) => TValidator.validateEmptyText('Banner Name', value),
               decoration: const InputDecoration(labelText: 'Banner Name', prefixIcon: Icon(Iconsax.box)),
             ),
@@ -36,40 +42,60 @@ class CreateBannerForm extends StatelessWidget {
 
               Column(
                 children: [
-                  GestureDetector(
-                    child: TImageUploader(
-                      width: 80,
-                      height: 80,
-                      image: TImages.defaultImage,
-                      imageType: ImageType.asset,
-                      onIconButtonPressed: () => {},
-                    
+                  Obx(
+                    () => GestureDetector(
+                      onTap: () => controller.pickImage(),
+                      child: TImageUploader(
+                        width: 80,
+                        height: 80,
+                        image: controller.imageURL.value.isNotEmpty ? controller.imageURL.value : TImages.defaultImage,
+                        imageType: controller.imageURL.value.isNotEmpty ? ImageType.network :  ImageType.asset,
+                      
+                      ),
                     ),
                   ),
                    const SizedBox(height: TSizes.spaceBtwItems  ,),
-                   TextButton(onPressed: (){}, child: const Text('Selecte Image'))
+                   TextButton(onPressed: () => controller.pickImage(), child: const Text('Selecte Image'))
 
                 ],
               ),
               const SizedBox(height: TSizes.spaceBtwInputFields  ,),
 
               Text('Make your Banner Active or Inactive', style:  Theme.of(context).textTheme.bodyMedium,),
-              CheckboxMenuButton(value: true, onChanged: (value) =>{}, child: const Text('Active')),
+              Obx(() => CheckboxMenuButton(
+                value: controller.isActive.value,
+                 onChanged: (value) => controller.isActive.value = value ?? false,
+                  child: const Text('Active'))),
 
               const SizedBox(height: TSizes.spaceBtwInputFields  ,),
 
-              DropdownButton<String>(value: 'search',  onChanged: (String? newValue){}, items: const [
-                DropdownMenuItem<String>(value: 'home', child:  Text('Home')),
-                DropdownMenuItem<String>(value: 'search',  child:  Text('Search')),
-              ],),
-               const SizedBox(height: TSizes.spaceBtwInputFields / 2 ,),
-
-
+             Obx(
+                  () => DropdownButton<String>(
+                    isExpanded: true,
+                    value: AppScreens.allAppAscreenItems.contains(controller.targetScreen.value)
+                        ? controller.targetScreen.value
+                        : null,
+                    hint: const Text('Select Target Screen'),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        controller.targetScreen.value = newValue;
+                      }
+                    },
+                    items: AppScreens.allAppAscreenItems
+                        .map<DropdownMenuItem<String>>(
+                          (value) => DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
 
                   const SizedBox(height: TSizes.spaceBtwInputFields * 2  ,),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(onPressed: (){}, child: const Text('Create')),
+                    child: ElevatedButton(onPressed: () => controller.createBanner(), child: const Text('Create')),
                   ),
 
                   const SizedBox(height: TSizes.spaceBtwInputFields * 2  ,),

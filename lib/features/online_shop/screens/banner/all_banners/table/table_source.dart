@@ -4,52 +4,49 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/icons/table_action_icon_buttons.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
-import 'package:sokohub_admin/features/online_shop/models/banner_model.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/banner/banner_controller.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
-import 'package:sokohub_admin/utils/constants/image_strings.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
-import 'package:sokohub_admin/utils/device/device_utility.dart';
 
 class BannerRows extends DataTableSource{
+
+  final controller = BannerController.instance;
   @override
   DataRow? getRow(int index) {
+    final banner = controller.filteredItems[index];
    
     return DataRow2(
+      selected: controller.selectedRows[index],
+      onTap: () => Get.toNamed(ITRoutes.editBanner, arguments: banner),
+      onSelectChanged: (value) => controller.selectedRows[index] = value ?? false,
       cells: [
         DataCell(
           Row(
             children: [
-              const TRoundedImage(
-                width: 50,
-                height:50,
+               TRoundedImage(
+                width: 80,
+                height:80,
                 padding: TSizes.sm,
-                image: TImages.paypal,
-                imageType: ImageType.asset ,
+                image: banner.imageUrl,
+                imageType: ImageType.network ,
                 borderRadius:  TSizes.borderRadiusMd,
                 backgroundColor: TColors.primaryBackground,
 
               ),
-            const SizedBox(width: TSizes.spaceBtwItems,),
-
-              Expanded(
-                child: Text(
-                  'Adidas',
-                  style: Theme.of(Get.context!).textTheme.bodyLarge!.apply(color: TColors.primary),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  )
-              )
+              SizedBox(height: TSizes.spaceBtwItems /2,)
+            
             ],
           )
         ),
-        const DataCell(Text('Shop')),
-         const DataCell(Icon(Iconsax.eye, color: TColors.primary,)),
+         DataCell(Text(controller.formatRoute(banner.targetScreen))),
+          DataCell(banner.active ? const Icon(Iconsax.eye, color: TColors.primary,) : const Icon(Iconsax.eye_slash)),
 
               DataCell(TTableActionButtons(
-                onEditPressed: () => Get.toNamed(ITRoutes.editBanner, arguments: BannerModel(name: '', imageUrl: '', active: false, targetScreen: ''), ),
-                onDeletePressed: () => {},
+                onEditPressed: () => Get.toNamed(ITRoutes.editBanner, 
+                arguments: banner, ),
+                onDeletePressed: () => controller.confirmAndDeleteItem(banner),
               )),
       ]
     );
@@ -59,9 +56,9 @@ class BannerRows extends DataTableSource{
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => 20;
+  int get rowCount => controller.filteredItems.length;
 
   @override
-  int get selectedRowCount => 0;
+  int get selectedRowCount => controller.selectedRows.where((selected) => selected).length;
   
 }

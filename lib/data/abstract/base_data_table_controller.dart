@@ -31,7 +31,6 @@ bool containsSearchQuery(T item, String query);
 
   @override
   void onInit(){
-    print('============== $T');
    fetchData();
     super.onInit();
   }

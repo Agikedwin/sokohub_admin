@@ -5,7 +5,7 @@ class BannerModel {
   String name;
   String imageUrl;
   bool active;
-  final String targetScreen;
+  String targetScreen;
 
   BannerModel({
      this.id,
@@ -38,6 +38,7 @@ class BannerModel {
   /// Create CategoryModel from JSON (Firestore / API)
   factory BannerModel.fromJson(Map<String, dynamic> json, String id) {
     return BannerModel(
+      id: json['id'] ?? '' ,
       name: json['name'] ?? '',
       imageUrl: json['imageUrl'] ?? '',
       active: json['active'] ?? false,

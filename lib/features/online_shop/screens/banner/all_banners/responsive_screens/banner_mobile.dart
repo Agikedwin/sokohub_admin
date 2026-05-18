@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/data_table/table_header.dart';
+import 'package:sokohub_admin/common/widgets/loaders/loader_animation.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/banner/banner_controller.dart';
 import 'package:sokohub_admin/features/online_shop/screens/banner/all_banners/table/data_table.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
@@ -12,6 +14,7 @@ class BannerMobileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(BannerController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -34,7 +37,10 @@ class BannerMobileScreen extends StatelessWidget {
                     ITTableHeader(buttonText: 'Create New Banner', onPressed: ()  => Get.toNamed(ITRoutes.createBanner)),
 
                     // Table
-               BannerTable(),
+              Obx(() {
+                    if(controller.isLoading.value) return const TLoaderAnimation();
+                    return const BannerTable();
+                   }),
                  ],
 
 

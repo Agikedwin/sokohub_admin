@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:sokohub_admin/features/online_shop/models/banner_model.dart';
-import 'package:sokohub_admin/features/online_shop/models/brand_model.dart';
 import 'package:sokohub_admin/features/online_shop/screens/banner/edit_banner/widgets/edit_banner_form.dart';
-import 'package:sokohub_admin/features/online_shop/screens/brands/edit_brand/widgets/edit_brand_form.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
@@ -26,7 +24,7 @@ class EditBannerDesktopScreen extends StatelessWidget {
               SizedBox(height: TSizes.spaceBtwSections,),
 
               // Form
-              EditBannerForm(banner: BannerModel(name: '', imageUrl: 'imageUrl', active: true, targetScreen: 'targetScreen'),)
+              EditBannerForm(banner: banner)
               
 
               

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/attributes_widget.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/product_type_widget.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/stock_pricing_widget.dart';
+import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/variation_widget.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
@@ -43,20 +47,20 @@ class CreateProductMobileScreen extends StatelessWidget {
                                     
                         // Product Type
                                     
-                        // const ProductTypeWidget()
+                        const ProductTypeWidget(),
                         SizedBox(height: TSizes.spaceBtwInputFields ),
                                     
                         // Stock
-                        // const ProductStockAndPricing(),
+                         const ProoductStockAndPricingWidget(),
                         SizedBox(height: TSizes.spaceBtwSections ),
                                     
                         // Attributes
-                        // const ProductAttributes()
+                        const ProductAttributesWidget(),
                         SizedBox(height: TSizes.spaceBtwSections ),
                                     
                                     
                         //  Variations
-                        //const ProductVariations()
+                        const ProductVariations()
                                     
                       ],
                     ),

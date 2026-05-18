@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/data_table/table_header.dart';
+import 'package:sokohub_admin/common/widgets/loaders/loader_animation.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/product/product_controller.dart';
 import 'package:sokohub_admin/features/online_shop/screens/banner/all_banners/table/data_table.dart';
 import 'package:sokohub_admin/features/online_shop/screens/category/all_categories/table/data_table.dart';
 import 'package:sokohub_admin/features/online_shop/screens/product/all_products/table/product_table.dart';
@@ -14,6 +16,7 @@ class ProductTabletScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ProductController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -28,22 +31,28 @@ class ProductTabletScreen extends StatelessWidget {
               // Table Body
               //Show Loader
 
-              TRoundedContainer(
-                child: Column(
-
-                  // Table Header
-                 children: [
-                    ITTableHeader(buttonText: 'Add Product', onPressed: ()  => Get.toNamed(ITRoutes.createProduct)),
-
-                    // Table
-                   ProductTable(),
-                 ],
-
-
-             
-
-                ),
+              Obx(
+                (){
+                  if(controller.isLoading.value) return const TLoaderAnimation();
+                  return TRoundedContainer(
+                  child: Column(
                 
+                    // Table Header
+                   children: [
+                      ITTableHeader(buttonText: 'Create Product',
+                       onPressed: ()  => Get.toNamed(ITRoutes.createProduct),
+                       searchOnChanged: (query) => controller.searchQuery(query),
+                       ),
+                
+                      // Table
+                     ProductTable(),
+                   ],
+                
+                  ),
+                  
+                );
+
+                } 
               )
 
               
