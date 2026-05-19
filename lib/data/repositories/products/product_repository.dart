@@ -21,9 +21,10 @@ class ProductRepository extends GetxController {
 
   /// Create product
 
-  Future<void> createProduct(ProductModel product ) async {
+  Future<String> createProduct(ProductModel product ) async {
     try {
-      await _db.collection('Products').add(product.toJson());
+     final result =  await _db.collection('Products').add(product.toJson());
+     return result.id;
  
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;

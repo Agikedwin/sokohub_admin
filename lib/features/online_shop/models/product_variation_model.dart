@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 class ProductVariationModel {
   final String id;
   String sku;
-  String image;
+  Rx<String> image;
   String? description;
   double price;
   double salePrice;
@@ -14,14 +14,14 @@ class ProductVariationModel {
   ProductVariationModel({
     required this.id,
     this.sku = '',
-    this.image = '',
+    String image = '',
     this.description = '',
     this.price = 0.0,
     this.salePrice = 0.0,
     this.soldQuantity = 0,
     this.stock = 0,
     required this.attributeValues,
-  });
+  }) : image = image.obs;
 
   /// Create Empty func for clean code
   static ProductVariationModel empty() => ProductVariationModel(id: '', attributeValues: {});

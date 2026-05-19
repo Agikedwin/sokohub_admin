@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/data/repositories/products/product_repository.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/category/category_controller.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/product/product_attribute_controller.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/product/product_controller.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/product/product_variation_controller.dart';
@@ -17,11 +19,11 @@ import 'package:sokohub_admin/utils/helpers/network_manager.dart';
 import 'package:sokohub_admin/utils/popups/full_screen_loader.dart';
 import 'package:sokohub_admin/utils/popups/loaders.dart';
 
-class CreateProductController extends GetxController {
+class EditProductController extends GetxController {
 
   // Singleton instance
 
-  static CreateProductController get instance => Get.find();
+  static EditProductController get instance => Get.find();
 
   final imageController = Get.put(ProductImagesController());
 
@@ -54,8 +56,97 @@ class CreateProductController extends GetxController {
     RxBool additionalImagesUploader = false.obs;
       RxBool productDataUploader = false.obs;
         RxBool categoryRelationshipUploader = false.obs;
+        RxBool selectedCategoryLoader = false.obs;
 
-  Future<void> createProduct() async {
+  
+ void initProductData(ProductModel product) {
+  try {
+    /// Loading state
+  isLoading.value = true;
+
+  /// Basic Infomation
+  title.text = product.title;
+  description.text = product.description ?? '';
+  productType.value = product.productType == ProductType.variable.toString()
+      ? ProductType.variable
+      : ProductType.single;
+
+      if(product.productType == ProductType.single.toString()){
+
+        stock.text = product.stock.toString();
+        price.text = product.price.toString();
+        salePrice.text = product.salePrice.toString();
+
+
+      }
+
+
+
+  
+  /// Brand
+
+  if (product.brand != null) {
+      selectedBrand.value = product.brand;
+    brandTextField.text = product.brand!.name;
+  }
+
+
+  /// Product Thumbnail and Images
+  if(product.images.isEmpty){
+    //Set fiest image as the thumnail
+ imageController.selectedThumnailImageUrl.value =  product.thumbnail ?? '';
+  imageController.addtionalProductImagesUrl.assignAll(product.images ?? []);
+
+  }
+  
+  /// Product Attributes
+  ProductAttributeController.instance.productAttributes.assignAll(
+    product.productAttributes ?? [],
+  );
+
+  /// Product Variations
+  ProductVariationController.instance.productVariations.assignAll(
+    product.productVariations ?? [],
+  );
+
+  // variation controller
+  ProductVariationController.instance.initializeVariationControllers(product.productVariations ?? []);
+
+  /// Reset upload indicators
+  thumbnailUploader.value = false;
+  additionalImagesUploader.value = false;
+  productDataUploader.value = false;
+  categoryRelationshipUploader.value = false;
+
+  /// Done loading
+  isLoading.value = false;
+  update();
+    
+  } catch (e) {
+    if(kDebugMode) print(e);
+    
+  }
+}
+
+Future<List<CategoryModel>> loadSelectedCategory(String productId) async{
+  selectedCategoryLoader.value = true;
+
+  // Product Categories
+  final productCategories = await productRepository.getProductCategories(productId);
+  final categoryController = Get.put(CategoryController());
+  if(categoryController.allItems.isEmpty) await categoryController.fetchItems();
+
+  final categoryIds = productCategories.map((e) => e.categoryId).toList();
+  final categories = categoryController.allItems.where((element) => categoryIds.contains(element.id)).toList();
+  selectedCategories.assignAll(categories);
+  //AlertDialog.adaptive()
+  selectedCategoryLoader.value = false;
+
+  return categories;
+
+}
+
+  Future<void> editProduct() async {
     try {
       // Show progress dialog
       ShowProgressDialog();

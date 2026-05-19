@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/product_images_controller.dart';
 import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/additional_images.dart';
 import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/bottom_navigation_widget.dart';
 import 'package:sokohub_admin/features/online_shop/screens/product/create_product/widgets/brand_widget.dart';
@@ -24,8 +26,9 @@ class CreateProductDesktopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ProductImagesController());
     return Scaffold(
-      // bottomNavigationBar: const ProductBottomNagigationButtons(),
+      bottomNavigationBar: const ProductBottomNavigationWidget(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(TSizes.defaultSpace),
@@ -111,13 +114,9 @@ class CreateProductDesktopScreen extends StatelessWidget {
 
                              const SizedBox(height: TSizes.spaceBtwItems ),
                               ProductAdditionalImages(
-                                additionalProductImagesURLs: RxList<String>.empty(),
-                                onTapToAddImages: () {
-                                  
-                                },
-                                onTapToRemoveImages: (index) {
-                                  
-                                },
+                                additionalProductImagesURLs: controller.addtionalProductImagesUrl,
+                                onTapToAddImages: () => controller.selectMultipeProductImages(),
+                                onTapToRemoveImages: (index) => controller.removeImage(index)
                               )
                             ],
                           ),
