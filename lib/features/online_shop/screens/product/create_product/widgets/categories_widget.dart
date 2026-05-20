@@ -48,6 +48,7 @@ class ProductCategories extends StatelessWidget {
               items: categoryController.allItems.map((category) => MultiSelectItem(category, category.name)).toList(),
               listType: MultiSelectListType.CHIP,
               onConfirm: (values){
+                print(values);
                 CreateProductController.instance.selectedCategories.assignAll(values);
               },
                ),

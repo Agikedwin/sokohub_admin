@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/product/product_attribute_controller.dart';
 import 'package:sokohub_admin/features/online_shop/models/product_variation_model.dart';
 import 'package:sokohub_admin/utils/popups/dialogs.dart';
@@ -82,59 +80,53 @@ class ProductVariationController extends GetxController {
 
   void generateVariationsFromAttributes() {
   /// Close previous popup safely
-  if (Get.isDialogOpen ?? false) {
-    Get.back();
-  }
+   Get.back();
+   print('----------------1');
 
   final List<ProductVariationModel> variations = [];
 
-  if (attributesController.productAttributes.isEmpty) return;
+  if (attributesController.productAttributes.isNotEmpty){
+  // Create all combinations of attributes of values[[Green, Blue], [Small,Large]]
 
-  /// Step 1: Clean attribute values safely
-  final List<List<String>> attributeValues = attributesController
-      .productAttributes
-      .map((attr) => List<String>.from(attr.values ?? []))
-      .where((e) => e.isNotEmpty)
-      .toList();
+  final List<List<String>> attributeCombinations =  
+      getCombinations(attributesController.productAttributes.map((attr) => attr.values ?? <String>[]).toList());
+  
 
-  /// Step 2: Generate combinations
-  final List<List<String>> attributeCombinations =
-      getCombinations(attributeValues);
-
-  print(attributeCombinations);
-
-  /// Step 3: Attribute names
-  final List<String> attributeNames = attributesController.productAttributes
-      .map((attr) => attr.name ?? '')
-      .toList();
-
-  /// Step 4: Clear old controllers BEFORE generating new ones
-  stockControllerList.clear();
-  priceControllerList.clear();
-  salePriceControllerList.clear();
-  descriptionControllerList.clear();
-
-  /// Step 5: Build variations
+  // generate ProductVariationModel for each combination
   for (final combination in attributeCombinations) {
-    if (attributeNames.length != combination.length) continue;
 
-    final Map<String, String> attributeValuesMap =
-        Map.fromIterables(attributeNames, combination);
+    final Map<String, String> attributeValues =
+        Map.fromIterables(attributesController.productAttributes.map((attr) => attr.name ?? ''), combination);
 
-    final variation = ProductVariationModel(
-      id: UniqueKey().toString(),
-      attributeValues: attributeValuesMap,
-    );
+    // You can set default values for other properties if needed
+    final ProductVariationModel variation = ProductVariationModel(id: UniqueKey().toString(),attributeValues: attributeValues);
 
     variations.add(variation);
 
-    /// Controllers (one per variation)
-    stockControllerList.add({variation: TextEditingController()});
-    priceControllerList.add({variation: TextEditingController()});
-    salePriceControllerList.add({variation: TextEditingController()});
-    descriptionControllerList.add({variation: TextEditingController()});
+    /// create Controllers (one per variation)
+    final Map<ProductVariationModel, TextEditingController> stockController = {};
+    final Map<ProductVariationModel, TextEditingController> priceController = {};
+    final Map<ProductVariationModel, TextEditingController> salePriceController = {};
+    final Map<ProductVariationModel, TextEditingController> descriptionController = {};  
+
+
+    // Assuming variation is your current ProductVariationModel
+    stockController[variation] = TextEditingController();
+    priceController[variation] = TextEditingController();
+    salePriceController[variation] = TextEditingController();
+    descriptionController[variation] = TextEditingController();
+
+    // Add the Maps to their respective lists
+    stockControllerList.add(stockController);
+    priceControllerList.add(priceController);
+    salePriceControllerList.add(salePriceController);
+    descriptionControllerList.add(descriptionController);
+  
   }
 
+  }
+  
+  // Assign the generated variations to the productVariation list
   productVariations.assignAll(variations);
 }
   
@@ -147,13 +139,13 @@ class ProductVariationController extends GetxController {
 
   }
   
-  List<List<String>> getCombinations(List<List<String>> list) {
+  List<List<String>> getCombinations(List<List<String>> lists) {
     // The result list that will store all combinations
 
     final List<List<String>> result = [];
 
     // Start combining attributes from the first one
-    combine(list, 0, <String>[], result);
+    combine(lists, 0, <String>[], result);
 
     //Return the final list of combination
     return result;
@@ -162,23 +154,20 @@ class ProductVariationController extends GetxController {
   
   // Helper function to recursively combine attributes values
   // Helper function to recursively combine attributes values
-  void combine(
-    List<List<String>> lists,
-    int index,
-    List<String> current,
-    List<List<String>> result,
-  ) {
-    /// Base case
+  void combine(List<List<String>> lists,int index, List<String> current, List<List<String>> result ) {
+    /// If we have readhed the end of this list, add the current combination to the result
     if (index == lists.length) {
-      result.add(List<String>.from(current));
+      result.add(List.from(current));
       return;
     }
 
+    //Iterate over the values of the current attribute
     for (final item in lists[index]) {
-      current.add(item);
+      // Create an updated list with the current value add
+      final List<String> updated = List.from(current)..add(item);
 
-      /// FIX: pass updated current (backtracking)
-      combine(lists, index + 1, current, result);
+      /// Recursively combine with the next attribute
+      combine(lists, index + 1, updated, result);
 
      // current.removeLast(); // IMPORTANT BACKTRACK
     }

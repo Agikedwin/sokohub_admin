@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/images/image_uploader.dart';
+import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
@@ -17,6 +18,8 @@ class ProductAdditionalImages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('==============333');
+    print(additionalProductImagesURLs);
     return SizedBox(
         height: 300,
         child: Column(
@@ -29,13 +32,26 @@ class ProductAdditionalImages extends StatelessWidget {
               child: GestureDetector(
                 onTap: onTapToAddImages,
                 child: TRoundedContainer(
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(TImages.defaultMultiImageIcon, width: 50, height: 50,),
-                        const Text('Add Additional Product Images')
-                      ],
+                  child: Obx(
+                   () => Center(
+                      child: additionalProductImagesURLs.isEmpty ? Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset(TImages.defaultMultiImageIcon, width: 50, height: 50,),
+                          const Text('Add Additional Product Images')
+                        ],
+                      ): Column(
+                        mainAxisSize: MainAxisSize.min ,
+                        children: [
+                          TRoundedImage(
+                              width: 100,
+                               height: 100,
+                                image: additionalProductImagesURLs.first,
+                                 imageType: ImageType.network
+                                 ),
+                                 const Text('Add Additional Product Images')
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -48,7 +64,34 @@ class ProductAdditionalImages extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 2,
-                    child: SizedBox(height: 80, child: _uploadImafesOrEmptyList(),),
+                    child: SizedBox(height: 80, 
+                    child: Obx(
+                      () => ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: additionalProductImagesURLs.length,
+                          separatorBuilder: (context, index) => const SizedBox(width: TSizes.spaceBtwItems / 2,), 
+                          itemBuilder: (context, index){
+                            final image = additionalProductImagesURLs[index];
+                            return TImageUploader(
+                              top: 0,
+                              right: 0,
+                              width: 80,
+                              height: 80,
+                              left: null,
+                              bottom: null,
+                              image: image,
+                              icon: Iconsax.trash,
+                              imageType: ImageType.network,
+                              onIconButtonPressed: () => onTapToRemoveImages(index),
+                      
+                            );
+                          },
+                          
+                          
+                          ),
+                    ),
+                    
+                    ),
                     
                   ),
                   const SizedBox(width: TSizes.spaceBtwItems /2,),
@@ -73,8 +116,10 @@ class ProductAdditionalImages extends StatelessWidget {
     );
   }
   Widget? _uploadImafesOrEmptyList() {
-  //return additionalProductImagesURLs.isNotEmpty ? _uploadImages() : emptyList();
-  return emptyList();
+    print('========================');
+    print(additionalProductImagesURLs);
+  return additionalProductImagesURLs.isNotEmpty ? _uploadImages() : emptyList();
+ // return emptyList();
 }
 
 // Widget to display Empty List Placeholder

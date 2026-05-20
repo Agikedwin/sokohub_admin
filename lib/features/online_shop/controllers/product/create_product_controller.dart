@@ -58,7 +58,7 @@ class CreateProductController extends GetxController {
   Future<void> createProduct() async {
     try {
       // Show progress dialog
-      ShowProgressDialog();
+      showProgressDialog();
 
       // Internet connectivity
       final isConnected = await NetworkManager.instance.isConnected();
@@ -86,26 +86,58 @@ class CreateProductController extends GetxController {
       if(productType.value == ProductType.variable && ProductVariationController.instance.productVariations.isEmpty){
         throw 'There are no variations for the product Type variable. Create some variations or change Product type.';
       }
-      if(productType.value == ProductType.variable){
-        final variationCheckFailed = ProductVariationController.instance.productVariations.any((element) => 
-        element.price.isNaN || 
-        element.price  < 0 || 
-        element.salePrice.isNaN || 
-        element.salePrice < 0 || 
-        element.stock.isNaN || 
-        element.stock < 0 ||
-         element.image.value.isEmpty
-        );
-        if(variationCheckFailed) throw 'variation data is not accurate. Please recheck variations';
+      if (productType.value == ProductType.variable) {
+         final invalidReason =
+    ProductVariationController.instance.productVariations.map((element) {
 
-      }
+              if (element.price.isNaN ) {
+                throw 'Variation price is NaN';
+              }
+
+              if (element.price <= 0) {
+                throw 'Variation price is  ${element.price}';
+              }
+
+              if (element.salePrice.isNaN) {
+                throw 'Variation salePrice is NaN';
+              }
+
+              if (element.salePrice <= 0) {
+                throw 'Variation salePrice is  ${element.salePrice}';
+              }
+
+              if (element.stock.isNaN) {
+                throw 'Variation stock is NaN';
+              }
+
+              if (element.stock < 0) {
+                throw 'Variation stock is less than 0: ${element.stock}';
+              }
+
+               if (element.image.value.isEmpty) {
+                throw 'Variation image is empty'; 
+              } 
+               
+
+              return null;
+
+            }).firstWhere(
+              (result) => result != null,
+              orElse: () => null,
+            );
+
+            print(invalidReason);
+        }
 
       // Upload Product Thumbnail Image
      thumbnailUploader.value = true;
 
      final variations = ProductVariationController.instance.productVariations;
+     
+         
+     
      if(productType.value == ProductType.single && variations.isNotEmpty){
-      // if Admin addrd variations and the changed the Product Type, remove all variations
+      // if Admin added variations and the changed the Product Type, remove all variations
       ProductVariationController.instance.resetAllValues();
       variations.value = [];
      }
@@ -127,7 +159,7 @@ class CreateProductController extends GetxController {
        images: imageController.addtionalProductImagesUrl,
        salePrice: double.tryParse(salePrice.text.trim()) ?? 0,
        thumbnail: imageController.selectedThumnailImageUrl.value ?? '',
-        productType: productType.value.toString(),
+        productType: productType.value.name.toString(),
         productAttributes:  ProductAttributeController.instance.productAttributes,
         date: DateTime.now(),
           
@@ -147,6 +179,7 @@ class CreateProductController extends GetxController {
           // Loop through selected Product Categories
           categoryRelationshipUploader.value = true;
           for(var category in selectedCategories){
+            
             // Map Data
             final productCategory = ProductCategoryModel(productId: newRecord.id!, categoryId: category.id);
             await ProductRepository.instance.createProductCategory(productCategory);
@@ -159,7 +192,7 @@ class CreateProductController extends GetxController {
           TFullScreenLoader.stopLoading();
 
           // Show completion Dialog
-          showCompletionDialog();
+         // showCompletionDialog();
 
       
     } catch (e) {
@@ -237,7 +270,7 @@ void resetFields() {
   titleDescriptionFormKey.currentState?.reset();
 }
 
-void ShowProgressDialog() {
+void showProgressDialog() {
 
       showDialog(
         context: Get.context!,
@@ -273,82 +306,17 @@ void ShowProgressDialog() {
 }
 
 Widget buildCheckBox(String title, RxBool value) {
-  return Obx(
-    () => AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 12,
-        vertical: 10,
+  return Row(
+    children: [
+      AnimatedSwitcher(
+        duration: const Duration(seconds: 5),
+        child: value.value 
+        ? const Icon(CupertinoIcons.checkmark_alt_circle_fill, color: Colors.green,)
+        : const Icon(CupertinoIcons.checkmark_alt_circle)
       ),
-      decoration: BoxDecoration(
-        color: value.value
-            ? Colors.green.withValues(alpha: 0.08)
-            : Colors.grey.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: value.value
-              ? Colors.green.withValues(alpha: 0.4)
-              : Colors.grey.withValues(alpha: 0.2),
-        ),
-      ),
-      child: Row(
-        children: [
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            child: value.value
-                ? Container(
-                    key: const ValueKey('done'),
-                    padding: const EdgeInsets.all(4),
-                    decoration: const BoxDecoration(
-                      color: Colors.green,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.check,
-                      color: Colors.white,
-                      size: 16,
-                    ),
-                  )
-                : SizedBox(
-                    key: const ValueKey('loading'),
-                    height: 18,
-                    width: 18,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Theme.of(Get.context!).primaryColor,
-                    ),
-                  ),
-          ),
-
-          const SizedBox(width: 12),
-
-          Expanded(
-            child: Text(
-              title,
-              style: Theme.of(Get.context!).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: value.value
-                        ? Colors.green.shade700
-                        : Colors.black87,
-                  ),
-            ),
-          ),
-
-          AnimatedOpacity(
-            duration: const Duration(milliseconds: 300),
-            opacity: value.value ? 1 : 0,
-            child: const Text(
-              'Done',
-              style: TextStyle(
-                color: Colors.green,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
+      const SizedBox(width: TSizes.spaceBtwItems,),
+      Text(title),
+    ],
   );
 }
 

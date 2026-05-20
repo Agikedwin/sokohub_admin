@@ -29,9 +29,8 @@ class ProductVariationModel {
   /// Convert model to JSON structure
   Map<String, dynamic> toJson() {
     return {
-      'Id': id,
       'SKU': sku,
-      'Image': image,
+      'Image': image.value,
       'Description': description,
       'Price': price,
       'SoldQuantity': soldQuantity = 0,

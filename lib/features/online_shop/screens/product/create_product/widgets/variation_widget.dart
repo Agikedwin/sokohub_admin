@@ -40,15 +40,17 @@ class ProductVariations extends StatelessWidget {
             ),
             SizedBox(height: TSizes.spaceBtwItems,),
 
+            //Variation List
             if(variationController.productVariations.isNotEmpty)
             ListView.separated(
               shrinkWrap: true,
+              itemCount: variationController.productVariations.length,
               separatorBuilder: (_,__) => const SizedBox(height: TSizes.spaceBtwItems,),
               itemBuilder: (_,index){
                 final variation = variationController.productVariations[index];
                 return _buildVariationTile(context, index, variation, variationController);
               },             
-                itemCount: variationController.productVariations.length,
+                
                 )
               else      
                 _buildNoVariationMessage()
@@ -74,7 +76,8 @@ class ProductVariations extends StatelessWidget {
         Obx(
           () => TImageUploader(
             imageType: variation.image.value.isNotEmpty ? ImageType.network : ImageType.asset,
-            right: 0, left: null,
+            right: 0, 
+            left: null,
              image: variation.image.value.isNotEmpty ? variation.image.value : TImages.defaultImage,
              onIconButtonPressed: () => ProductImagesController.instance.selectVariationImage(variation),
           )
@@ -82,7 +85,6 @@ class ProductVariations extends StatelessWidget {
         const SizedBox(height: TSizes.spaceBtwInputFields,),
 
         // Variation Stock, and Pricing
-
         Row(
           children: [
             Expanded(
@@ -144,7 +146,7 @@ class ProductVariations extends StatelessWidget {
           ],
         ),
 
-        SizedBox(width: TSizes.spaceBtwInputFields,),
+        SizedBox(height: TSizes.spaceBtwSections,),
         // Variation Description
 
         TextFormField(
@@ -156,7 +158,7 @@ class ProductVariations extends StatelessWidget {
               ),
             ),
 
-            SizedBox(width: TSizes.spaceBtwSections,),
+            SizedBox(height: TSizes.spaceBtwSections,),
       ],
     );
 

@@ -20,9 +20,53 @@ class ProductRepository extends GetxController {
 
 
   /// Create product
+  Future<String> createProduct(ProductModel product) async {
+  try {
 
+    final data = product.toJson();
+
+      data.forEach((key, value) {
+        print('$key => ${value.runtimeType}');
+      });
+
+    final result = await _db.collection('Products').add(data);
+
+    return result.id;
+
+  } on FirebaseException catch (e, trace) {
+
+    print('Firebase Error: ${e.code}');
+    print('Firebase Message: ${e.message}');
+    print(trace);
+
+    throw TFirebaseException(e.code).message;
+
+  } on FormatException catch (e, trace) {
+
+    print(e);
+    print(trace);
+
+    throw const TFormatException();
+
+  } on PlatformException catch (e, trace) {
+
+    print(e);
+    print(trace);
+
+    throw TFormatException(e.code).message;
+
+  } catch (e, trace) {
+
+    print('Unknown Error: $e');
+    print(trace);
+
+    throw 'Something went wrong while saving product.';
+  }
+}
+/* 
   Future<String> createProduct(ProductModel product ) async {
     try {
+      print(product.toJson());
      final result =  await _db.collection('Products').add(product.toJson());
      return result.id;
  
@@ -35,16 +79,16 @@ class ProductRepository extends GetxController {
     } catch (e, trace) {
       print(e);
       print(trace);
-      throw 'Something went wrong, please try again';
+      throw 'Something went wrong while saving, please try again $trace';
     }
-  }
+  } */
 
 
-  /// Create product
+  /// Create productCategory
 
   Future<void> createProductCategory(ProductCategoryModel productCategory ) async {
     try {
-      await _db.collection('ProductCategory').add(productCategory.toJson());
+      await _db.collection(' ProductCategory').add(productCategory.toJson());
  
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
@@ -53,8 +97,9 @@ class ProductRepository extends GetxController {
     } on PlatformException catch (e) {
       throw TFormatException(e.code).message;
     } catch (e, trace) {
+      print(trace);
   
-      throw 'Something went wrong, please try again';
+      throw 'Something went wrong, please try again ${e.toString()}';
     }
   }
   /// Get limited featured products

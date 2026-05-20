@@ -38,6 +38,7 @@ class ProductImagesController  extends GetxController{
   final  controller = Get.put(MediaController());
   List<ImageModel>? selectedImages =  await controller.selectImageFromMedia();
 
+
     // Handle the selected images
     if(selectedImages != null && selectedImages.isNotEmpty){
       // Set the selected image to the main image or perform any other actions
@@ -45,6 +46,8 @@ class ProductImagesController  extends GetxController{
 
       // Update the main image using the selectedImage
       variation.image.value = selectedImage.url;
+
+      
     }
   }
 
@@ -53,10 +56,14 @@ class ProductImagesController  extends GetxController{
     final  controller = Get.put(MediaController());
     final selectedImages =  await controller.selectImageFromMedia(multipleSelection: true, seletedUrls: addtionalProductImagesUrl);
 
+   
     // Handle the selected images
     if(selectedImages != null && selectedImages.isNotEmpty){
       addtionalProductImagesUrl.assignAll(selectedImages.map((e) => e.url,));
     }
+
+    
+
 
   }
   

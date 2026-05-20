@@ -152,10 +152,9 @@ class ProductAttributesWidget extends StatelessWidget {
     ],
   );
  }
-}
 
 
-// add a new attribute 
+// Build button to add a new attribute 
 SizedBox _buildAttributeButton(ProductAttributeController controller) {
   return SizedBox(
     width: 100,
@@ -193,10 +192,12 @@ SizedBox _buildAttributes(ProductAttributeController controller) {
       textAlignVertical: TextAlignVertical.top,
       decoration: const InputDecoration(
         labelText: 'Attributes',
-        hintText: 'Add Attributes bt | Example Green | Blue | Yellow',
+        hintText: 'Add Attributes  | Example Green | Blue | Yellow',
         alignLabelWithHint: true
       ),
     ),
 
   );
 }
+}
+
