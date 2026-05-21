@@ -18,8 +18,7 @@ class ProductAdditionalImages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('==============333');
-    print(additionalProductImagesURLs);
+   
     return SizedBox(
         height: 300,
         child: Column(

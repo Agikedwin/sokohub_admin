@@ -175,9 +175,10 @@ class CreateProductController extends GetxController {
           if(selectedCategories.isNotEmpty){
             if(newRecord.id!.isEmpty) throw 'Error storing data. Try again';
           }
-
+          
           // Loop through selected Product Categories
           categoryRelationshipUploader.value = true;
+          
           for(var category in selectedCategories){
             
             // Map Data
@@ -192,7 +193,9 @@ class CreateProductController extends GetxController {
           TFullScreenLoader.stopLoading();
 
           // Show completion Dialog
-         // showCompletionDialog();
+          showCompletionDialog();
+
+
 
       
     } catch (e) {
@@ -309,7 +312,7 @@ Widget buildCheckBox(String title, RxBool value) {
   return Row(
     children: [
       AnimatedSwitcher(
-        duration: const Duration(seconds: 5),
+        duration: const Duration(seconds: 10),
         child: value.value 
         ? const Icon(CupertinoIcons.checkmark_alt_circle_fill, color: Colors.green,)
         : const Icon(CupertinoIcons.checkmark_alt_circle)

@@ -57,7 +57,7 @@ class ITAppRoutes {
             // Banners
        GetPage(name: ITRoutes.products, page: () => const ProductScreen(), middlewares: [ITRoutesMiddleware()]),
          GetPage(name: ITRoutes.createProduct, page: () => const CreateProductScreen(), middlewares: [ITRoutesMiddleware()]),
-         GetPage(name: ITRoutes.editProduct, page: () => const EEditProductScreen(), middlewares: [ITRoutesMiddleware()]),   
+         GetPage(name: ITRoutes.editProduct, page: () => const EditProductScreen(), middlewares: [ITRoutesMiddleware()]),   
 
 
         // Customers

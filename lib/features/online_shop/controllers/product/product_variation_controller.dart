@@ -33,6 +33,32 @@ class ProductVariationController extends GetxController {
 
     // Initialize controllers for each variation
 
+    for(var variation in variations){
+      //Stock Controller
+      Map<ProductVariationModel, TextEditingController> stockControllers = {};
+      stockControllers[variation] = TextEditingController(text: variation.stock.toString());
+      stockControllerList.add(stockControllers);
+
+      //Price Controller
+      Map<ProductVariationModel, TextEditingController> priceControllers = {};
+      priceControllers[variation] = TextEditingController(text: variation.price.toString());
+      priceControllerList.add(priceControllers);
+
+
+      //Sale Price Controller
+      Map<ProductVariationModel, TextEditingController> salePriceControllers = {};
+      salePriceControllers[variation] = TextEditingController(text: variation.salePrice.toString());
+      salePriceControllerList.add(salePriceControllers);
+
+      //Sale Price Controller
+      Map<ProductVariationModel, TextEditingController> descriptionControllers = {};
+      descriptionControllers[variation] = TextEditingController(text: variation.description.toString());
+      descriptionControllerList.add(descriptionControllers);
+
+
+      update();
+    }
+
   }
 
   void removeVariations(BuildContext context){

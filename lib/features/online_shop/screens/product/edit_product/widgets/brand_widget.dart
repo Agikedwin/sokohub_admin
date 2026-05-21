@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
+import 'package:sokohub_admin/common/widgets/shimmers/shimmer.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/brand/brand_controller.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/product/create_product_controller.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/product/edit_product_controller.dart';
 import 'package:sokohub_admin/features/online_shop/models/brand_model.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
@@ -11,6 +16,13 @@ class ProductBrand extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final  controller = Get.put(EditProductController());
+    final brandController = Get.put(BrandController());
+
+    // fetch brands if the list is empty
+    if(brandController.allItems.isEmpty){
+      brandController.fetchItems();
+    }
     return TRoundedContainer(
       child: Column(
         children: [
@@ -21,29 +33,54 @@ class ProductBrand extends StatelessWidget {
 
           //TypeAheadField for brand selection
 
-          TypeAheadField(
-            builder: (context, ctr, FocusNode){
-              return TextFormField(
-                focusNode: FocusNode,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Select Brand',
-                  suffixIcon:  Icon(Iconsax.box)
-                ),
-              );
-            }, 
-            suggestionsCallback: (pattern){
-              return [
-                BrandModel(id: 'id', name: 'Nike', image: TImages.nikeLogo),
-                 BrandModel(id: 'id', name: 'Adidas', image: TImages.adidasLogo),
-                  BrandModel(id: 'id', name: 'Nike', image: TImages.acerlogo)
-              ];
-            },
-            itemBuilder:(context, suggestion){
-              return ListTile(title: Text(suggestion.name),);
-            },
-            onSelected: (suggestion){}, 
-            
+          Obx(
+              () => brandController.isLoading.value
+                  ? const TShimmerEffect(
+                      width: double.infinity,
+                      height: 40,
+                    )
+                  : TypeAheadField(
+                      builder: (context, ctr, focusNode) {
+
+                        // Set default value
+                        if (controller.selectedBrand.value != null) {
+                          ctr.text = controller.selectedBrand.value!.name;
+                        }
+
+                        controller.brandTextField = ctr;
+
+                        return TextFormField(
+                          controller: ctr,
+                          focusNode: focusNode,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Select Brand',
+                            suffixIcon: Icon(Iconsax.box),
+                          ),
+                        );
+                      },
+
+                      suggestionsCallback: (pattern) {
+                        return brandController.allItems
+                            .where(
+                              (brand) => brand.name
+                                  .toLowerCase()
+                                  .contains(pattern.toLowerCase()),
+                            )
+                            .toList();
+                      },
+
+                      itemBuilder: (context, suggestion) {
+                        return ListTile(
+                          title: Text(suggestion.name),
+                        );
+                      },
+
+                      onSelected: (suggestion) {
+                        controller.selectedBrand.value = suggestion;
+                        controller.brandTextField.text = suggestion.name;
+                      },
+                    ),
             )
         ],
       ),

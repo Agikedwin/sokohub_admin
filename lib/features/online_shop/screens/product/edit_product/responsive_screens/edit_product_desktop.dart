@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/product_images_controller.dart';
 import 'package:sokohub_admin/features/online_shop/models/banner_model.dart';
-import 'package:sokohub_admin/features/online_shop/models/brand_model.dart';
-import 'package:sokohub_admin/features/online_shop/screens/banner/edit_banner/widgets/edit_banner_form.dart';
-import 'package:sokohub_admin/features/online_shop/screens/brands/edit_brand/widgets/edit_brand_form.dart';
+import 'package:sokohub_admin/features/online_shop/models/product_model.dart';
+
 import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/widgets/additional_images.dart';
 import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/widgets/attributes_widget.dart';
 import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/widgets/bottom_navigation_widget.dart';
@@ -22,14 +23,15 @@ import 'package:sokohub_admin/utils/constants/sizes.dart';
 import 'package:sokohub_admin/utils/device/device_utility.dart';
 
 class EditProductDesktopScreen extends StatelessWidget {
-  const EditProductDesktopScreen({super.key, required this.banner});
+  const EditProductDesktopScreen({super.key, required this.product});
  
-  final BannerModel banner;
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ProductImagesController());
     return Scaffold(
-      // bottomNavigationBar: const ProductBottomNagigationButtons(),
+       bottomNavigationBar: ProductBottomNavigationWidget(product:product),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(TSizes.defaultSpace),
@@ -113,13 +115,9 @@ class EditProductDesktopScreen extends StatelessWidget {
 
                              const SizedBox(height: TSizes.spaceBtwItems ),
                               ProductAdditionalImages(
-                                additionalProductImagesURLs: RxList<String>.empty(),
-                                onTapToAddImages: () {
-                                  
-                                },
-                                onTapToRemoveImages: (index) {
-                                  
-                                },
+                                additionalProductImagesURLs: controller.addtionalProductImagesUrl,
+                                onTapToAddImages: () => controller.selectMultipeProductImages(),
+                                onTapToRemoveImages: (index) => controller.removeImage(index)
                               )
                             ],
                           ),
@@ -132,14 +130,14 @@ class EditProductDesktopScreen extends StatelessWidget {
                          SizedBox(height: TSizes.spaceBtwSections ),
 
                         // Product Categories
-                        const ProductCategories(),
+                         ProductCategories(product: product),
                         SizedBox(height: TSizes.spaceBtwSections ),
 
                         // Product Visibility
-                        const ProductVisibilityWidget(),
+                         ProductVisibilityWidget(),
                         SizedBox(height: TSizes.spaceBtwSections ),
 
-                        ProductBottomNavigationWidget(),
+                        ProductBottomNavigationWidget(product:product),
                         SizedBox(height: TSizes.spaceBtwSections ),
 
                       ],

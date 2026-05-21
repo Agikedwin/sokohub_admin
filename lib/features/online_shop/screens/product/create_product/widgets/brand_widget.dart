@@ -6,6 +6,7 @@ import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/shimmers/shimmer.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/brand/brand_controller.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/product/create_product_controller.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/product/edit_product_controller.dart';
 import 'package:sokohub_admin/features/online_shop/models/brand_model.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';

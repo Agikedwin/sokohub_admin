@@ -10,6 +10,7 @@ import 'package:sokohub_admin/features/online_shop/models/product_category_model
 import 'package:sokohub_admin/features/online_shop/models/product_model.dart';
 import 'package:sokohub_admin/utils/exceptions/firebase_exceptions.dart';
 import 'package:sokohub_admin/utils/exceptions/format_exceptions.dart';
+import 'package:sokohub_admin/utils/exceptions/platform_exceptions.dart';
 
 
 class ProductRepository extends GetxController {
@@ -23,35 +24,24 @@ class ProductRepository extends GetxController {
   Future<String> createProduct(ProductModel product) async {
   try {
 
-    final data = product.toJson();
 
-      data.forEach((key, value) {
-        print('$key => ${value.runtimeType}');
-      });
-
-    final result = await _db.collection('Products').add(data);
+    final result = await _db.collection('Products').add(product.toJson());
 
     return result.id;
 
   } on FirebaseException catch (e, trace) {
 
-    print('Firebase Error: ${e.code}');
-    print('Firebase Message: ${e.message}');
-    print(trace);
+   
 
     throw TFirebaseException(e.code).message;
 
   } on FormatException catch (e, trace) {
 
-    print(e);
-    print(trace);
 
     throw const TFormatException();
 
   } on PlatformException catch (e, trace) {
 
-    print(e);
-    print(trace);
 
     throw TFormatException(e.code).message;
 
@@ -88,7 +78,8 @@ class ProductRepository extends GetxController {
 
   Future<void> createProductCategory(ProductCategoryModel productCategory ) async {
     try {
-      await _db.collection(' ProductCategory').add(productCategory.toJson());
+     
+      await _db.collection('ProductCategory').add(productCategory.toJson());
  
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
@@ -103,28 +94,36 @@ class ProductRepository extends GetxController {
     }
   }
   /// Get limited featured products
-  Future<List<ProductCategoryModel>> getProductCategories(String productId) async {
-    try {
-      final snapshot = await _db
-          .collection('ProductCategory')
-          .where('productId', isEqualTo: productId).get();
+  Future<List<ProductCategoryModel>> getProductCategories(
+    String productId,
+) async {
+  try {
+    final snapshot = await _db.collection('ProductCategory')
+        .where('productId', isEqualTo: productId)
+        .get();
 
-      return snapshot.docs
-          .map((document) => ProductCategoryModel.fromSnapshot(document))
-          .toList();
 
-    
-    } on FirebaseException catch (e) {
-      throw TFirebaseException(e.code).message;
-    } on FormatException catch (_) {
-      throw const TFormatException();
-    } on PlatformException catch (e) {
-      throw TFormatException(e.code).message;
-    } catch (e, trace) {
-      print(trace);
-      throw 'Some thing went wrong, Please try again';
-    }
+    return snapshot.docs
+        .map(
+          (document) => ProductCategoryModel.fromSnapshot(document),
+        )
+        .toList();
+
+
+  } on FirebaseException catch (e) {
+    throw TFirebaseException(e.code).message;
+
+  } on FormatException {
+    throw const TFormatException();
+
+  } on PlatformException catch (e) {
+    throw TPlatformException(e.code).message;
+
+  } catch (e, stackTrace) {
+    print(stackTrace);
+    throw 'Something went wrong. Please try again.';
   }
+}
 
   /// Get all future products
   Future<List<ProductModel>> getAllProducts() async {
@@ -179,24 +178,43 @@ class ProductRepository extends GetxController {
 
   /// Fuction to update user data in Firestore
 
-  Future<ProductModel> updateProduct(ProductModel product) async {
-    try {
-      await _db
-          .collection('Products')
-          .doc(product.id)
-          .update(product.toJson());
+ Future<ProductModel> updateProduct(ProductModel product) async {
+  try {
    
-    } on FirebaseException catch (e) {
-      throw TFirebaseException(e.code).message;
-    } on FormatException catch (_) {
-      throw const TFormatException();
-    } on PlatformException catch (e) {
-      throw TFormatException(e.code).message;
-    } catch (e) {
-      throw 'Some thing went wrong, Please try again';
-    }
-    return ProductModel.empty();
+
+    await _db
+        .collection('Products')
+        .doc(product.id)
+        .update(product.toJson());
+
+
+    return product;
+
+  } on FirebaseException catch (e, stackTrace) {
+
+
+    throw TFirebaseException(e.code).message;
+
+  } on FormatException catch (e, stackTrace) {
+
+
+    throw const TFormatException();
+
+  } on PlatformException catch (e, stackTrace) {
+
+    
+
+    throw TPlatformException(e.code).message;
+
+  } catch (e, stackTrace) {
+
+    print('❌ Unknown Error');
+    print('Error: $e');
+    print('StackTrace: $stackTrace');
+
+    throw 'Something went wrong. Please try again.';
   }
+}
 
   /// Add data to a single field
   Future<void> addImageToProduct(
@@ -382,6 +400,25 @@ class ProductRepository extends GetxController {
       throw TFormatException(e.code).message;
     } catch (e, trace) {
       print(trace);
+      throw 'Some thing went wrong, Please try again';
+    }
+  }
+
+  Future<void> removeProductCategory(String? productId, String categoryId) async {
+    try {
+     final result =  await _db
+          .collection('ProductCategory').where('productId', isEqualTo: productId).where('categoryId', isEqualTo: categoryId).get();
+      for(final doc in result.docs){
+        await doc.reference.delete();
+      }
+   
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TFormatException(e.code).message;
+    } catch (e) {
       throw 'Some thing went wrong, Please try again';
     }
   }

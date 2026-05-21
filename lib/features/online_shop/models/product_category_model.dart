@@ -39,7 +39,7 @@ class ProductCategoryModel {
   factory ProductCategoryModel.fromSnapshot(
       DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data();
-
+    
     if (data != null) {
       return ProductCategoryModel(
         id: document.id,

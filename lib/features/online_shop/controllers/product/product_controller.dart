@@ -49,11 +49,11 @@ class ProductController extends TBaseController<ProductModel> {
 
 /// Get product price or price range
 String getProductPrice(ProductModel product){
+ 
+  // if no variation exists, return and simple price or sale prce
 
-
-  // if no variation exixts, return and simpmpe price or sale prce
-
-  if(product.productType == ProductType.variable.name.toString() || product.productVariations!.isEmpty){  //ProductType.single.toString()
+  if(product.productType == ProductType.single.name.toString() || product.productVariations!.isEmpty){  //ProductType.single.toString()
+ 
 
     return (product.salePrice > 0.0 ? product.salePrice : product.price).toString();
   }else {
@@ -61,7 +61,8 @@ String getProductPrice(ProductModel product){
       double largestPrice = 0.0;
     // Calculate the smallest and the lasrgest price among variations
     for (var variation in product.productVariations!){
-      //Determie the price to consider
+     
+      
       double? priceToConsider = variation.salePrice! > 0.0 ? variation.salePrice: variation.price;
 
       // Update the smallest and the largest prices
@@ -100,8 +101,9 @@ String? calculateSalePercentage(double originalPrice, double? salePrice){
 
 /// Calculate Product Stock
 String getProductStockTotal(ProductModel product){
+  
   return product.productType == ProductType.single.name.toString() ? product.stock.toString() :
-  product.productVariations!.fold<int>(0, (previousValue, element) => previousValue + element.soldQuantity).toString();
+  product.productVariations!.fold<int>(0, (previousValue, element) => previousValue + element.stock).toString();
 }
 
 /// Calculate Product Sold Quantity

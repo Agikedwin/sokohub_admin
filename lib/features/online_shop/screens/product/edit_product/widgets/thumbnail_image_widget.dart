@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/product_images_controller.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
@@ -11,6 +13,7 @@ class ProductThumbnailImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ProductImagesController controller = Get.put(ProductImagesController());
     return TRoundedContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,18 +33,25 @@ class ProductThumbnailImageWidget extends StatelessWidget {
                 children: [
                   // Thumbnail Image
 
-                  const Row(
+                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
-                        child: TRoundedImage(width: 220, height: 220, image: TImages.defaultSingleImageIcon, imageType: ImageType.asset,),
+                        child: Obx(
+                          () => TRoundedImage(
+                            width: 220,
+                             height: 220,
+                              image: controller.selectedThumnailImageUrl.value ?? TImages.defaultSingleImageIcon,
+                               imageType: controller.selectedThumnailImageUrl.value == null ?  ImageType.asset : ImageType.network
+                               ),
+                        ),
                       )
                     ],
                   ),
 
                   // Add Thumbnail button
 
-                  SizedBox(width: 200, child: OutlinedButton(onPressed: (){}, child: const Text('Add Thumbnail')),)
+                  SizedBox(width: 200, child: OutlinedButton(onPressed: () => controller.selectThumnailImage(), child: const Text('Add Thumbnail')),)
 
                 ],
               ),

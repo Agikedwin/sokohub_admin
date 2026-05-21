@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/images/image_uploader.dart';
+import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
@@ -33,7 +34,21 @@ class ProductAdditionalImages extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Image.asset(TImages.defaultMultiImageIcon, width: 50, height: 50,),
+                        Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Obx(
+                          () => TRoundedImage(
+                            width: 100,
+                             height: 100,
+                              image: additionalProductImagesURLs.isNotEmpty ? additionalProductImagesURLs.first : TImages.defaultSingleImageIcon,
+                               imageType: additionalProductImagesURLs.isNotEmpty ?  ImageType.network : ImageType.asset
+                               ),
+                        ),
+                      )
+                    ],
+                  ),
                         const Text('Add Additional Product Images')
                       ],
                     ),
@@ -73,8 +88,7 @@ class ProductAdditionalImages extends StatelessWidget {
     );
   }
   Widget? _uploadImafesOrEmptyList() {
-  //return additionalProductImagesURLs.isNotEmpty ? _uploadImages() : emptyList();
-  return emptyList();
+  return additionalProductImagesURLs.isNotEmpty ? _uploadImages() : emptyList();
 }
 
 // Widget to display Empty List Placeholder
@@ -86,31 +100,34 @@ Widget emptyList(){
      itemCount: 6
      );
 }
+Widget _uploadImages() {
+  return Obx(
+    () {
+      return ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: additionalProductImagesURLs.length,
+        separatorBuilder: (context, index) =>
+            const SizedBox(width: TSizes.spaceBtwItems / 2),
 
-ListView _uploadImages(){
-  return ListView.separated(
-    scrollDirection: Axis.horizontal,
-    itemCount: additionalProductImagesURLs.length,
-    separatorBuilder: (context, index) => const SizedBox(width: TSizes.spaceBtwItems / 2,), 
-    itemBuilder: (context, index){
-      final image = additionalProductImagesURLs[index];
-      return TImageUploader(
-        top: 0,
-        right: 0,
-        width: 80,
-        height: 80,
-        left: null,
-        bottom: null,
-        image: image,
-        icon: Iconsax.trash,
-        imageType: ImageType.network,
-        onIconButtonPressed: () => onTapToRemoveImages(index),
+        itemBuilder: (context, index) {
+          final image = additionalProductImagesURLs[index];
 
+          return TImageUploader(
+            top: 0,
+            right: 0,
+            width: 80,
+            height: 80,
+            left: null,
+            bottom: null,
+            image: image,
+            icon: Iconsax.trash,
+            imageType: ImageType.network,
+            onIconButtonPressed: () => onTapToRemoveImages(index),
+          );
+        },
       );
     },
-    
-     
-     );
+  );
 }
 }
 

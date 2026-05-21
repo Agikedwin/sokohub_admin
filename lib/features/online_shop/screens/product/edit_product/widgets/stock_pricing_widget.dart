@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/product/edit_product_controller.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 import 'package:sokohub_admin/utils/validators/validation.dart';
 
@@ -8,7 +10,9 @@ class ProoductStockAndPricingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final controller = Get.put(EditProductController()); 
     return Form(
+      key: controller.stockPriceFormKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -16,6 +20,7 @@ class ProoductStockAndPricingWidget extends StatelessWidget {
           FractionallySizedBox(
             widthFactor: 0.45,
             child: TextFormField(
+              controller: controller.stock,
               decoration: const InputDecoration(
                 labelText: 'Stock',
                 hintText: 'Add Stock, only numbers are allowed',
@@ -37,6 +42,7 @@ class ProoductStockAndPricingWidget extends StatelessWidget {
               /// Price
               Expanded(
                 child: TextFormField(
+                  controller: controller.price,
                   decoration: const InputDecoration(
                     labelText: 'Price',
                     hintText: 'Price up to 2 decimals',
@@ -59,6 +65,7 @@ class ProoductStockAndPricingWidget extends StatelessWidget {
               /// Discounted Price
               Expanded(
                 child: TextFormField(
+                  controller: controller.salePrice,
                   decoration: const InputDecoration(
                     labelText: 'Discounted Price',
                     hintText: 'Price up to 2 decimals',
