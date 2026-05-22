@@ -62,6 +62,64 @@ class UserRepository extends GetxController {
     return UserModel.empty();
   }
 
+  /// Fetch all users
+  Future<List<UserModel>> getAllUsers() async {
+
+ try {
+      final users = await _db
+          .collection('Users').get();
+
+      final result = users.docs.map((doc) => UserModel.fromDocSnapshot(doc)).toList();
+      if(result.isNotEmpty){
+        return result;
+      }else {
+        return [];
+      }
+    } on FirebaseAuthException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TFormatException(e.code).message;
+    } catch (e) {
+      throw 'Some thing went wrong, Please try again';
+    }
+    
+  }
+
+// Fetch UserOrders
+   Future<UserModel> fetchUserDetail(String id) async {
+    try {
+      final documentSnapshot = await _db
+          .collection('Users')
+          .doc(id)
+          .get();
+
+
+
+      if (documentSnapshot.exists) {
+
+        return UserModel.fromDocSnapshot(documentSnapshot);
+      }else{
+
+        return UserModel.empty();
+      }
+    } on FirebaseAuthException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TFormatException(e.code).message;
+    } catch (e) {
+      throw 'Some thing went wrong, Please try again';
+    }
+    return UserModel.empty();
+  }
+
 // Fetch admin details
 
   Future<UserModel> fetchAdminDetails() async {
@@ -133,7 +191,7 @@ class UserRepository extends GetxController {
 
   /// Fuction to update any specific Users Collection
 
-  Future<void> removeUserRecord(String userId) async {
+  Future<void> deleteUser(String userId) async {
     try {
       await _db.collection('Users').doc(userId).delete();
     } on FirebaseAuthException catch (e) {
@@ -175,4 +233,6 @@ class UserRepository extends GetxController {
   }
 
  }
+
+  
 }

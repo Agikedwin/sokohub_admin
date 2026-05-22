@@ -33,7 +33,7 @@ class OrderDetailDesktopScreen extends StatelessWidget {
               // Breadcrumbs
               TBreadcrumbsWithHeading(
                       returnToPreviousScreen: true,
-                      heading: order.id,
+                      heading: order.docId,
                       breadcrumbItems: [ITRoutes.orders, 'Details']
                       ),
                       SizedBox(
@@ -52,9 +52,7 @@ class OrderDetailDesktopScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         // Order Info
-                        OrderInfo(
-                          order: order,
-                        ),
+                        OrderInfo( order: order,),
                         SizedBox(
                           height: TSizes.spaceBtwItems,
                         ),
@@ -66,9 +64,7 @@ class OrderDetailDesktopScreen extends StatelessWidget {
                           height: TSizes.spaceBtwItems,
                         ),
                         // Transactins
-                        OrderTransactions(
-                          order: order,
-                        )
+                        OrderTransactions( order: order)
                       ],
                     ),
                   ),

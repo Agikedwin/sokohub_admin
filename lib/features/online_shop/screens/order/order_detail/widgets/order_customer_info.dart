@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/order/order_detail_controller.dart';
 import 'package:sokohub_admin/features/online_shop/models/order_model.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
@@ -17,6 +21,9 @@ class OrderCustomerInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(OrderDetailController());
+    controller.order.value = order;
+    controller.getCustomerOfCurrentOrder();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -32,13 +39,15 @@ class OrderCustomerInfo extends StatelessWidget {
         
               const SizedBox(height: TSizes.spaceBtwSections),
         
-              Row(
+              Obx(
+                (){
+                  return Row(
                 children: [
                   TRoundedImage(
                     padding: 0,
                     backgroundColor: TColors.primaryBackground,
-                    image: TImages.user,
-                    imageType: ImageType.asset,
+                    image: controller.customer.value.profilePicture.isNotEmpty ? controller.customer.value.profilePicture : TImages.user,
+                    imageType: controller.customer.value.profilePicture.isNotEmpty  ? ImageType.network : ImageType.asset,
                   ),
         
                   const SizedBox(width: TSizes.spaceBtwItems),
@@ -49,14 +58,14 @@ class OrderCustomerInfo extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Agik Edwin',
+                          controller.customer.value.firstName,
                           style: Theme.of(context).textTheme.titleLarge,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
         
-                        const Text(
-                          'Agik Edwin',
+                         Text(
+                          controller.customer.value.email,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
@@ -64,48 +73,48 @@ class OrderCustomerInfo extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
+              );
+                }
+              )
             ]
               ),
         ),
         
               const SizedBox(height: TSizes.spaceBtwSections / 2),
 
-              // Contact Info
-        
+              // Contact Info  
               
-              SizedBox(
-                width: double.infinity,
-                child: TRoundedContainer(
-                  padding: const EdgeInsets.all(TSizes.spaceBtwSections),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Contact Person',
+              Obx(
+                () => SizedBox(
+                  width: double.infinity,
+                  child: TRoundedContainer(
+                    padding: const EdgeInsets.all(TSizes.spaceBtwSections),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                        'Contact Info',
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
-        
-        
-                      Text(
-                        'Agik Edwin',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-        
-                      const SizedBox(height: TSizes.spaceBtwItems / 2),
-        
-                      Text(
-                        'agikedwin@gmail.com',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-        
-                      const SizedBox(height: TSizes.spaceBtwSections / 2),
-        
-                      Text(
-                        '07478976766',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-                    ],
+                        Text(
+                         controller.customer.value.fullName,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+
+                        const SizedBox(height: TSizes.spaceBtwItems / 2),                        
+                        Text(
+                          controller.customer.value.email,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        
+                        const SizedBox(height: TSizes.spaceBtwSections / 2),
+                                                
+                        Text(
+                           controller.customer.value.formattedPhoneNo.isNotEmpty ? controller.customer.value.formattedPhoneNo : '(+254 **** ***)',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -126,14 +135,14 @@ class OrderCustomerInfo extends StatelessWidget {
         
         
                       Text(
-                        'Agik Edwin LTD',
+                        order.shippingAddress != null ? order.shippingAddress!.name : 'Some Address',
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
         
                       const SizedBox(height: TSizes.spaceBtwItems / 2),
         
                       Text(
-                        'Mbita street',
+                        order.shippingAddress != null ? order.shippingAddress!.toString() : '',
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
         

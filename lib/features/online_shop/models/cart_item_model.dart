@@ -11,13 +11,11 @@ class CartItemModel {
   String variationId;
   String brandName;
   Map<String, String>? selectedVariation;
-  double totalAmount;
 
   CartItemModel({
     required this.productId,
     required this.title,
     required this.price,
-     required this.totalAmount,
     
     this.image,
     required this.quantity,
@@ -25,6 +23,8 @@ class CartItemModel {
     required this.brandName,
     this.selectedVariation,
   });
+
+  String get totalAmount => (price * quantity).toStringAsFixed(1);
 
   /// Empty helper function
   static CartItemModel empty() => CartItemModel(
@@ -36,7 +36,6 @@ class CartItemModel {
         variationId: '',
         brandName: '',
         selectedVariation: {},
-        totalAmount: 0.0
       );
 
   /// Convert model to JSON (for Firebase)
@@ -57,7 +56,6 @@ class CartItemModel {
   factory CartItemModel.fromJson(Map<String, dynamic> json) {
     return CartItemModel(
       productId: json['ProductId'] ?? '',
-      totalAmount: (json['totalAmount'] ?? 0).toDouble(),
       title: json['Title'] ?? '',
       price: (json['Price'] ?? 0).toDouble(),
       image: json['Image'],
@@ -80,7 +78,6 @@ class CartItemModel {
         productId: data['ProductId'] ?? '',
         title: data['Title'] ?? '',
         price: (data['Price'] ?? 0).toDouble(),
-         totalAmount: (data['totalAmount'] ?? 0).toDouble(),
         image: data['Image'],
         quantity: data['Quantity'] ?? 0,
         variationId: data['VariationId'] ?? '',

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/data_table/table_header.dart';
+import 'package:sokohub_admin/common/widgets/loaders/loader_animation.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/customer/customer_controller.dart';
 import 'package:sokohub_admin/features/online_shop/screens/customer/all_customers/table/customer_table.dart';
 
 import 'package:sokohub_admin/features/online_shop/screens/product/all_products/table/product_table.dart';
@@ -14,6 +16,7 @@ class CustomerTabletScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(CustomerController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -36,7 +39,10 @@ class CustomerTabletScreen extends StatelessWidget {
                     ITTableHeader(buttonText: '', showLeftWidget: false, ),
 
                     // Table
-                   CustomerTable(),
+                   Obx((){
+                    if(controller.isLoading.value) return const TLoaderAnimation();
+                    return  CustomerTable();
+                   }),
                  ],
 
 

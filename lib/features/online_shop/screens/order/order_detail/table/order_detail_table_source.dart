@@ -17,7 +17,7 @@ class OrderDetailsRows extends DataTableSource{
 
     final order = OrderModel(id: 'id', status: OrderStatus.shipped, userId: 'userId', 
     totalAmount: 9000, orderDate: DateTime.now(),
-    items: [CartItemModel(productId: '12', title: 'Test', price: 200, totalAmount: 800, quantity: 5, variationId: 'single',
+    items: [CartItemModel(productId: '12', title: 'Test', price: 200,  quantity: 5, variationId: 'single',
      brandName: 'Nike')]
     
     );

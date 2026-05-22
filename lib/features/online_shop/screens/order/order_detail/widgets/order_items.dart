@@ -23,12 +23,8 @@ class OrderItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final order = OrderModel(id: 'id', status: OrderStatus.shipped, userId: 'userId', 
-    totalAmount: 9000, orderDate: DateTime.now(),
-    items: [CartItemModel(productId: '12', title: 'Test', price: 200, totalAmount: 800, quantity: 5, variationId: 'single',
-     brandName: 'Nike')]);
-    
-    final subTotal =  0.0;// order.items!.fold(0.0, (previousvalue, element) => previousvalue + (element.price * element.quantity));
+        
+    final subTotal = order.items!.fold(0.0, (previousvalue, element) => previousvalue + (element.price * element.quantity));
     return   TRoundedContainer(
 
       padding: EdgeInsets.all(TSizes.defaultSpace),
@@ -41,9 +37,9 @@ class OrderItems extends StatelessWidget {
 
           // Items
 
-
           ListView.separated(
             shrinkWrap: true,
+            itemCount: order.items!.length,
             physics: NeverScrollableScrollPhysics(),
             separatorBuilder: (_,__) => const SizedBox(height: TSizes.spaceBtwItems,),
              itemBuilder: (_, index) {
@@ -80,16 +76,16 @@ class OrderItems extends StatelessWidget {
 
                         SizedBox(
                           width: TSizes.xl * 2,
-                          child: Text('\$${item.price.toStringAsFixed(1)}', style: Theme.of(context).textTheme.bodyLarge,),
+                          child: Text(item.price.toStringAsFixed(1), style: Theme.of(context).textTheme.bodyLarge,),
                         ),
 
                          SizedBox(
                           width: TDeviceUtils.isMobileScreen(context) ?   TSizes.xl * 1.4 : TSizes.xl * 2,
-                          child: Text('\$${item.quantity.toString()}', style: Theme.of(context).textTheme.bodyLarge,),
+                          child: Text(item.quantity.toString(), style: Theme.of(context).textTheme.bodyLarge,),
                         ),
                          SizedBox(
                           width: TDeviceUtils.isMobileScreen(context) ?   TSizes.xl * 4 : TSizes.xl * 2,
-                          child: Text('\$${item.totalAmount}', style: Theme.of(context).textTheme.bodyLarge,),
+                          child: Text(item.totalAmount, style: Theme.of(context).textTheme.bodyLarge,),
                         )
 
 
@@ -101,7 +97,7 @@ class OrderItems extends StatelessWidget {
                 
               );
             },           
-              itemCount: order.items!.length
+              
               ),
                SizedBox(height: TSizes.spaceBtwItems,),
 
@@ -116,7 +112,7 @@ class OrderItems extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('SubTotal', style: Theme.of(context).textTheme.titleLarge,),
-                      Text('\$$subTotal', style: Theme.of(context).textTheme.titleLarge,)
+                      Text(subTotal.toStringAsFixed(1), style: Theme.of(context).textTheme.titleLarge,)
                     ],
                   ),
                    SizedBox(height: TSizes.spaceBtwItems,),
@@ -125,7 +121,7 @@ class OrderItems extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Discount', style: Theme.of(context).textTheme.titleLarge,),
-                      Text('\$0.00', style: Theme.of(context).textTheme.titleLarge,)
+                      Text('0.00', style: Theme.of(context).textTheme.titleLarge,)
                     ],
                   ),
                    SizedBox(height: TSizes.spaceBtwItems,),
@@ -134,7 +130,7 @@ class OrderItems extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Shipping', style: Theme.of(context).textTheme.titleLarge,),
-                      Text('\$${TPricingCalculator.calculateShippingCost(subTotal, '')}', 
+                      Text(order.shippingCost.toStringAsFixed(1), 
                       style: Theme.of(context).textTheme.titleLarge,)
                     ],
                   ),
@@ -144,7 +140,7 @@ class OrderItems extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Tax', style: Theme.of(context).textTheme.titleLarge,),
-                      Text('\$${TPricingCalculator.calculateTax(subTotal, '')}', 
+                      Text(order.taxCost.toStringAsFixed(1), 
                       style: Theme.of(context).textTheme.titleLarge,)
                     ],
                   ),
@@ -157,7 +153,7 @@ class OrderItems extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Total', style: Theme.of(context).textTheme.titleLarge,),
-                      Text('\$${TPricingCalculator.calculateTotalPrice(subTotal, '')}', 
+                      Text('\Ksh ${order.totalAmount.toStringAsFixed(1)}', 
                       style: Theme.of(context).textTheme.titleLarge,)
                     ],
                   ),

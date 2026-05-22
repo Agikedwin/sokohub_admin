@@ -88,30 +88,79 @@ class UserModel {
     );// Default createdAt to current time
 
   /// Convert model to JSON structure for storing data in Firebase.
-  Map<String, dynamic> toJson() {
-    return {
-      'Id': id,
-      //'FullName': fullName,
-      'FirstName': firstName,
-      'LastName': lastName,
-      'Email': email,
-      'PhoneNumber': phoneNumber,
-      'ProfilePicture': profilePicture,
-      'Role': role.name.toString(),
-      'IsEmailVerified': isEmailVerified,
-      'IsProfileActive': isProfileActive,
-      //'DeviceToken': deviceToken,
-     // 'VerificationStatus': verificationStatus.name,
-     // 'CreatedAt': createdAt,
-      'UpdatedAt': DateTime.now(),
-    };
-  }
+ /// Convert model to JSON structure for storing data in Firebase.
+Map<String, dynamic> toJson() {
+  return {
+    'id': id,
+    'firstName': firstName,
+    'lastName': lastName,
+    'email': email,
+    'username': username,
+    'phoneNumber': phoneNumber,
+    'profilePicture': profilePicture,
+    'role': role.name,
+    'isEmailVerified': isEmailVerified,
+    'isProfileActive': isProfileActive,
+    'deviceToken': deviceToken,
+    'createdAt': createdAt != null
+        ? Timestamp.fromDate(createdAt!)
+        : FieldValue.serverTimestamp(),
+    'updatedAt': FieldValue.serverTimestamp(),
+    'addresses': addresses?.map((e) => e.toJson()).toList() ?? [],
+  };
+}
 
   // Factory method to create UserModel from Firestore document snapshot
-  factory UserModel.fromDocSnapshot(DocumentSnapshot<Map<String, dynamic>> doc) {
-    final data = doc.data()!;
-    return UserModel.fromJson(doc.id, data);
+  /// Factory method to create UserModel from Firestore document snapshot
+factory UserModel.fromDocSnapshot(
+  DocumentSnapshot<Map<String, dynamic>> doc,
+) {
+  final data = doc.data();
+
+  if (data == null || data.isEmpty) {
+    return UserModel.empty();
   }
+
+  return UserModel(
+    id: doc.id,
+
+    firstName: data['firstName'] ?? '',
+    lastName: data['lastName'] ?? '',
+    email: data['email'] ?? '',
+    username: data['username'] ?? '',
+    phoneNumber: data['phoneNumber'] ?? '',
+    profilePicture: data['profilePicture'] ?? '',
+    deviceToken: data['deviceToken'] ?? '',
+
+    role: data['role'] == AppRole.admin.name
+        ? AppRole.admin
+        : AppRole.user,
+
+    isEmailVerified:
+        data['isEmailVerified'] ?? false,
+
+    isProfileActive:
+        data['isProfileActive'] ?? false,
+
+    createdAt: data['createdAt'] != null
+        ? (data['createdAt'] as Timestamp).toDate()
+        : null,
+
+    updatedAt: data['updatedAt'] != null
+        ? (data['updatedAt'] as Timestamp).toDate()
+        : null,
+
+    addresses: data['addresses'] != null
+        ? (data['addresses'] as List)
+            .map(
+              (e) => AddressModel.fromJson(
+                e as Map<String, dynamic>,
+              ),
+            )
+            .toList()
+        : [],
+  );
+}
 
   // Static method to create a list of UserModel from QuerySnapshot (for retrieving multiple users)
   static UserModel fromQuerySnapshot(QueryDocumentSnapshot<Object?> doc) {
@@ -126,30 +175,51 @@ class UserModel {
   }
 
   /// Factory method to create a UserModel from a Firebase document snapshot.
-  factory UserModel.fromJson(String id, Map<String, dynamic> data) {
-    return UserModel(
-      id: id,
-      firstName: data.containsKey('FirstName') ? data['FirstName'] ?? '' : '',
-      lastName: data.containsKey('LastName') ? data['LastName'] ?? '' : '',
-      //fullName: data.containsKey('FullName') ? data['FullName'] ?? '' : '',
-      email: data.containsKey('Email') ? data['Email'] ?? '' : '',
-      phoneNumber: data.containsKey('PhoneNumber') ? data['PhoneNumber'] ?? '' : '',
-      profilePicture: data.containsKey('ProfilePicture') ? data['ProfilePicture'] ?? '' : '',
-      role: data.containsKey('Role')
-          ? (data['Role'] ?? AppRole.user) == AppRole.admin.name.toString()
-          ? AppRole.admin
-          : AppRole.user
-          : AppRole.user, 
-      createdAt: data.containsKey('CreatedAt') ? data['CreatedAt']?.toDate() ?? DateTime.now() : DateTime.now(),
-      updatedAt: data.containsKey('UpdatedAt') ? data['UpdatedAt']?.toDate() ?? DateTime.now() : DateTime.now(),
-      deviceToken: data.containsKey('DeviceToken') ? data['DeviceToken'] ?? '' : '',
-      isEmailVerified: data.containsKey('IsEmailVerified') ? data['IsEmailVerified'] ?? false : false,
-      isProfileActive: data.containsKey('IsProfileActive') ? data['IsProfileActive'] ?? false : false,
-     // verificationStatus: data.containsKey('VerificationStatus')
-     //     ? _mapVerificationStringToEnum(data['VerificationStatus'] ?? '')
-      //    : VerificationStatus.pending,
-    );
-  }
+  /// Factory method to create a UserModel from JSON.
+factory UserModel.fromJson(
+  String id,
+  Map<String, dynamic> data,
+) {
+  return UserModel(
+    id: id,
+
+    firstName: data['firstName'] ?? '',
+    lastName: data['lastName'] ?? '',
+    email: data['email'] ?? '',
+    username: data['username'] ?? '',
+    phoneNumber: data['phoneNumber'] ?? '',
+    profilePicture: data['profilePicture'] ?? '',
+    deviceToken: data['deviceToken'] ?? '',
+
+    role: data['role'] == AppRole.admin.name
+        ? AppRole.admin
+        : AppRole.user,
+
+    isEmailVerified:
+        data['isEmailVerified'] ?? false,
+
+    isProfileActive:
+        data['isProfileActive'] ?? false,
+
+    createdAt: data['createdAt'] != null
+        ? (data['createdAt'] as Timestamp).toDate()
+        : null,
+
+    updatedAt: data['updatedAt'] != null
+        ? (data['updatedAt'] as Timestamp).toDate()
+        : null,
+
+    addresses: data['addresses'] != null
+        ? (data['addresses'] as List)
+            .map(
+              (e) => AddressModel.fromJson(
+                e as Map<String, dynamic>,
+              ),
+            )
+            .toList()
+        : [],
+  );
+}
   /* 
   // Utility to map a role string to the Roles enum
   static VerificationStatus _mapVerificationStringToEnum(String verification) {

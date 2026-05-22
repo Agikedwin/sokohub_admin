@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:sokohub_admin/common/widgets/layouts/templates/site_layout.dart';
 import 'package:sokohub_admin/features/online_shop/models/cart_item_model.dart';
@@ -13,12 +14,8 @@ class OrderDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   //final order = Get.arguments;
-   final order = OrderModel(id: 'id', status: OrderStatus.shipped, userId: 'userId', 
-    totalAmount: 9000, orderDate: DateTime.now(),
-    items: [CartItemModel(productId: '12', title: 'Test', price: 200, totalAmount: 800, quantity: 5, variationId: 'single',
-     brandName: 'Nike')]);
-   
+   final order = Get.arguments;
+   //final orderId = Get.arguments['orderId'];
     return  ITSiteLayoutTemplate(
       desktop: OrderDetailDesktopScreen(order: order),
       mobile: OrderDetailMobileScreen(order: order),
