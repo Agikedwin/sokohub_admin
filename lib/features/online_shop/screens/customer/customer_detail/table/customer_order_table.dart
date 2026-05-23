@@ -1,7 +1,8 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sokohub_admin/common/widgets/data_table/paginated_data_table.dart';
-import 'package:sokohub_admin/features/online_shop/screens/customer/all_customers/table/customer_table_source.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/customer/customer_detail_controller.dart';
 import 'package:sokohub_admin/features/online_shop/screens/customer/customer_detail/table/customer_order_table_source.dart';
 import 'package:sokohub_admin/utils/device/device_utility.dart';
 
@@ -12,29 +13,37 @@ class CustomerOrderTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TPaginatedDataTable(
-      minWidth: 550,
-      tableHeight: 465,
-      dataRowHeight: kMinInteractiveDimension,
-      columns:  [
-        DataColumn2(
-          label: Text('Order ID',),
+    final controller = CustomerDetailController.instance;
+    return Obx(
+      () {
+        Text(controller.filteredCustomerOrders.length.toString());
+        Text(controller.selectedRows.length.toString());
+       return TPaginatedDataTable(
+        minWidth: 550,
+        tableHeight: 465,
+        dataRowHeight: kMinInteractiveDimension,
+        columns:  [
+          DataColumn2(
+            label: Text('Order ID',),
+            onSort: (columnIndex, ascending) => controller.sortById(columnIndex, ascending),
+            ),
+          DataColumn2(label: Text('Date'),
+         
           ),
-        DataColumn2(label: Text('Date'),
-       
-        ),
-        DataColumn2(label: Text('Items'),
-        ),
-         DataColumn2(label: Text('Status'),
-         fixedWidth: TDeviceUtils.isMobileScreen(context) ? 100 : null
-        ),
-               
-        DataColumn2(label: Text('Amount'),
-        numeric: true,
-        ),
-      ],
-      source: CustomerOrderRows(),
-      
+          DataColumn2(label: Text('Items'),
+          ),
+           DataColumn2(label: Text('Status'),
+           fixedWidth: TDeviceUtils.isMobileScreen(context) ? 100 : null
+          ),
+                 
+          DataColumn2(label: Text('Amount'),
+          numeric: true,
+          ),
+        ],
+        source: CustomerOrderRows(),
+        
+      );
+      }
     );
   }
 }

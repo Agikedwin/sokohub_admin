@@ -6,6 +6,10 @@ import 'package:sokohub_admin/common/widgets/data_table/table_header.dart';
 import 'package:sokohub_admin/features/online_shop/models/order_model.dart';
 import 'package:sokohub_admin/features/online_shop/screens/customer/all_customers/table/customer_table.dart';
 import 'package:sokohub_admin/features/online_shop/screens/customer/customer_detail/widgets/customer_info.dart';
+import 'package:sokohub_admin/features/online_shop/screens/order/order_detail/widgets/order_customer_info.dart';
+import 'package:sokohub_admin/features/online_shop/screens/order/order_detail/widgets/order_info.dart';
+import 'package:sokohub_admin/features/online_shop/screens/order/order_detail/widgets/order_items.dart';
+import 'package:sokohub_admin/features/online_shop/screens/order/order_detail/widgets/order_transactions.dart';
 import 'package:sokohub_admin/features/online_shop/screens/product/all_products/table/product_table.dart';
 import 'package:sokohub_admin/features/persionalizations/models/user_model.dart';
 import 'package:sokohub_admin/routes/routes.dart';
@@ -36,13 +40,15 @@ class OrderDetailMobileScreen extends StatelessWidget {
 
               //customer info
 
-             // CustomerInfo(customer: customer),
-               CustomerInfo(),
+              OrderInfo( order: order,),
                SizedBox(height: TSizes.spaceBtwSections,),
-                        
-               // Shipping address
-              // const shippingAddress(),
+               OrderItems(order: order),
+ 
               SizedBox(height: TSizes.spaceBtwSections,),
+                OrderTransactions( order: order),
+
+               SizedBox(height: TSizes.spaceBtwSections,),
+                 OrderCustomerInfo(order: order),
               
               // Right side customer orders
              // customerOrders()

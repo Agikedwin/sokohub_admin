@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
-import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
-import 'package:sokohub_admin/common/widgets/data_table/table_header.dart';
-import 'package:sokohub_admin/features/online_shop/screens/customer/all_customers/table/customer_table.dart';
+
 import 'package:sokohub_admin/features/online_shop/screens/customer/customer_detail/widgets/customer_info.dart';
 import 'package:sokohub_admin/features/online_shop/screens/customer/customer_detail/widgets/customer_orders.dart';
 import 'package:sokohub_admin/features/online_shop/screens/customer/customer_detail/widgets/shipping_address.dart';
@@ -12,12 +9,13 @@ import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
 class CustomerDetailDesktopScreen extends StatelessWidget {
-  const CustomerDetailDesktopScreen({super.key, });
+  const CustomerDetailDesktopScreen({super.key, required this.customer, });
 
- // final UserModel customer;
+ final UserModel customer;
 
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -44,11 +42,11 @@ class CustomerDetailDesktopScreen extends StatelessWidget {
                       children: [
                         // <Customer Info
                       // CustomerInfo(customer: customer),
-                        CustomerInfo(),
+                        CustomerInfo(customer: customer,),
                          SizedBox(height: TSizes.spaceBtwItems,),
 
                          // Shipping address
-                         const ShippingAddress()                         
+                          ShippingAddress(customer: customer,)                         
                       ],
                     ),
                   ),

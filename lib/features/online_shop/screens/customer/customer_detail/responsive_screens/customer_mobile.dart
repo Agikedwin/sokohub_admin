@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
-import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
-import 'package:sokohub_admin/common/widgets/data_table/table_header.dart';
-import 'package:sokohub_admin/features/online_shop/screens/customer/all_customers/table/customer_table.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/customer/customer_detail_controller.dart';
+
 import 'package:sokohub_admin/features/online_shop/screens/customer/customer_detail/widgets/customer_info.dart';
 import 'package:sokohub_admin/features/online_shop/screens/customer/customer_detail/widgets/customer_orders.dart';
 import 'package:sokohub_admin/features/online_shop/screens/customer/customer_detail/widgets/shipping_address.dart';
-import 'package:sokohub_admin/features/online_shop/screens/product/all_products/table/product_table.dart';
 import 'package:sokohub_admin/features/persionalizations/models/user_model.dart';
+
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
 class CustomerDetailMobileScreen extends StatelessWidget {
-  const CustomerDetailMobileScreen({super.key, });
+  const CustomerDetailMobileScreen({super.key, required this.customer, });
   
-    //final UserModel customer;
+    final UserModel customer;
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(CustomerDetailController());
+    controller.customer.value = customer;
    return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -27,9 +28,9 @@ class CustomerDetailMobileScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Breadcrumbs
-              const TBreadcrumbsWithHeading(
+               TBreadcrumbsWithHeading(
                 returnToPreviousScreen: true, 
-                heading: 'Agik Edwin', 
+                heading: customer.fullName, 
                 breadcrumbItems: [ ITRoutes.customers, 'Details']),
               SizedBox(height: TSizes.spaceBtwSections,),
 
@@ -37,12 +38,12 @@ class CustomerDetailMobileScreen extends StatelessWidget {
 
               //customer info
 
-             // CustomerInfo(customer: customer),
-               CustomerInfo(),
+              CustomerInfo(customer: customer),
+              // CustomerInfo(),
                SizedBox(height: TSizes.spaceBtwSections,),
                         
                // Shipping address
-            const ShippingAddress(),
+             ShippingAddress(customer: customer,),
               SizedBox(height: TSizes.spaceBtwSections,),
               
               // Right side customer orders

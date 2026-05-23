@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sokohub_admin/data/repositories/authentication/authentication_repository.dart';
+import 'package:sokohub_admin/features/online_shop/models/order_model.dart';
 import 'package:sokohub_admin/features/persionalizations/models/user_model.dart';
 import 'package:sokohub_admin/utils/exceptions/firebase_auth_exceptions.dart';
 import 'package:sokohub_admin/utils/exceptions/firebase_exceptions.dart';
@@ -233,6 +234,34 @@ class UserRepository extends GetxController {
   }
 
  }
+
+  Future<List<OrderModel>?> fetchUserOrders(String userId) async {
+     print('---------------------------$userId');
+     try {
+      final documentSnapshot = await _db
+          .collection('Orders').where('UserId', isEqualTo: userId).get();
+
+
+
+      if (documentSnapshot.docs.isNotEmpty) {
+
+        return documentSnapshot.docs.map((doc) => OrderModel.fromQuerySnapshot(doc)).toList();
+      }else{
+
+        return [];
+      }
+   
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TFormatException(e.code).message;
+    } catch (e) {
+      throw 'Some thing went wrong, Please try again';
+    }
+    
+  }
 
   
 }

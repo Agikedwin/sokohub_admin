@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sokohub_admin/features/online_shop/models/order_model.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/formatters/formatter.dart';
 
@@ -25,7 +26,8 @@ class UserModel {
 
   String deviceToken;
 
-  final List<AddressModel>? addresses;
+   List<AddressModel>? addresses;
+  List<OrderModel>? orders;
 
   /// Constructor for UserModel.
   UserModel({

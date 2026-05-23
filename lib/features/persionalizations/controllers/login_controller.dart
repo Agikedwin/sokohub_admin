@@ -69,9 +69,10 @@ class LoginController  extends GetxController{
 
     //User Data
     final data = user.toJson();
+    print(data);
 
     // If user is not admin, logout and return
-    if(data['Role'] != AppRole.admin.name.toString()){
+    if(data['role'] != AppRole.admin.name.toString()){
       await AuthenticationRepository.instance.logout();
       TLoaders.errorSnackBar(title: 'Not Authorized', message: 'You are not authorized or do not have access. Contact Admin');
 
