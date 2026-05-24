@@ -33,11 +33,9 @@ class DashboardDestopScreen extends StatelessWidget {
                 'Dashboard',
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
-              ElevatedButton(onPressed: () => controller.selectThumnailImage(), child: Text('Select Single Image')),
-              const SizedBox(height: TSizes.spaceBtwSections,),
-               ElevatedButton(onPressed: () => controller.selectMultipeProductImages(), child: Text('Select Multiple  Images')),
+          
               const SizedBox(
-                height: TSizes.spaceBtwSections,
+                height: TSizes.spaceBtwSections / 2,
               ),
 
               // Row

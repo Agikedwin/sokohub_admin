@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
+import 'package:sokohub_admin/features/persionalizations/controllers/user_controller.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 import 'package:sokohub_admin/utils/validators/validation.dart';
 
@@ -10,6 +12,10 @@ class ProfileForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = UserController.instance;
+    controller.firstNameController.text = controller.user.value.firstName;
+     controller.lastNameController.text = controller.user.value.lastName;
+      controller.phoneController.text = controller.user.value.phoneNumber;
     return Column(
       children: [
         TRoundedContainer(
@@ -23,6 +29,7 @@ class ProfileForm extends StatelessWidget {
               // First and last name
 
               Form(
+                key: controller.formKey,
                 child: Column(
                   children: [
                     Row(
@@ -30,7 +37,9 @@ class ProfileForm extends StatelessWidget {
                         // First name
                         Expanded(
                           child: TextFormField(
+                             controller: controller.firstNameController,
                             decoration: const InputDecoration(
+                              
                               hintText: 'First Name',
                               label: Text('First Name'),
                               prefixIcon: Icon(Iconsax.user)
@@ -38,10 +47,11 @@ class ProfileForm extends StatelessWidget {
                             validator: (value) => TValidator.validateEmptyText('First Name', value),
                           ),
                         ),
-                         const SizedBox(height: TSizes.spaceBtwSections,),
+                         const SizedBox(width: TSizes.spaceBtwInputFields,),
 
                          Expanded(
                           child: TextFormField(
+                            controller: controller.lastNameController,
                             decoration: const InputDecoration(
                               hintText: 'Last Name',
                               label: Text('Last Name'),
@@ -68,10 +78,11 @@ class ProfileForm extends StatelessWidget {
                             validator: (value) => TValidator.validateEmptyText('Email', value),
                           ),
                         ),
-                         const SizedBox(height: TSizes.spaceBtwItems,),
+                          const SizedBox(width: TSizes.spaceBtwInputFields,),
 
                          Expanded(
                           child: TextFormField(
+                             controller: controller.phoneController,
                             decoration: const InputDecoration(
                               hintText: 'Phone Number',
                               label: Text('Phone Number'),
@@ -85,13 +96,17 @@ class ProfileForm extends StatelessWidget {
 
                      const SizedBox(height: TSizes.spaceBtwSections,),
 
-                     SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(onPressed: () {
-                        
-                      }, 
-                      child:  const Text('Update Profile')),
-                     )
+                    SizedBox(
+                  width: double.infinity,
+                  child: Obx(
+                    () => ElevatedButton(
+                      onPressed: () => controller.loading.value ? {} : controller.updateUserInformation(),
+                      child: controller.loading.value 
+                      ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 2,) 
+                      : const Text('Update Profile'),
+                    ),
+                  ),
+                ),
 
                   ],
                 ),

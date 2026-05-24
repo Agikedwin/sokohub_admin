@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
-import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
-import 'package:sokohub_admin/common/widgets/data_table/table_header.dart';
-import 'package:sokohub_admin/features/online_shop/screens/banner/all_banners/table/data_table.dart';
-import 'package:sokohub_admin/features/persionalizations/screen/profile/widgets/image_meta.dart';
-import 'package:sokohub_admin/features/persionalizations/screen/profile/widgets/profile_form.dart';
+
 import 'package:sokohub_admin/features/persionalizations/screen/settings/widgets/image_meta.dart';
 import 'package:sokohub_admin/features/persionalizations/screen/settings/widgets/settings_form.dart';
-import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
 class SettingsDesktopScreen extends StatelessWidget {
@@ -24,7 +18,7 @@ class SettingsDesktopScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Breadcrumbs
-              const TBreadcrumbsWithHeading(returnToPreviousScreen: false, heading: 'Profile', breadcrumbItems: ['Profile']),
+              const TBreadcrumbsWithHeading(returnToPreviousScreen: false, heading: 'Setting', breadcrumbItems: ['Setting']),
               SizedBox(height: TSizes.spaceBtwSections,),
 
               Row(

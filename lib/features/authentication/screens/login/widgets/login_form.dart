@@ -77,7 +77,7 @@ class LoginForm extends StatelessWidget {
             ///Sign in button
             SizedBox(
               width: double.infinity,
-              //child: ElevatedButton(onPressed: () => controller.resisterAdmin(), child: Text(TTexts.signIn)),
+             // child: ElevatedButton(onPressed: () => controller.resisterAdmin(), child: Text(TTexts.signIn)),
               child: ElevatedButton(onPressed: () => controller.emailAndPasswordSignIn(), child: Text(TTexts.signIn)),
             )
     

@@ -5,8 +5,10 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:sokohub_admin/data/repositories/setting/settings_repository.dart';
 import 'package:sokohub_admin/data/repositories/user/user_repository.dart';
 import 'package:sokohub_admin/features/authentication/screens/login/login.dart';
+import 'package:sokohub_admin/features/persionalizations/models/setting_model.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/exceptions/firebase_auth_exceptions.dart';
 import 'package:sokohub_admin/utils/exceptions/firebase_exceptions.dart';
@@ -77,7 +79,13 @@ class AuthenticationRepository extends GetxController {
     try {
       print(email);  
       print(password);
-      return await _auth.createUserWithEmailAndPassword(email: email, password: password);    
+      final admin =  await _auth.createUserWithEmailAndPassword(email: email, password: password);    
+
+      // Register app
+      final settingController = Get.put(SettingsRepository());
+      await settingController.registerSettings(SettingModel.empty());
+
+      return admin;
         
       
     } on FirebaseAuthException catch (e) {

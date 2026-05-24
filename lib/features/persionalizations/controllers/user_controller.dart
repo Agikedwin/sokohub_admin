@@ -6,6 +6,8 @@ import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sokohub_admin/data/repositories/authentication/authentication_repository.dart';
 import 'package:sokohub_admin/data/repositories/user/user_repository.dart';
+import 'package:sokohub_admin/features/media/controllers/media_controller.dart';
+import 'package:sokohub_admin/features/media/models/image_model.dart';
 import 'package:sokohub_admin/features/persionalizations/models/user_model.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
@@ -18,7 +20,7 @@ class UserController extends GetxController {
 
   static UserController get instance => Get.find();
 
-  final profileLoading = false.obs;
+  final loading = false.obs;
   final userRepository = Get.put(UserRepository());
   Rx<UserModel> user = UserModel.empty().obs;
   final userrepository = Get.put(UserRepository());
@@ -29,6 +31,15 @@ class UserController extends GetxController {
    final verifyPassword = TextEditingController();
   
   GlobalKey<FormState> reAuthFormKey = GlobalKey<FormState>();
+
+  // TextControllers
+  final formKey = GlobalKey<FormState>();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final phoneController = TextEditingController();
+
+
+
 
    // Profile Screen Controllers
   final email = TextEditingController();
@@ -50,8 +61,9 @@ class UserController extends GetxController {
   
   Future<UserModel> fetchUserRecord() async {
     try {
-      profileLoading.value = true;
+      loading.value = true;
       final user = await userRepository.fetchUserDetails();
+      this.user.value = user;
       return user;
       
     } catch (e) {
@@ -59,61 +71,17 @@ class UserController extends GetxController {
         title: 'Something Went Wrong',
       message:  e.toString());
       return UserModel.empty();
+    }finally{
+      loading.value = false;
     }
   }
 
 
-  /// Save user Record from any Registration provider
   
-  Future<void> saveUserRecord(UserCredential? userCredential) async {
+
+  Future<void> updateUserInformation() async {
     try {
-
-      /// First update Rx User then check if user data is already stored, If not, store new data
-      
-      await fetchUserRecord();
-
-      // If no record already stored
-
-      if(user.value.id.isEmpty){
-
-      if(userCredential != null){
-        // Convert name to First and Last Names
-        final nameparts = UserModel.nameParts(userCredential.user!.displayName ?? '');
-        final username = UserModel.generateUsername(userCredential.user!.displayName ?? '');
-
-        //Map user data
-        final user = UserModel(
-          id: userCredential.user!.uid,
-          firstName: nameparts[0],
-          lastName: nameparts.length > 1 ? nameparts.sublist(1).join(' ') : '',
-          username: username,
-           email: userCredential.user!.email ?? '',
-           phoneNumber: userCredential.user!.phoneNumber ?? '',
-            isEmailVerified: true,
-             profilePicture: userCredential.user!.photoURL ?? '',
-             isProfileActive: true
-             );
-
-             // Save user data
-            // await userRepository.saveUserRecord(user);
-      }
-    }
-      
-    } catch (e) {
-
-      TLoaders.warningSnackBar(
-        title: 'Data not saved',
-      message:  'Something went wrong while saving your information. You can re-save your data in your profile');
-      
-    }
-  }
-
-
-
-  Future<void> updateUserProfile() async {
-    try {
-      // Start Loading
-      TFullScreenLoader.openLoadingDialog('We are updating your information...', TImages.docerAnimation);
+      loading.value = true;
 
       // Check Internet Connectivity
       final isConnected = await NetworkManager.instance.isConnected();
@@ -123,55 +91,59 @@ class UserController extends GetxController {
       }
 
       // Form Validation
-      if (!updateUserProfileFormKey.currentState!.validate()) {
+      if (!formKey.currentState!.validate()) {
         TFullScreenLoader.stopLoading();
         return;
       }
 
-      // Update user's first & last name in the Firebase Firestore
-      Map<String, dynamic> json = {'fullName': fullName.text.trim(), 'email': email.text.trim()};
-      await userRepository.updateSingleField(json);
+      
+      user.value.firstName = firstNameController.text.trim();
+      user.value.lastName = lastNameController.text.trim();
+      user.value.phoneNumber = phoneController.text.trim();
 
-      // Update the Rx User value
-     // user.value.fullName = fullName.text.trim();
-      user.value.email = email.text.trim();
-      user.value.phoneNumber = phoneNo.text.trim();
+      await userRepository.updateUserDetails(user.value);
+      user.refresh();
 
-      // Remove Loader
-      TFullScreenLoader.stopLoading();
+      loading.value = false;
+
 
       // Show Success Message
-      TLoaders.successSnackBar(title: 'Congratulations', message: 'Your Name has been updated.');
+      TLoaders.successSnackBar(title: 'Congratulations', message: 'Your Profile has been updated.');
 
-      // Move to previous screen.
-     // Get.offNamed(TRoutes.profileScreen);
+      
     } catch (e) {
-      TFullScreenLoader.stopLoading();
+     loading.value = false;
       TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
     }
   }
 
   /// Upload Profile Picture
-  uploadUserProfilePicture() async {
+  void uploadUserProfilePicture() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 70, maxHeight: 512, maxWidth: 512);
-      if (image != null) {
-        imageUploading.value = true;
-        final uploadedImage = await userRepository.uploadImage('Users/Images/Profile/', image);
-        profileImageUrl.value = uploadedImage;
-        Map<String, dynamic> newImage = {'profilePicture': uploadedImage};
-        await userRepository.updateSingleField(newImage);
-        user.value.profilePicture = uploadedImage;
-        user.refresh();
+      loading.value = true;
+      final controller = Get.put(MediaController());
+      List<ImageModel>? selectedImages = await controller.selectImageFromMedia();
 
-        imageUploading.value = false;
+      if(selectedImages != null && selectedImages.isNotEmpty){
+        // Set the selected image
+        ImageModel selectedImage = selectedImages.first;
+
+        //Update Profile in firestore
+        await userRepository.updateSingleField({'profilePicture': selectedImage.url});
+
+        // update the main image using selected image
+        user.value.profilePicture = selectedImage.url;
+        user.refresh();
         TLoaders.successSnackBar(title: 'Congratulations', message: 'Your Profile Image has been updated!');
       }
+      loading.value = false;
+        
+      
     } catch (e) {
-      imageUploading.value = false;
+      loading.value = true;
       TLoaders.errorSnackBar(title: 'OhSnap', message: 'Something went wrong: $e');
     }finally {
-      imageUploading.value = false;
+     loading.value = false;
     }
   }
  

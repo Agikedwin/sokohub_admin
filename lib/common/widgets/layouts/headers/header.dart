@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/get_core.dart';
+import 'package:get/instance_manager.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
+import 'package:sokohub_admin/common/widgets/shimmers/shimmer.dart';
+import 'package:sokohub_admin/features/persionalizations/controllers/user_controller.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
@@ -15,6 +20,7 @@ class ITHeader extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(UserController());
     return Container(
       decoration: const BoxDecoration(
         color: TColors.white,
@@ -63,33 +69,48 @@ class ITHeader extends StatelessWidget implements PreferredSizeWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // image
-              TRoundedImage(
-                width: 40,
-                padding: 2,
-                height: 40,
-                imageType: ImageType.asset,
-                image: TImages.user,
+              Obx(
+                () => TRoundedImage(
+                  width: 40,
+                  padding: 2,
+                  height: 40,
+                  imageType: controller.user.value.profilePicture.isNotEmpty ? ImageType.network : ImageType.asset,
+                  image: controller.user.value.profilePicture.isNotEmpty ? controller.user.value.profilePicture : TImages.user,
+                ),
               ),
               SizedBox(
                 width: TSizes.sm,
               ),
 
               // Name and Email
-              if (!TDeviceUtils.isMobileScreen(context))
-                Column(
-                  mainAxisSize: MainAxisSize.min,
+                          // Name and Email
+            if (!TDeviceUtils.isMobileScreen(context))
+              Obx(
+                () => Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Agik Edwin',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    Text(
-                      'agikedwin@gmail.com',
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
+                    controller.loading.value
+                        ? const TShimmerEffect(width: 80, height: 12)
+                        : Text(
+                            controller.user.value.fullName,
+                            style: Theme.of(context).textTheme.titleMedium,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+
+                    const SizedBox(height: 4),
+
+                    controller.loading.value
+                        ? const TShimmerEffect(width: 120, height: 10)
+                        : Text(
+                            controller.user.value.email,
+                            style: Theme.of(context).textTheme.bodySmall,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                   ],
-                )
+                ),
+              )
             ],
           )
         ],

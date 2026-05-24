@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/state_manager.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
+import 'package:sokohub_admin/features/persionalizations/controllers/setting_controller.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 import 'package:sokohub_admin/utils/validators/validation.dart';
 
@@ -9,6 +11,7 @@ class SettingsForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = SettingController.instance;
     return Column(
       children: [
         // App Settings
@@ -19,6 +22,7 @@ class SettingsForm extends StatelessWidget {
           ),
 
           child: Form(
+            key: controller.formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -32,6 +36,7 @@ class SettingsForm extends StatelessWidget {
 
                 // App Name
                 TextFormField(
+                  controller: controller.appNameController,
                         decoration: const InputDecoration(
                           hintText: 'App Name',
                           label: Text('App Name'),
@@ -48,6 +53,7 @@ class SettingsForm extends StatelessWidget {
                   children: [
                     Expanded(
                       child: TextFormField(
+                         controller: controller.taxController,
                         decoration: const InputDecoration(
                           hintText: 'Tax',
                           label: Text('Tax Rate %'),
@@ -65,48 +71,10 @@ class SettingsForm extends StatelessWidget {
 
                     Expanded(
                       child: TextFormField(
+                         controller: controller.shippingController,
                         decoration: const InputDecoration(
                           hintText: 'Shipping Cost',
                           label: Text('Shipping Cost'),
-                          prefixIcon: Icon(Iconsax.ship),
-                        ),
-                        validator: (value) =>
-                            TValidator.validateEmptyText(
-                              'Last Name',
-                              value,
-                            ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: TSizes.spaceBtwSections),
-
-                // Email & Phone
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: 'Free Shipping After',
-                          label: Text('Free Shipping Threshold'),
-                          prefixIcon: Icon(Iconsax.direct),
-                        ),
-                        validator: (value) =>
-                            TValidator.validateEmptyText(
-                              'Free Shipping',
-                              value,
-                            ),
-                      ),
-                    ),
-
-                    const SizedBox(width: TSizes.spaceBtwItems),
-
-                    Expanded(
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: 'Free Cost',
-                          label: Text('Free Cost'),
                           prefixIcon: Icon(Iconsax.ship),
                         ),
                         validator: (value) =>
@@ -121,11 +89,40 @@ class SettingsForm extends StatelessWidget {
 
                 const SizedBox(height: TSizes.spaceBtwSections),
 
+                // Email & Phone
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                         controller: controller.freeShippingThresholdController,
+                        decoration: const InputDecoration(
+                          hintText: 'Free Shipping After',
+                          label: Text('Free Shipping Threshold'),
+                          prefixIcon: Icon(Iconsax.direct),
+                        ),
+                        validator: (value) =>
+                            TValidator.validateEmptyText(
+                              'Free Shipping',
+                              value,
+                            ),
+                      ),
+                    ),
+
+                   
+                  ],
+                ),
+
+                const SizedBox(height: TSizes.spaceBtwSections),
+
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Update Settings'),
+                  child: Obx(
+                    () => ElevatedButton(
+                      onPressed: () => controller.loading.value ? {} : controller.updateSettingInformation(),
+                      child: controller.loading.value 
+                      ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 2,) 
+                      : const Text('Update Settings'),
+                    ),
                   ),
                 ),
               ],

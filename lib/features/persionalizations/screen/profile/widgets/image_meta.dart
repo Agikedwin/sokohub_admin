@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/images/image_uploader.dart';
+import 'package:sokohub_admin/features/persionalizations/controllers/user_controller.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
@@ -12,6 +14,7 @@ class ImageMeta extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = UserController.instance;
     return TRoundedContainer(
       padding: const EdgeInsets.symmetric(vertical: TSizes.lg, horizontal: TSizes.md),
       child: Row(
@@ -20,19 +23,24 @@ class ImageMeta extends StatelessWidget {
           Column(
             children: [
               // user image
-              TImageUploader(
-                right: 10,
-                bottom: 20,
-                left: null,
-                width: 200,
-                height: 200,
-                circular: true,
-                icon: Iconsax.camera,
-                imageType: ImageType.asset,
-                image: TImages.user,
+              Obx(
+                () => TImageUploader(
+                  right: 10,
+                  bottom: 20,
+                  left: null,
+                  width: 200,
+                  height: 200,
+                  circular: true,
+                  icon: Iconsax.camera,
+                  loading: controller.loading.value,
+                  onIconButtonPressed: () => controller.uploadUserProfilePicture(),                
+                  imageType: controller.user.value.profilePicture.isNotEmpty ? ImageType.network : ImageType.asset,
+                  image: controller.user.value.profilePicture.isNotEmpty ? controller.user.value.profilePicture : TImages.defaultImage,
+                ),
               ),
               const SizedBox(height: TSizes.spaceBtwItems,),
-              Text('Agik Edwin', style: Theme.of(context).textTheme.headlineLarge,),
+              Obx(() => Text(controller.user.value.fullName, style: Theme.of(context).textTheme.headlineLarge,)),
+              Obx(() => Text(controller.user.value.email)),
                const SizedBox(height: TSizes.spaceBtwSections,),
             ],
           )

@@ -32,7 +32,7 @@ class ProfileDesktopScreen extends StatelessWidget {
                   Expanded(
                     child: ImageMeta()),
 
-                     SizedBox(width: TSizes.spaceBtwSections,),
+                     SizedBox(width: TSizes.spaceBtwSections / 2,),
 
                     // Form
                     Expanded( flex: 2, child:  ProfileForm())

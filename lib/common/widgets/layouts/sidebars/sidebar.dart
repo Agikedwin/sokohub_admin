@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/images/t_circular_image.dart';
 import 'package:sokohub_admin/common/widgets/layouts/sidebars/menus/menu_items.dart';
+import 'package:sokohub_admin/features/persionalizations/controllers/setting_controller.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
+import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
@@ -23,13 +26,34 @@ class ITSidebar extends StatelessWidget {
           child: Column(
             children: [
               // Image
-              TCircularImage(
+              Row(
+                children: [
+                  Obx(
+                    () =>TCircularImage(
                 width: 100,
                 height: 100,
-                image: TImages.darkAppLogo,
+                padding: 0,
+                imageType: SettingController.instance.settings.value.appLogo.isNotEmpty ? ImageType.network : ImageType.asset,
+                image: SettingController.instance.settings.value.appLogo.isNotEmpty 
+                ? SettingController.instance.settings.value.appLogo
+                :   TImages.darkAppLogo,
                 backgroundColor: Colors.transparent,
               ),
-              SizedBox(height: TSizes.spaceBtwSections,),
+                  ),
+
+                  Expanded(
+                    child: Obx(
+                      () => Text(
+                        SettingController.instance.settings.value.appName,
+                        style: Theme.of(context).textTheme.headlineLarge,
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    ),
+                  )
+                ],
+              ),
+              
+              SizedBox(height: TSizes.spaceBtwSections/ 2,),
 
               Padding(
                 padding:  EdgeInsets.all(TSizes.md),
