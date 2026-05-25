@@ -20,7 +20,7 @@ class DashboardDestopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller  = Get.put(ProductImagesController());
+    final controller  = Get.put(DashboardController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -42,47 +42,67 @@ class DashboardDestopScreen extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: TDashboardCard(
-                      stats: 25,
-                      title: 'Sales total',
-                      subTitle: '\$36500',
+                    child: Obx(
+                      () => TDashboardCard(
+                        headingIcon: Iconsax.note,
+                        headingIconBgColor:  Colors.green.withValues(alpha: 0.1),
+                        headingIconColor: TColors.primary,
+                        stats: 25,
+                        title: 'Sales total',
+                        subTitle: '\ksh${controller.orderController.allItems.fold(0.0, (previousValue, element) => previousValue + element.totalAmount).toStringAsFixed(2)}',
+                      ),
                     ),
                   ),
                   const SizedBox(
                     width: TSizes.spaceBtwItems,
                   ),
                   Expanded(
-                    child: TDashboardCard(
-                      stats: 15,
-                      title: 'Average Order Value',
-                      subTitle: '\$36500',
+                    child: Obx(
+                      () => TDashboardCard(
+                        headingIcon: Iconsax.computing5,
+                        headingIconBgColor: Colors.blue.withValues(alpha: 0.1),
+                        headingIconColor: Colors.blue,
+                        stats: 15,
+                        title: 'Average Order Value',
+                        subTitle: '\ksh${(controller.orderController.allItems.fold(0.0, (previousValue, element) => previousValue + element.totalAmount) / controller.orderController.allItems.length).toStringAsFixed(1)}',
+                      ),
                     ),
                   ),
                   const SizedBox(
                     width: TSizes.spaceBtwItems,
                   ),
                   Expanded(
-                    child: TDashboardCard(
-                      stats: 45,
-                      title: 'Total Orders',
-                      subTitle: '37',
+                    child: Obx(
+                      () => TDashboardCard(
+                        headingIcon: Iconsax.shopping_bag,
+                        headingIconBgColor:  Colors.orange.withValues(alpha: 0.1),
+                        headingIconColor:  Colors.blue,
+                        stats: 45,
+                        title: 'Total Orders',
+                        subTitle: 'Ksh ${controller.orderController.allItems.length}',
+                      ),
                     ),
                   ),
                   const SizedBox(
                     width: TSizes.spaceBtwItems,
                   ),
                   Expanded(
-                    child: TDashboardCard(
-                      stats: 3,
-                      title: 'Visitirs',
-                      subTitle: '38,000',
+                    child: Obx(
+                      () => TDashboardCard(
+                        headingIcon: Iconsax.user,
+                        headingIconBgColor:  Colors.grey.withValues(alpha: 0.1),
+                        headingIconColor:  Colors.blue,
+                        stats: 3,
+                        title: 'Visitors',
+                        subTitle: controller.orderController.allItems.length.toString(),
+                      ),
                     ),
                   )
                 ],
               ),
 
               const SizedBox(
-                height: TSizes.spaceBtwSections,
+                height: TSizes.spaceBtwSections / 2,
               ),
 
               /// GRAPHS
@@ -95,7 +115,7 @@ class DashboardDestopScreen extends StatelessWidget {
                       children: [
                         /// Bar Graphs
 
-                        WeeklySalesScreen(),
+                        TWeeklySalesScreen(),
                         SizedBox(
                           height: TSizes.spaceBtwSections,
                         ),

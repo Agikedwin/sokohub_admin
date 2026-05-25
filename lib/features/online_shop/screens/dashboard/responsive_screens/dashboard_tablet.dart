@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/dashboard_controller.dart';
 import 'package:sokohub_admin/features/online_shop/screens/dashboard/responsive_screens/tablets/data_table.dart';
 import 'package:sokohub_admin/features/online_shop/screens/dashboard/responsive_screens/widgets/dashboard_card.dart';
 import 'package:sokohub_admin/features/online_shop/screens/dashboard/responsive_screens/widgets/order_status_pie_chart.dart';
@@ -11,6 +14,8 @@ class DashboardTabletScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller  = Get.put(DashboardController());
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -18,81 +23,99 @@ class DashboardTabletScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-               // Heading
+              // Heading
               Text(
                 'Dashboard',
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
+          
               const SizedBox(
-                height: TSizes.spaceBtwSections,
+                height: TSizes.spaceBtwSections / 2,
               ),
 
-              /// Cards
+              // Row
               Row(
                 children: [
                   Expanded(
-                    child: TDashboardCard(
-                      stats: 25,
-                      title: 'Sales total',
-                      subTitle: '\$36500',
+                    child: Obx(
+                      () => TDashboardCard(
+                        headingIcon: Iconsax.note,
+                        headingIconBgColor: Colors.blue,
+                        headingIconColor: Colors.blue.withValues(alpha: 0.1),
+                        stats: 25,
+                        title: 'Sales total',
+                        subTitle: '\ksh${controller.orderController.allItems.fold(0.0, (previousValue, element) => previousValue + element.totalAmount).toStringAsFixed(2)}',
+                      ),
                     ),
                   ),
                   const SizedBox(
                     width: TSizes.spaceBtwItems,
                   ),
                   Expanded(
-                    child: TDashboardCard(
-                      stats: 15,
-                      title: 'Average Order Value',
-                      subTitle: '\$36500',
-                    ),
-                  ),
-                  const SizedBox(
-                    width: TSizes.spaceBtwItems,
-                  ),
-                  
-                ],
-              ),
-
-              const SizedBox(
-                height: TSizes.spaceBtwItems,
-              ),
-              
-               Row(
-                children: [
-                  
-                  Expanded(
-                    child: TDashboardCard(
-                      stats: 45,
-                      title: 'Total Orders',
-                      subTitle: '37',
+                    child: Obx(
+                      () => TDashboardCard(
+                        headingIcon: Iconsax.note,
+                        headingIconBgColor: Colors.blue,
+                        headingIconColor: Colors.blue.withValues(alpha: 0.1),
+                        stats: 15,
+                        title: 'Average Order Value',
+                        subTitle: '\ksh${(controller.orderController.allItems.fold(0.0, (previousValue, element) => previousValue + element.totalAmount) / controller.orderController.allItems.length).toStringAsFixed(1)}',
+                      ),
                     ),
                   ),
                   const SizedBox(
                     width: TSizes.spaceBtwItems,
                   ),
                   Expanded(
-                    child: TDashboardCard(
-                      stats: 3,
-                      title: 'Visitirs',
-                      subTitle: '38,000',
+                    child: Obx(
+                      () => TDashboardCard(
+                        headingIcon: Iconsax.note,
+                        headingIconBgColor: Colors.blue,
+                        headingIconColor: Colors.blue.withValues(alpha: 0.1),
+                        stats: 45,
+                        title: 'Total Orders',
+                        subTitle: 'Ksh ${controller.orderController.allItems.length}',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: TSizes.spaceBtwItems,
+                  ),
+                  Expanded(
+                    child: Obx(
+                      () => TDashboardCard(
+                        headingIcon: Iconsax.note,
+                        headingIconBgColor: Colors.blue,
+                        headingIconColor: Colors.blue.withValues(alpha: 0.1),
+                        stats: 3,
+                        title: 'Visitirs',
+                        subTitle: controller.orderController.allItems.length.toString(),
+                      ),
                     ),
                   )
                 ],
               ),
 
-               const SizedBox(
+              const SizedBox(
                 height: TSizes.spaceBtwSections,
               ),
 
               /// GRAPHS
-              WeeklySalesScreen(),
-              SizedBox(
-                height: TSizes.spaceBtwSections,
-              ),
-                        
-              /// Orders
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      children: [
+                        /// Bar Graphs
+
+                        TWeeklySalesScreen(),
+                        SizedBox(
+                          height: TSizes.spaceBtwSections,
+                        ),
+
+                        /// Orders
                         TRoundedContainer(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,13 +130,17 @@ class DashboardTabletScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-              SizedBox(
-                width: TSizes.spaceBtwSections,
-              ),
-              
-              /// Pie Chart
-              OrderStatusPieChart()
-              
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: TSizes.spaceBtwSections,
+                  ),
+
+                  /// Pie Chart
+                  Expanded(child: OrderStatusPieChart()),
+                ],
+              )
             ],
           ),
         ),

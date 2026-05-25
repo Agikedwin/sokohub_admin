@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/product/product_attribute_controller.dart';
 import 'package:sokohub_admin/features/online_shop/models/product_variation_model.dart';
 import 'package:sokohub_admin/utils/popups/dialogs.dart';
+import 'package:uuid/uuid.dart';
 
 class ProductVariationController extends GetxController {
   static ProductVariationController get instance => Get.find();
@@ -17,6 +18,7 @@ class ProductVariationController extends GetxController {
      List<Map<ProductVariationModel, TextEditingController>> priceControllerList = [];
       List<Map<ProductVariationModel, TextEditingController>> salePriceControllerList = [];
        List<Map<ProductVariationModel, TextEditingController>> descriptionControllerList = [];
+        List<Map<ProductVariationModel, String>> variationUuIdControllerList = [];
 
 
        // Instance of ProcductAttributesController
@@ -54,6 +56,14 @@ class ProductVariationController extends GetxController {
       Map<ProductVariationModel, TextEditingController> descriptionControllers = {};
       descriptionControllers[variation] = TextEditingController(text: variation.description.toString());
       descriptionControllerList.add(descriptionControllers);
+
+      //Id Controller
+      Map<ProductVariationModel, String> variationUuIdController = {};
+      final uuid = Uuid();
+      variationUuIdController[variation] = uuid.toString();
+      variationUuIdControllerList.add(variationUuIdController);
+
+      
 
 
       update();
@@ -128,12 +138,14 @@ class ProductVariationController extends GetxController {
     final ProductVariationModel variation = ProductVariationModel(id: UniqueKey().toString(),attributeValues: attributeValues);
 
     variations.add(variation);
+    final uuid = Uuid();
 
     /// create Controllers (one per variation)
     final Map<ProductVariationModel, TextEditingController> stockController = {};
     final Map<ProductVariationModel, TextEditingController> priceController = {};
     final Map<ProductVariationModel, TextEditingController> salePriceController = {};
     final Map<ProductVariationModel, TextEditingController> descriptionController = {};  
+    final Map<ProductVariationModel, String>   variationUuIdController  = {}; 
 
 
     // Assuming variation is your current ProductVariationModel
@@ -141,12 +153,14 @@ class ProductVariationController extends GetxController {
     priceController[variation] = TextEditingController();
     salePriceController[variation] = TextEditingController();
     descriptionController[variation] = TextEditingController();
+    variationUuIdController[variation] = uuid.toString();
 
     // Add the Maps to their respective lists
     stockControllerList.add(stockController);
     priceControllerList.add(priceController);
     salePriceControllerList.add(salePriceController);
     descriptionControllerList.add(descriptionController);
+    variationUuIdControllerList.add(variationUuIdController);
   
   }
 
@@ -162,6 +176,7 @@ class ProductVariationController extends GetxController {
     priceControllerList.clear();
     salePriceControllerList.clear();
     descriptionControllerList.clear();
+    variationUuIdControllerList.clear();
 
   }
   

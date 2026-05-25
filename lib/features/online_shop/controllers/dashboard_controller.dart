@@ -1,69 +1,55 @@
 
 import 'package:get/get.dart';
+import 'package:sokohub_admin/data/abstract/base_data_table_controller.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/customer/customer_controller.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/order/order_controller.dart';
 import 'package:sokohub_admin/features/online_shop/models/order_model.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/helpers/helper_functions.dart';
 
-class DashboardController  extends GetxController{
+class DashboardController  extends TBaseController<OrderModel>{
 
   static DashboardController get instance => Get.find();
+
+  final orderController = Get.put(OrderController());
+  final customerController = Get.put(CustomerController());
 
   final RxList<double> weeklySales = <double>[].obs;
   final RxMap<OrderStatus, int> orderStatusData = <OrderStatus, int>{}.obs;
   final RxMap<OrderStatus, double> totalAmounts = <OrderStatus, double>{}.obs;
 
 
-  /// --- Order
-static final List<OrderModel> orders = [
-  OrderModel(
-    id: 'ORD001',
-    userId: 'USR1001',
-    status: OrderStatus.pending,
-    totalAmount: 49.99,
-    orderDate: DateTime(2026, 5, 5),
-    deliveryDate: DateTime(2026, 5, 5),
-  ),
-  OrderModel(
-    id: 'ORD002',
-    userId: 'USR1002',
-    status: OrderStatus.shipped,
-    totalAmount: 89.50,
-    orderDate: DateTime(2026, 5, 6),
-    deliveryDate: DateTime(2026, 5, 6),
-  ),
-  OrderModel(
-    id: 'ORD003',
-    userId: 'USR1003',
-    status: OrderStatus.delivered,
-    totalAmount: 120.75,
-    orderDate: DateTime(2026, 5, 4),
-    deliveryDate: DateTime(2026, 5, 3),
-  ),
-  OrderModel(
-    id: 'ORD004',
-    userId: 'USR1004',
-    status: OrderStatus.cancelled,
-    totalAmount: 35.20,
-    orderDate: DateTime(2026, 5, 7),
-    deliveryDate: DateTime(2026, 5, 7),
-  ),
-  OrderModel(
-    id: 'ORD005',
-    userId: 'USR1005',
-    status: OrderStatus.processing,
-    totalAmount: 250.00,
-    orderDate: DateTime(2026, 5, 8),
-    deliveryDate: DateTime(2026, 5, 10),
-  ),
-  OrderModel(
-    id: 'ORD006',
-    userId: 'USR1006',
-    status: OrderStatus.delivered,
-    totalAmount: 15.99,
-    orderDate: DateTime(2026, 5, 8),
-    deliveryDate: DateTime(2026, 5, 2),
-  ),
-];
+
+
+  @override
+  Future<List<OrderModel>> fetchItems()  async{
+    //feych order if empty
+    if(orderController.allItems.isEmpty){
+      await orderController.fetchItems();
+    }
+
+    // fetch Customers if empty
+    if(customerController.allItems.isEmpty){
+      await customerController.fetchItems();
+    }
+    // Cailculate weekly sales
+    _calculateWeeklySales();
+
+    //Calculate order status count
+    _calculateOrderStatusData();
+
+    return orderController.allItems;
+  }
+
+
+  @override
+  bool containsSearchQuery(OrderModel item, String query) => false;
+
+  @override
+  Future<void> deleteItems(OrderModel item) async{}
+
+
+ 
 
 @override
   void onInit() {
@@ -77,7 +63,7 @@ static final List<OrderModel> orders = [
     // Reset weekly sales to zero
     weeklySales.value = List<double>.filled(7, 0.0);
 
-    for(var order in orders){
+    for(var order in orderController.allItems){
       final DateTime orderWeeklyStart = THelperFunctions.getStartOfWeek(order.orderDate);
 
       // check if the order is within the current week
@@ -105,7 +91,7 @@ static final List<OrderModel> orders = [
     for (var status in OrderStatus.values) status: 0.0
   };
 
-  for (var order in orders) {
+  for (var order in orderController.allItems) {
 
     // Convert String to OrderStatus
     final status = order.status ;

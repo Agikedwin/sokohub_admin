@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
 
 class ProductVariationModel {
   final String id;
@@ -25,10 +26,12 @@ class ProductVariationModel {
 
   /// Create Empty func for clean code
   static ProductVariationModel empty() => ProductVariationModel(id: '', attributeValues: {});
+  final uuid = Uuid();
 
   /// Convert model to JSON structure
   Map<String, dynamic> toJson() {
     return {
+      'Id' : uuid.v4(),
       'SKU': sku,
       'Image': image.value,
       'Description': description,

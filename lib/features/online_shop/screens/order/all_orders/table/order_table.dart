@@ -6,6 +6,7 @@ import 'package:sokohub_admin/features/online_shop/controllers/order/order_contr
 import 'package:sokohub_admin/features/online_shop/screens/customer/all_customers/table/customer_table_source.dart';
 import 'package:sokohub_admin/features/online_shop/screens/order/all_orders/table/order_table_source.dart';
 import 'package:sokohub_admin/features/online_shop/screens/order/order_detail/table/order_detail_table_source.dart';
+import 'package:sokohub_admin/utils/constants/sizes.dart';
 import 'package:sokohub_admin/utils/device/device_utility.dart';
 
 
@@ -15,7 +16,7 @@ class OrderTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(OrderController());
+    final controller = OrderController.instance;
     return Obx(
       (){
         //Text to update UI, do nothing
@@ -23,9 +24,13 @@ class OrderTable extends StatelessWidget {
         Text(controller.selectedRows.length.toString());
         return  TPaginatedDataTable(
         minWidth: 700,
+        tableHeight: 500,
+        dataRowHeight: TSizes.xl * 1.2,
+        sortAscending: controller.sortAscending.value,
+        sortColumnIndex: controller.sortColumnIndex.value,
         columns:  [
           DataColumn2(
-            label: Text('Order ID',),
+            label: Text('Order ID', ), onSort: (columnIndex, ascending) => controller.sortById(columnIndex, ascending),
             ),
           DataColumn2(label: Text('Date'),
          

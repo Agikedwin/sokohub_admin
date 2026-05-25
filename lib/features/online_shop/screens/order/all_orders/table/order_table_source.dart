@@ -11,14 +11,13 @@ import 'package:sokohub_admin/utils/constants/sizes.dart';
 import 'package:sokohub_admin/utils/helpers/helper_functions.dart';
 
 class OrderRows extends DataTableSource{
-  final controller = Get.put(OrderController());
+  final controller = OrderController.instance;
   @override
   DataRow? getRow(int index) {
 
     final order = controller.filteredItems[index];
+    //final order = DashboardController.instance.orderController.filteredItems[index];
 
-    final order2 = DashboardController.orders[index];
-   const totalAmount = '59807';
     return DataRow2(
       selected: controller.selectedRows[index],
       onTap: () => Get.toNamed(ITRoutes.ordersDetail, arguments: order, parameters: {'orderId': order.docId}),
@@ -46,7 +45,7 @@ class OrderRows extends DataTableSource{
             ),
           )
         ),
-       DataCell(Text('\$$totalAmount')),
+       DataCell(Text('\Ksh ${order.totalAmount}')),
         DataCell(
           TTableActionButtons(
             view: true,
