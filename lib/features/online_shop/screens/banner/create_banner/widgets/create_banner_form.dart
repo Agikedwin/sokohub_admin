@@ -26,79 +26,111 @@ class CreateBannerForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Heading
-            const SizedBox(height: TSizes.sm,),
-            Text('Create New Banner', style:  Theme.of(context).textTheme.headlineMedium,),
-            const SizedBox(height: TSizes.spaceBtwSections ,),
+            const SizedBox(
+              height: TSizes.sm,
+            ),
+            Text(
+              'Create New Banner',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(
+              height: TSizes.spaceBtwSections,
+            ),
 
             TextFormField(
               controller: controller.name,
-              validator: (value) => TValidator.validateEmptyText('Banner Name', value),
-              decoration: const InputDecoration(labelText: 'Banner Name', prefixIcon: Icon(Iconsax.box)),
+              validator: (value) =>
+                  TValidator.validateEmptyText('Banner Name', value),
+              decoration: const InputDecoration(
+                  labelText: 'Banner Name', prefixIcon: Icon(Iconsax.box)),
             ),
 
-             const SizedBox(height: TSizes.spaceBtwSections  ,),
+            const SizedBox(
+              height: TSizes.spaceBtwSections,
+            ),
 
             // Image uploader $ Features
 
-              Column(
-                children: [
-                  Obx(
-                    () => GestureDetector(
-                      onTap: () => controller.pickImage(),
-                      child: TImageUploader(
-                        width: 80,
-                        height: 80,
-                        image: controller.imageURL.value.isNotEmpty ? controller.imageURL.value : TImages.defaultImage,
-                        imageType: controller.imageURL.value.isNotEmpty ? ImageType.network :  ImageType.asset,
-                      
-                      ),
+            Column(
+              children: [
+                Obx(
+                  () => GestureDetector(
+                    onTap: () => controller.pickImage(),
+                    child: TImageUploader(
+                      width: 80,
+                      height: 80,
+                      image: controller.imageURL.value.isNotEmpty
+                          ? controller.imageURL.value
+                          : TImages.defaultImage,
+                      imageType: controller.imageURL.value.isNotEmpty
+                          ? ImageType.network
+                          : ImageType.asset,
                     ),
                   ),
-                   const SizedBox(height: TSizes.spaceBtwItems  ,),
-                   TextButton(onPressed: () => controller.pickImage(), child: const Text('Selecte Image'))
-
-                ],
-              ),
-              const SizedBox(height: TSizes.spaceBtwInputFields  ,),
-
-              Text('Make your Banner Active or Inactive', style:  Theme.of(context).textTheme.bodyMedium,),
-              Obx(() => CheckboxMenuButton(
-                value: controller.isActive.value,
-                 onChanged: (value) => controller.isActive.value = value ?? false,
-                  child: const Text('Active'))),
-
-              const SizedBox(height: TSizes.spaceBtwInputFields  ,),
-
-             Obx(
-                  () => DropdownButton<String>(
-                    isExpanded: true,
-                    value: AppScreens.allAppAscreenItems.contains(controller.targetScreen.value)
-                        ? controller.targetScreen.value
-                        : null,
-                    hint: const Text('Select Target Screen'),
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        controller.targetScreen.value = newValue;
-                      }
-                    },
-                    items: AppScreens.allAppAscreenItems
-                        .map<DropdownMenuItem<String>>(
-                          (value) => DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          ),
-                        )
-                        .toList(),
-                  ),
                 ),
+                const SizedBox(
+                  height: TSizes.spaceBtwItems,
+                ),
+                TextButton(
+                    onPressed: () => controller.pickImage(),
+                    child: const Text('Selecte Image'))
+              ],
+            ),
+            const SizedBox(
+              height: TSizes.spaceBtwInputFields,
+            ),
 
-                  const SizedBox(height: TSizes.spaceBtwInputFields * 2  ,),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(onPressed: () => controller.createBanner(), child: const Text('Create')),
-                  ),
+            Text(
+              'Make your Banner Active or Inactive',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            Obx(() => CheckboxMenuButton(
+                value: controller.isActive.value,
+                onChanged: (value) =>
+                    controller.isActive.value = value ?? false,
+                child: const Text('Active'))),
 
-                  const SizedBox(height: TSizes.spaceBtwInputFields * 2  ,),
+            const SizedBox(
+              height: TSizes.spaceBtwInputFields,
+            ),
+
+            Obx(
+              () => DropdownButton<String>(
+                isExpanded: true,
+                value: AppScreens.allAppAscreenItems
+                        .contains(controller.targetScreen.value)
+                    ? controller.targetScreen.value
+                    : null,
+                hint: const Text('Select Target Screen'),
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    controller.targetScreen.value = newValue;
+                  }
+                },
+                items: AppScreens.allAppAscreenItems
+                    .map<DropdownMenuItem<String>>(
+                      (value) => DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+
+            const SizedBox(
+              height: TSizes.spaceBtwInputFields * 2,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                  onPressed: () => controller.createBanner(),
+                  child: const Text('Create')),
+            ),
+
+            const SizedBox(
+              height: TSizes.spaceBtwInputFields * 2,
+            ),
           ],
         ),
       ),

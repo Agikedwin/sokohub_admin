@@ -26,6 +26,7 @@ import 'package:sokohub_admin/features/online_shop/screens/product/edit_product/
 import 'package:sokohub_admin/features/online_shop/screens/responsive_skeleton.dart';
 import 'package:sokohub_admin/features/persionalizations/screen/profile/profile.dart';
 import 'package:sokohub_admin/features/persionalizations/screen/settings/settings.dart';
+import 'package:sokohub_admin/features/persionalizations/screen/user/user.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/routes/routes_middleware.dart';
 
@@ -72,5 +73,8 @@ class ITAppRoutes {
        // Profile
        GetPage(name: ITRoutes.profile, page: () => const ProfileScreen(), middlewares: [ITRoutesMiddleware()]),
        GetPage(name: ITRoutes.settings, page: () => const SettingsScreen(), middlewares: [ITRoutesMiddleware()]),
+
+       // User
+       GetPage(name: ITRoutes.user, page: () => const UserScreen(), middlewares: [ITRoutesMiddleware()]),
   ];
 }

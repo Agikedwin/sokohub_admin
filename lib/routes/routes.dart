@@ -37,6 +37,9 @@ class ITRoutes {
      // Profile and settings
   static const profile = '/profile';
   static const settings = '/settings';
+
+      // User, customer, admin
+  static const user = '/user';
   
 
   static List siderbarMenuItems = [

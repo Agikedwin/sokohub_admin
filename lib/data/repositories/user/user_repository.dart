@@ -236,15 +236,11 @@ class UserRepository extends GetxController {
  }
 
   Future<List<OrderModel>?> fetchUserOrders(String userId) async {
-     print('---------------------------$userId');
      try {
       final documentSnapshot = await _db
           .collection('Orders').where('UserId', isEqualTo: userId).get();
 
-
-
       if (documentSnapshot.docs.isNotEmpty) {
-
         return documentSnapshot.docs.map((doc) => OrderModel.fromQuerySnapshot(doc)).toList();
       }else{
 

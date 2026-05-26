@@ -28,20 +28,16 @@ class CustomerDetailController extends GetxController {
   Future<void> getCustomerOrders() async {
     try {
       //Show loader loading cateries
-      print('---------------------------');
 
       ordersLoading.value = true;
-      print(customer.value.toJson());
 
       // Fetch custmer orders and addresses
       if(customer.value.id != null && customer.value.id.isNotEmpty){
         customer.value.orders = await UserRepository.instance.fetchUserOrders(customer.value.id);
       }
-       print('--------------------------22-');
       allCustomerOrders.assignAll(customer.value.orders ?? []);
 
       filteredCustomerOrders.assignAll(customer.value.orders ?? []);
-     print('---------------------------33');
       // Add all rows as false [Not selected ] & Toggle when  required
       selectedRows.assignAll(List.generate(customer.value.orders != null ? customer.value.orders!.length : 0, (index) => false));
       

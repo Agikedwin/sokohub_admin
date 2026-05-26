@@ -4,19 +4,20 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/features/persionalizations/controllers/user_controller.dart';
+import 'package:sokohub_admin/routes/app_screens.dart';
+import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
-import 'package:sokohub_admin/utils/constants/text_strings.dart';
 import 'package:sokohub_admin/utils/validators/validation.dart';
 
-class ProfileForm extends StatelessWidget {
-  const ProfileForm({super.key});
+class UserForm extends StatelessWidget {
+  const UserForm({super.key});
 
   @override
   Widget build(BuildContext context) {
+    bool isCustomer = true;
+
     final controller = UserController.instance;
-    controller.firstNameController.text = controller.user.value.firstName;
-     controller.lastNameController.text = controller.user.value.lastName;
-      controller.phoneController.text = controller.user.value.phoneNumber;
+    
     return Column(
       children: [
         TRoundedContainer(
@@ -24,7 +25,7 @@ class ProfileForm extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text('Profile Details', style: Theme.of(context).textTheme.headlineSmall,),
+              Text('Create User', style: Theme.of(context).textTheme.headlineSmall,),
               const SizedBox(height: TSizes.spaceBtwSections,),
 
               // First and last name
@@ -95,18 +96,100 @@ class ProfileForm extends StatelessWidget {
                       ],
                     ),
 
-                    
+                     const SizedBox(height: TSizes.spaceBtwInputFields,),
+                     
+                     // Address details
+
+                      Row(
+                      children: [
+                        // First name
+                        Expanded(
+                          child: TextFormField(
+                             controller: controller.townAddress,
+                            decoration: const InputDecoration(
+                              
+                              hintText: 'Town of Residence',
+                              label: Text('Town'),
+                              prefixIcon: Icon(Iconsax.location1)
+                            ),
+                            validator: (value) => TValidator.validateEmptyText('Town', value),
+                          ),
+                        ),
+                         const SizedBox(width: TSizes.spaceBtwInputFields,),
+
+                         Expanded(
+                          child: TextFormField(
+                            controller: controller.estateAddress,
+                            decoration: const InputDecoration(
+                              hintText: 'Place of residence',
+                              label: Text('Estate'),
+                              prefixIcon: Icon(Iconsax.home)
+                            ),
+                            validator: (value) => TValidator.validateEmptyText('Estate', value),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                      const SizedBox(height: TSizes.spaceBtwInputFields,),
+
+
+
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                           Text(
+                            'Select User Type',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+
+                          Obx(
+                            () => RadioGroup<String>(
+                             groupValue: controller.userType.value,
+                              onChanged: (value)  => controller.userType.value = value!,
+                              
+                              
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: RadioListTile<String>(
+                                      selectedTileColor: TColors.primary,
+                                      contentPadding: EdgeInsets.zero,
+                                      selected: false,
+                                      dense: true,
+                                      title: const Text('Customer'),
+                                      value: 'Customer',
+                                    ),
+                                  ),
+                            
+                                  Expanded(
+                                    child: RadioListTile<String>(
+                                      contentPadding: EdgeInsets.zero,
+                                      selectedTileColor: TColors.primary,
+                                      dense: true,
+                                      selected: true,
+                                      title: const Text('User'),
+                                      value: 'User',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
 
                      const SizedBox(height: TSizes.spaceBtwSections,),
+
 
                     SizedBox(
                   width: double.infinity,
                   child: Obx(
                     () => ElevatedButton(
-                      onPressed: () => controller.loading.value ? {} : controller.updateUserInformation(),
+                      onPressed: () => controller.loading.value ? {} : controller.createNewUser(),
                       child: controller.loading.value 
                       ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 2,) 
-                      : const Text(TTexts.tsave), 
+                      : const Text('Update Profile'),
                     ),
                   ),
                 ),
@@ -118,8 +201,6 @@ class ProfileForm extends StatelessWidget {
             ],
           ),
         ),
-
-       
       ],
     );
   }

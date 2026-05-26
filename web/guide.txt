@@ -1,0 +1,4 @@
+Build your app using WebAssembly
+You can also pass the --wasm flag to build your app using WebAssembly:
+
+flutter build web --wasm

@@ -74,9 +74,14 @@ class ITSidebar extends StatelessWidget {
                      const ITMenuItemes(route: ITRoutes.customers, icon: Iconsax.profile_2user, itemName: 'Customers',),
                       const ITMenuItemes(route: ITRoutes.orders, icon: Iconsax.box, itemName: 'Orders',),
 
+                      // OTHER Menu ITEMS
+                   Text('ACTIONS', style: Theme.of(context).textTheme.bodySmall!.apply(letterSpacingDelta: 1.2),),
+                   const ITMenuItemes(route: ITRoutes.user, icon: Iconsax.user_add, itemName: 'User',),
+                   
+
                       //Other Menu Items
                        // OTHER Menu ITEMS
-                   Text('OTHER', style: Theme.of(context).textTheme.bodySmall!.apply(letterSpacingDelta: 1.2),),
+                   Text('SETTINGS', style: Theme.of(context).textTheme.bodySmall!.apply(letterSpacingDelta: 1.2),),
                    const ITMenuItemes(route: ITRoutes.profile, icon: Iconsax.user, itemName: 'Profile',),
                    const ITMenuItemes(route: ITRoutes.settings, icon: Iconsax.setting_2, itemName: 'Settings',),
                    const ITMenuItemes(route: 'logout', icon: Iconsax.logout, itemName: 'Logout',),

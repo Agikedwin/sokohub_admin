@@ -126,7 +126,7 @@ class LoginController  extends GetxController{
         firstName: 'Agik',
         lastName: 'Edwin',
         email: TTexts.adminEmail,
-        role: AppRole.admin,
+        role: AppRole.admin.name.toString(),
         createdAt: DateTime.now(),
         isEmailVerified: false,
         isProfileActive: true

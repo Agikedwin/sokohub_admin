@@ -15,7 +15,7 @@ class UserModel {
   String username;
   String phoneNumber;
   String profilePicture;
-  AppRole role;
+  String role;
 
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -36,7 +36,7 @@ class UserModel {
     
     this.phoneNumber = '',
     this.profilePicture = '',
-    this.role = AppRole.user,
+    this.role = '',
     this.firstName = '',
     this.lastName = '',
     this.username = '',
@@ -100,7 +100,7 @@ Map<String, dynamic> toJson() {
     'username': username,
     'phoneNumber': phoneNumber,
     'profilePicture': profilePicture,
-    'role': role.name,
+    'role': role,
     'isEmailVerified': isEmailVerified,
     'isProfileActive': isProfileActive,
     'deviceToken': deviceToken,
@@ -134,9 +134,9 @@ factory UserModel.fromDocSnapshot(
     profilePicture: data['profilePicture'] ?? '',
     deviceToken: data['deviceToken'] ?? '',
 
-    role: data['role'] == AppRole.admin.name
-        ? AppRole.admin
-        : AppRole.user,
+    role: data['role'] == AppRole.admin.name.toString()
+        ? AppRole.admin.toString()
+        : AppRole.user.toString(),
 
     isEmailVerified:
         data['isEmailVerified'] ?? false,
@@ -193,9 +193,9 @@ factory UserModel.fromJson(
     profilePicture: data['profilePicture'] ?? '',
     deviceToken: data['deviceToken'] ?? '',
 
-    role: data['role'] == AppRole.admin.name
-        ? AppRole.admin
-        : AppRole.user,
+    role: data['role'] == AppRole.admin.name.toString()
+        ? AppRole.admin.toString()
+        : AppRole.user.toString(),
 
     isEmailVerified:
         data['isEmailVerified'] ?? false,

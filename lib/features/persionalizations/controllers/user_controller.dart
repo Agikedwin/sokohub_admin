@@ -1,15 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:sokohub_admin/data/repositories/authentication/authentication_repository.dart';
 import 'package:sokohub_admin/data/repositories/user/user_repository.dart';
 import 'package:sokohub_admin/features/media/controllers/media_controller.dart';
 import 'package:sokohub_admin/features/media/models/image_model.dart';
+import 'package:sokohub_admin/features/persionalizations/models/address_model.dart';
 import 'package:sokohub_admin/features/persionalizations/models/user_model.dart';
-import 'package:sokohub_admin/utils/constants/image_strings.dart';
+import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 import 'package:sokohub_admin/utils/helpers/network_manager.dart';
 import 'package:sokohub_admin/utils/popups/full_screen_loader.dart';
@@ -38,7 +37,13 @@ class UserController extends GetxController {
   final lastNameController = TextEditingController();
   final phoneController = TextEditingController();
 
+  // User Address Details
+  final townAddress = TextEditingController();
+  final estateAddress = TextEditingController();
 
+
+                   
+   final userType = AppRole.user.name.obs;
 
 
    // Profile Screen Controllers
@@ -295,6 +300,35 @@ class UserController extends GetxController {
     fullName.text = user.value.fullName;
     email.text = user.value.email;
     phoneNo.text = user.value.phoneNumber;
+  }
+
+  Future<void> createNewUser() async{
+print('-------------');
+   
+  final user = UserModel(
+    id: AuthenticationRepository.instance.authUser!.uid,
+     email: email.text.trim(),
+      isEmailVerified: true,
+       isProfileActive: true,
+       firstName: firstNameController.text.trim(),
+       lastName: lastNameController.text.trim(),
+       phoneNumber: phoneController.text.trim(),
+       role: userType.value
+       );
+
+  final address =  AddressModel(
+    id: 'saved iser id', 
+    name: townAddress.text.trim(), 
+    phoneNumber:phoneController.text.trim(),
+     street: estateAddress.text.trim(),
+      city: townAddress.text.trim(),
+       state: estateAddress.text.trim(),
+        postalCode: '254',
+         country: 'KE'
+         );
+         
+         print(user.toJson());
+         print(address.toJson());
   }
 
 
