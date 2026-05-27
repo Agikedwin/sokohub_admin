@@ -9,18 +9,18 @@ import 'package:sokohub_admin/utils/exceptions/firebase_exceptions.dart';
 import 'package:sokohub_admin/utils/exceptions/format_exceptions.dart';
 
 
-class OrderRepository extends GetxController{
+class EmployeeOrderRepository extends GetxController{
 
   final _db = FirebaseFirestore.instance;
 
 
   /// Get all orders to current user
   
-  Future<List<OrderModel>> getAllOrders() async {
+  Future<List<EmployeeOrderAssignmentModel>> getAllEmployeeAssignments() async {
     try {     
 
-      final result = await _db.collection('Orders').orderBy('OrderDate', descending: true).get();
-      return result.docs.map((snap) => OrderModel.fromSnapshot(snap)).toList();
+      final result = await _db.collection('EmployeeOrderTasks').get();
+      return result.docs.map((snap) => EmployeeOrderAssignmentModel.fromDocSnapshot(snap)).toList();
       
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
@@ -36,9 +36,9 @@ class OrderRepository extends GetxController{
   }
   // Store new user order
 
-  Future<void> addOrder(OrderModel order)async {
+  Future<void> addEmployeeAssignment(EmployeeOrderAssignmentModel assignment)async {
     try {
-      await _db.collection('Orders').add(order.toJson());
+      await _db.collection('EmployeeAssignment').add(assignment.toJson());
       
      } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
@@ -70,37 +70,33 @@ class OrderRepository extends GetxController{
     }
 
   }
-
-  Future<void> assigUserToCustomerOrder(String docId, Map<String, EmployeeOrderAssignmentModel> data) async {
+Future<void> assigUserToCustomerOrder(EmployeeOrderAssignmentModel data) async {
   try {
-    // 1. Extract the field name and the target ID from your map
-    final String fieldName = data.keys.first;
-    final String targetId = data.values.first.id;
+    // 1. Query to see if a document with this specific UserId and OrderId already exists
+    final querySnapshot = await _db
+        .collection('EmployeeOrderTasks') // Replace with your actual collection name
+        .where('UserId', isEqualTo: data.userId)
+        .where('OrderId', isEqualTo: data.orderId)
+        .get();
 
-    // 2. Fetch the current document snapshot
-    final docSnapshot = await _db.collection('Orders').doc(docId).get();
-
-    if (!docSnapshot.exists) {
-      throw 'Order document does not exist';
-    }
-
-    // 3. Get the existing list from the document (cast safely to List)
-    final List<dynamic> currentList = docSnapshot.data()?[fieldName] ?? [];
-
-    // 4. Determine whether to remove or append
-    FieldValue updateOperation;
-    if (currentList.contains(targetId)) {
-      // If it exists, remove it
-      updateOperation = FieldValue.arrayRemove([targetId]);
+    if (querySnapshot.docs.isNotEmpty) {
+      // 2. If it exists, REMOVE the entire document
+      final existingDocId = querySnapshot.docs.first.id;
+      await _db.collection('EmployeeOrderTasks').doc(existingDocId).delete();
     } else {
-      // If it doesn't exist, append it
-      updateOperation = FieldValue.arrayUnion([targetId]);
-    }
+      // 3. If it does NOT exist, ADD the entire document
+      // If data.id is empty, Firestore can auto-generate one using .doc() without arguments
+      final docRef = data.id.isEmpty 
+          ? _db.collection('EmployeeOrderTasks').doc() 
+          : _db.collection('EmployeeOrderTasks').doc(data.id);
+          
+      // Update the model's internal ID if it was auto-generated before saving
+      if (data.id.isEmpty) {
+        data.id = docRef.id; 
+      }
 
-    // 5. Apply the update back to Firestore
-    await _db.collection('Orders').doc(docId).update({
-      fieldName: updateOperation,
-    });
+      await docRef.set(data.toJson());
+    }
 
   } on FirebaseException catch (e) {
     throw TFirebaseException(e.code).message;
@@ -114,7 +110,7 @@ class OrderRepository extends GetxController{
   }
 }
 
-  Future<void> deleteOrder(String docId) async {
+  Future<void> deleteUserAssignment(String docId) async {
     
  try {
       await _db.collection('Orders').doc(docId).delete();

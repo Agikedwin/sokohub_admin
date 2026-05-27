@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
+import 'package:multi_select_flutter/util/multi_select_list_type.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
+import 'package:sokohub_admin/common/widgets/icons/t_circular_icon.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/customer/customer_controller.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/order/employee_order_controller.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/order/order_detail_controller.dart';
 import 'package:sokohub_admin/features/online_shop/models/cart_item_model.dart';
+import 'package:sokohub_admin/features/online_shop/models/employee_order_assignment_model.dart';
 import 'package:sokohub_admin/features/online_shop/models/order_model.dart';
 import 'package:sokohub_admin/features/online_shop/screens/customer/customer_detail/table/customer_order_table.dart';
+import 'package:sokohub_admin/features/persionalizations/controllers/user_controller.dart';
 import 'package:sokohub_admin/features/persionalizations/models/user_model.dart';
+import 'package:sokohub_admin/features/persionalizations/screen/user/widgets/show_customers_dialogue.dart';
 import 'package:sokohub_admin/utils/constants/api_constants.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
@@ -13,7 +24,6 @@ import 'package:sokohub_admin/utils/constants/image_strings.dart';
 
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 import 'package:sokohub_admin/utils/device/device_utility.dart';
-import 'package:sokohub_admin/utils/helpers/pricing_calculator.dart';
 
 class OrderItems extends StatelessWidget {
   const OrderItems({super.key, required this.order,});
@@ -23,6 +33,8 @@ class OrderItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userController = CustomerController.instance;
+    final employeeController = Get.put(EmployeeOrderController());  
         
     final subTotal = order.items!.fold(0.0, (previousvalue, element) => previousvalue + (element.price * element.quantity));
     return   TRoundedContainer(
@@ -60,15 +72,38 @@ class OrderItems extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              Row(
+                                
+                                children: [
+                                  Text(
                                 item.title,
                                 style: Theme.of(context).textTheme.titleMedium,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
 
                               ),
+                              Obx(
+                                () => MultiSelectDialogField(
+                                    buttonText: const Text('Select Categories'),
+                                    title: const Text('Categories'),
+                                  
+                                    items: userController.allItems.map((user) => MultiSelectItem(user, user.fullName)).toList(),
+                                    listType: MultiSelectListType.CHIP,
+                                    initialValue: List<UserModel>.from(employeeController.userAssigned.where((selected) => selected.id == item.variationId)),
+                                    onSelectionChanged: (value){
+                                      print(value);
+                                    },
+                                    onConfirm: (values){
+                                     employeeController.assignRemoveUser(values, item); 
+                                    },
+                                    ),
+                              ),
+                                ],
+                              ),
+                              
                               if(item.selectedVariation != null)
                               Text(item.selectedVariation!.entries.map((e) => ('${e.key} : ${e.value}')).toString()),
+                             
                             ],
                           ),
                         ),

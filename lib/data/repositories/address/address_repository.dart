@@ -41,8 +41,8 @@ class AddressRepository  extends GetxController{
 // Store new user order
   Future<String> addAddress(AddressModel address) async {
     try {
-      final userId = AuthenticationRepository.instance.authUser!.uid;
-      final currentAddress =await _db.collection('Users').doc(userId).collection('Addresses').add(address.toJson());
+     // the id bellongs to to save user whose address is being saved
+      final currentAddress =await _db.collection('Users').doc(address.id).collection('Addresses').add(address.toJson());
       return currentAddress.id;
       
     } catch (e) {

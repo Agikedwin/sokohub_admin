@@ -62,8 +62,7 @@ class EditProductController extends GetxController {
 
   void initProduct(ProductModel product){
     try {
-      print('--------------');
-      print(product.productType);
+     
       
       isLoading.value = true; // Set loading state while initializing
 

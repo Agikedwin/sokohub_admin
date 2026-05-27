@@ -10,10 +10,14 @@ static CustomerController get instance => Get.find();
 
 final customerRepository = Get.put(UserRepository());
 
+RxList<UserModel> allCustomers = <UserModel>[].obs;
+
 
 @override
   Future<List<UserModel>> fetchItems() async{
-    return await customerRepository.getAllUsers();
+    final data = await customerRepository.getAllUsers();
+    allCustomers.assignAll(data);
+    return data;
   }
 
   @override

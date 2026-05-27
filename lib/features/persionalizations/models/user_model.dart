@@ -136,7 +136,7 @@ factory UserModel.fromDocSnapshot(
 
     role: data['role'] == AppRole.admin.name.toString()
         ? AppRole.admin.toString()
-        : AppRole.user.toString(),
+        : data['role'],
 
     isEmailVerified:
         data['isEmailVerified'] ?? false,
@@ -195,7 +195,7 @@ factory UserModel.fromJson(
 
     role: data['role'] == AppRole.admin.name.toString()
         ? AppRole.admin.toString()
-        : AppRole.user.toString(),
+        : data['role'],
 
     isEmailVerified:
         data['isEmailVerified'] ?? false,
@@ -222,22 +222,35 @@ factory UserModel.fromJson(
         : [],
   );
 }
-  /* 
-  // Utility to map a role string to the Roles enum
-  static VerificationStatus _mapVerificationStringToEnum(String verification) {
-    switch (verification) {
-      case 'pending':
-        return VerificationStatus.pending;
-      case 'approved':
-        return VerificationStatus.approved;
-      case 'rejected':
-        return VerificationStatus.rejected;
-      case 'submitted':
-        return VerificationStatus.submitted;
-      case 'underReview':
-        return VerificationStatus.underReview;
-      default:
-        return VerificationStatus.unknown;
-    }
-  } */
+ UserModel copyWith({
+  String? id,
+  String? email,
+  String? firstName,
+  String? lastName,
+  String? username,
+  String? phoneNumber,
+  String? profilePicture,
+  String? role,
+  String? deviceToken,
+  bool? isEmailVerified,
+  bool? isProfileActive,
+  DateTime? createdAt,
+  DateTime? updatedAt,
+}) {
+  return UserModel(
+    id: id ?? this.id,
+    email: email ?? this.email,
+    firstName: firstName ?? this.firstName,
+    lastName: lastName ?? this.lastName,
+    username: username ?? this.username,
+    phoneNumber: phoneNumber ?? this.phoneNumber,
+    profilePicture: profilePicture ?? this.profilePicture,
+    role: role ?? this.role,
+    deviceToken: deviceToken ?? this.deviceToken,
+    isEmailVerified: isEmailVerified ?? this.isEmailVerified,
+    isProfileActive: isProfileActive ?? this.isProfileActive,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+}
 }

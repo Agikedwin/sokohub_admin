@@ -71,7 +71,9 @@ class UserForm extends StatelessWidget {
                       children: [
                         // First name
                         Expanded(
+                          
                           child: TextFormField(
+                             controller: controller.email,
                             decoration: const InputDecoration(
                               hintText: 'Email',
                               label: Text('Email'),

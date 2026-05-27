@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sokohub_admin/features/online_shop/models/cart_item_model.dart';
+import 'package:sokohub_admin/features/online_shop/models/employee_order_assignment_model.dart';
 import 'package:sokohub_admin/features/persionalizations/models/address_model.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/helpers/helper_functions.dart';
@@ -24,6 +25,7 @@ class OrderModel {
   final DateTime? deliveryDate;
 
   final List<CartItemModel>? items;
+
 
   final bool billingAddressSameAsShipping;
 
@@ -145,6 +147,7 @@ class OrderModel {
               )
               .toList()
           : [],
+         
     );
   }
 
@@ -193,6 +196,7 @@ class OrderModel {
               )
               .toList()
           : [],
+      
     );
   }
 
@@ -244,6 +248,8 @@ class OrderModel {
               )
               .toList()
           : [],
+
+    
     );
   }
 }

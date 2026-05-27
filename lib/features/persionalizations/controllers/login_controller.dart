@@ -59,7 +59,7 @@ class LoginController  extends GetxController{
 
 
     // Login user using email and password Authentication
-    await AuthenticationRepository.instance.loginWithEmailAndPassword(TTexts.adminEmail, TTexts.adminPassword); //email.text.trim(), password.text.trim()
+    await AuthenticationRepository.instance.loginWithEmailAndPassword(email.text.trim(), email.text.trim()); //email.text.trim(), password.text.trim()
 
     // Fetch user details and assign to UserController
     final user = await UserController.instance.fetchUserRecord();
@@ -69,18 +69,28 @@ class LoginController  extends GetxController{
 
     //User Data
     final data = user.toJson();
-    print(data);
 
-    // If user is not admin, logout and return
-    if(data['role'] != AppRole.admin.name.toString()){
-      await AuthenticationRepository.instance.logout();
-      TLoaders.errorSnackBar(title: 'Not Authorized', message: 'You are not authorized or do not have access. Contact Admin');
-
-    }else {
+        
+    if(data['role'].toString().toLowerCase()  == AppRole.admin.name.toString()){
       // Redirect
       AuthenticationRepository.instance.screenRedirect();
-    }
 
+    } else if(data['role'].toString().toLowerCase() == AppRole.user.name.toString()){
+     // Redirect
+      AuthenticationRepository.instance.screenRedirect();
+
+    } else if(data['role'].toString().toLowerCase() == AppRole.customer.name.toString()){
+      // Redirect
+      AuthenticationRepository.instance.screenRedirect();
+
+    }
+    
+    else {
+      // If user is not admin, user or customer, logout and return
+      await AuthenticationRepository.instance.logout();
+      TLoaders.errorSnackBar(title: 'Not Authorized', message: 'You are not authorized or do not have access. Contact Admin');
+      
+    }
       
     } catch (e, trace) {
       print(trace);

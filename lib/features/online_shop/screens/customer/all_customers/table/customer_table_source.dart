@@ -4,12 +4,9 @@ import 'package:get/get.dart';
 import 'package:sokohub_admin/common/widgets/icons/table_action_icon_buttons.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/customer/customer_controller.dart';
-import 'package:sokohub_admin/features/online_shop/models/banner_model.dart';
-import 'package:sokohub_admin/features/persionalizations/models/user_model.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
-import 'package:sokohub_admin/utils/constants/image_strings.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
 class CustomerRows extends DataTableSource{

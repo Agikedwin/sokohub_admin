@@ -12,6 +12,7 @@ import 'package:sokohub_admin/features/persionalizations/models/user_model.dart'
 import 'package:sokohub_admin/utils/exceptions/firebase_auth_exceptions.dart';
 import 'package:sokohub_admin/utils/exceptions/firebase_exceptions.dart';
 import 'package:sokohub_admin/utils/exceptions/format_exceptions.dart';
+import 'package:sokohub_admin/utils/exceptions/platform_exceptions.dart';
 
 
 class UserRepository extends GetxController {
@@ -21,21 +22,25 @@ class UserRepository extends GetxController {
   
   /// Fuction to create user data to firestore
 
-  Future<void> createUser(UserModel user) async {
-    try {
-      return await _db.collection('Users').doc(user.id).set(user.toJson());
-    } on FirebaseAuthException catch (e) {
-      throw TFirebaseAuthException(e.code).message;
-    } on FirebaseException catch (e) {
-      throw TFirebaseException(e.code).message;
-    } on FormatException catch (_) {
-      throw const TFormatException();
-    } on PlatformException catch (e) {
-      throw TFormatException(e.code).message;
-    } catch (e) {
-      throw 'Some thing went wrong, Please try again';
-    }
+ Future<String> createUser(UserModel user) async {
+  try {
+    // .set() returns void, so we just await the operation
+    await _db.collection('Users').doc(user.id).set(user.toJson());
+    
+    // Since we're explicitly set the ID using user.id, just return it
+    return user.id;
+  } on FirebaseAuthException catch (e) {
+    throw TFirebaseAuthException(e.code).message;
+  } on FirebaseException catch (e) {
+    throw TFirebaseException(e.code).message;
+  } on FormatException catch (_) {
+    throw const TFormatException();
+  } on PlatformException catch (e) {
+    throw TPlatformException(e.code).message; // Fixed assumed typo from TFormatException
+  } catch (e) {
+    throw 'Something went wrong. Please try again';
   }
+}
 
   /// Fuction to fetch user details based on user ID
 
@@ -84,7 +89,8 @@ class UserRepository extends GetxController {
       throw const TFormatException();
     } on PlatformException catch (e) {
       throw TFormatException(e.code).message;
-    } catch (e) {
+    } catch (e, trace) {
+      print(trace);
       throw 'Some thing went wrong, Please try again';
     }
     
@@ -190,6 +196,7 @@ class UserRepository extends GetxController {
     }
   }
 
+  
   /// Fuction to update any specific Users Collection
 
   Future<void> deleteUser(String userId) async {

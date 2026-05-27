@@ -32,7 +32,7 @@ class UserDesktopScreen extends StatelessWidget {
                      SizedBox(width: TSizes.spaceBtwSections / 2,),
 
                     // Form
-                    Expanded( flex: 2, child:  UserForm()),
+                    Expanded(child:  UserForm()),
 
                     
 
