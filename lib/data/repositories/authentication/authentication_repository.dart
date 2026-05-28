@@ -60,9 +60,11 @@ class AuthenticationRepository extends GetxController {
       return await _auth.signInWithEmailAndPassword(email: email, password: password);
         
       
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (e, trace) {
+      print(trace);
       throw TFirebaseAuthException(e.code).message;
-    } on FirebaseException catch (e) {
+    } on FirebaseException catch (e, trace) {
+      print(trace);
       throw TFirebaseException(e.code).message;
     } on FormatException catch (_) {
       throw const TFormatException();

@@ -57,7 +57,7 @@ class OrderController extends TBaseController<OrderModel>{
     statusLoader.value = true;
     order.status = newStatus;
     
-    await orderRepository.updateOrderSpecicValue(order.docId, {'status': newStatus.toString()});
+    await orderRepository.updateOrderSpecicValue(order.docId, {'Status': newStatus.toString()});
     updateItemFromlist(order);
     orderStatus.value = newStatus;
     TLoaders.successSnackBar(title: 'Updated', message: 'Order Status Updated');

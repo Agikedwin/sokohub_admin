@@ -84,8 +84,8 @@ class OrderItems extends StatelessWidget {
                               ),
                               Obx(
                                 () => MultiSelectDialogField(
-                                    buttonText: const Text('Select Categories'),
-                                    title: const Text('Categories'),
+                                    buttonText: const Text('Assign Tailor'),
+                                    title: const Text('Tailors'),
                                   
                                     items: userController.allItems.map((user) => MultiSelectItem(user, user.fullName)).toList(),
                                     listType: MultiSelectListType.CHIP,
@@ -159,6 +159,7 @@ class OrderItems extends StatelessWidget {
                       Text('0.00', style: Theme.of(context).textTheme.titleLarge,)
                     ],
                   ),
+
                    SizedBox(height: TSizes.spaceBtwItems,),
 
                     Row(
