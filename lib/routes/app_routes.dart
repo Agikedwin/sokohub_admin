@@ -27,6 +27,13 @@ import 'package:sokohub_admin/features/online_shop/screens/responsive_skeleton.d
 import 'package:sokohub_admin/features/persionalizations/screen/profile/profile.dart';
 import 'package:sokohub_admin/features/persionalizations/screen/settings/settings.dart';
 import 'package:sokohub_admin/features/persionalizations/screen/user/user.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/garment/all_garments/garment.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/garment/create_garment/create_garment.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/garment/edit_garment/edit_garment.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/material/all_material/material.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/material/create_material/create_material.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/material/edit_material/edit_material.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/material/edit_material/responsive_screens/edit_category_mobile.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/routes/routes_middleware.dart';
 
@@ -76,5 +83,18 @@ class ITAppRoutes {
 
        // User
        GetPage(name: ITRoutes.user, page: () => const UserScreen(), middlewares: [ITRoutesMiddleware()]),
+
+       // Tailor Dhop
+
+       // Material
+       GetPage(name: ITRoutes.material, page: () => const MaterialScreen(), middlewares: [ITRoutesMiddleware()]),
+       GetPage(name: ITRoutes.editMaterial, page: () => const EditMaterialScreen(), middlewares: [ITRoutesMiddleware()]),
+       GetPage(name: ITRoutes.createMaterial, page: () => const CreateMaterialScreen(), middlewares: [ITRoutesMiddleware()]),
+
+        // Garment
+       GetPage(name: ITRoutes.garment, page: () => const GarmentScreen(), middlewares: [ITRoutesMiddleware()]),
+       GetPage(name: ITRoutes.editGarment, page: () => const EditGarmentScreen(), middlewares: [ITRoutesMiddleware()]),
+       GetPage(name: ITRoutes.createGarment, page: () => const CreateGarmentScreen(), middlewares: [ITRoutesMiddleware()]),
+
   ];
 }

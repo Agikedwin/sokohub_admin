@@ -40,9 +40,19 @@ class ITRoutes {
 
       // User, customer, admin
   static const user = '/user';
+
+  // Tailor Shop
+  // Material
+  static const material = '/material';
+  static const createMaterial = '/createMaterial';
+  static const editMaterial = '/editMaterial';
+
+  static const garment = '/garment';
+  static const createGarment = '/createGarment';
+  static const editGarment = '/editGarment';
   
 
   static List siderbarMenuItems = [
-    dashboard, media, categories, brands, banners, customers, orders, ordersDetail
+    dashboard, media, categories, brands, banners, customers, orders, ordersDetail, material, garment
   ];
 }
