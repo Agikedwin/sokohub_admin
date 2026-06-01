@@ -4,9 +4,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/icons/table_action_icon_buttons.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
-import 'package:sokohub_admin/features/online_shop/controllers/category/category_controller.dart';
-import 'package:sokohub_admin/features/tailor_shop/controllers/garment/material_controller.dart';
-import 'package:sokohub_admin/features/tailor_shop/controllers/material/material_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/garment/garment_controller.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
@@ -17,10 +15,10 @@ class GarmentRows extends DataTableSource{
   @override
   DataRow? getRow(int index) {
    
-   final material = controller.filteredItems[index];
-   final parentGarment = controller.allItems.firstWhereOrNull((item) => item.id == material.parentId);
+   final garment = controller.filteredItems[index];
     return DataRow2(
       selected: controller.selectedRows[index],
+      onTap: () => Get.toNamed(ITRoutes.garmentInfo, arguments: garment),
       onSelectChanged: (value) => controller.selectedRows[index] = value ?? false,
       cells: [
         DataCell(
@@ -30,7 +28,7 @@ class GarmentRows extends DataTableSource{
                 width: 50,
                 height: 50,
                 padding: TSizes.sm,
-                image: material.image,
+                image: garment.image,
                 imageType: ImageType.network ,
                 borderRadius:  TSizes.borderRadiusMd,
                 backgroundColor: TColors.primaryBackground,
@@ -40,7 +38,7 @@ class GarmentRows extends DataTableSource{
 
               Expanded(
                 child: Text(
-                  material.name,
+                  garment.name,
                   style: Theme.of(Get.context!).textTheme.bodyLarge!.apply(color: TColors.primary),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -49,12 +47,13 @@ class GarmentRows extends DataTableSource{
             ],
           )
         ),
-         DataCell(Text(parentGarment != null ? parentGarment.name : '')),
-        DataCell( material.isFeatured ? const Icon(Iconsax.heart5, color: TColors.primary) : const Icon(Iconsax.heart),),
-           DataCell(Text(material.createdAt == null ? '' : material.formattedDate)),
+         DataCell(Text(garment.wage.toString())),
+
+        DataCell( garment.isFeatured ? const Icon(Iconsax.heart5, color: TColors.primary) : const Icon(Iconsax.heart),),
+           DataCell(Text(garment.createdAt == null ? '' : garment.formattedDate)),
               DataCell(TTableActionButtons(
-                onEditPressed: () => Get.toNamed(ITRoutes.editGarment, arguments: material),
-                onDeletePressed: () => controller.confirmAndDeleteItem(material),
+                onEditPressed: () => Get.toNamed(ITRoutes.editGarment, arguments: garment),
+                onDeletePressed: () => controller.confirmAndDeleteItem(garment),
               )),
       ]
     );

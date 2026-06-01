@@ -2,31 +2,41 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/features/media/controllers/media_controller.dart';
 import 'package:sokohub_admin/features/media/models/image_model.dart';
-import 'package:sokohub_admin/features/online_shop/models/category_model.dart';
-import 'package:sokohub_admin/features/tailor_shop/controllers/garment/material_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/garment/garment_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/material/material_controller.dart';
-import 'package:sokohub_admin/features/tailor_shop/model/garment.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/measuremnt/measurement_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/model/garment_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/material_model.dart';
+import 'package:sokohub_admin/features/tailor_shop/model/measurement_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/repository/garment/garment_repository.dart';
 import 'package:sokohub_admin/features/tailor_shop/repository/material/material_repository.dart';
+import 'package:sokohub_admin/features/tailor_shop/repository/measurement/measurement_repository.dart';
 import 'package:sokohub_admin/utils/helpers/network_manager.dart';
 import 'package:sokohub_admin/utils/popups/full_screen_loader.dart';
 import 'package:sokohub_admin/utils/popups/loaders.dart';
 
-class CreateGarmentController extends GetxController {
+class EditMeasurementController extends GetxController  {
 
-  static CreateGarmentController get instance => Get.find();
+  static EditMeasurementController get instance => Get.find();
 
-  final selectedParent = GarmentModel.empty().obs;
+  final selectedParent = MeasurementModel.empty().obs;
   final isLoading = false.obs;
   RxString imageURL = ''.obs;
   final isFeatured = false.obs;
   final name = TextEditingController();
-    final unitCost = TextEditingController();
-
+  final  wage = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
 
+  
+  // Init Data
+void init(MeasurementModel material){
+  name.text = material.name.trim();
+  imageURL.value = material.image;
+
+
+
+}
   
 
   // Pick thumbnail image from media
@@ -34,7 +44,7 @@ class CreateGarmentController extends GetxController {
 
   // Register new category
 
-  Future<void> createGarment() async {
+  Future<void> updateMeasurement(MeasurementModel material) async {
 
 
     try {
@@ -57,26 +67,27 @@ class CreateGarmentController extends GetxController {
 
         // Map Data
 
-        final newRecord = GarmentModel(
-          id: '',
-           name: name.text.trim(), 
-           image: imageURL.value,
-           isFeatured: isFeatured.value,
-           parentId: selectedParent.value.id,
-           createdAt: DateTime.now()
-           );
+       
+           material.name = name.text.trim();
+            material.image = imageURL.value;
+            material.updatedAt = DateTime.now();
+           
 
           
-           newRecord.id =  await GarmentRepository.instance.createGarment(newRecord);
+           await MeasurementRepository.instance.updateMeasurement(material);
 
            // Update Data list
 
-           GarmentController.instance.addItemTolist(newRecord);
+          MeasurementController.instance.updateItemFromlist(material);
+          
+         
 
            resetFields();
 
            // Remove Loader
         TFullScreenLoader.stopLoading();
+        // Navigate back to the list
+         Get.back();
 
         // Success message
         TLoaders.successSnackBar(title: 'Congratulations', message: 'New record successfully added');        
@@ -90,13 +101,14 @@ class CreateGarmentController extends GetxController {
   } 
 
 
-  // Method to reser fields
+  // Method to reset fields
  void resetFields() {
-  selectedParent(GarmentModel.empty());
+  selectedParent(MeasurementModel.empty());
   isLoading(false);
   isFeatured(false);
   name.clear();
   imageURL.value = '';
+  wage.clear();
  }
 
 // Pick  thimbnail image from media

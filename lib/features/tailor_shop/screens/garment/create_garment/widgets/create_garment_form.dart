@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/images/image_uploader.dart';
 import 'package:sokohub_admin/common/widgets/shimmers/shimmer.dart';
 
-import 'package:sokohub_admin/features/tailor_shop/controllers/garment/create_material_controller.dart';
-import 'package:sokohub_admin/features/tailor_shop/controllers/garment/material_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/garment/create_garment_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/garment/garment_controller.dart';
 
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
@@ -41,30 +42,24 @@ class CreateGarmentForm extends StatelessWidget {
 
              const SizedBox(height: TSizes.spaceBtwInputFields  ,),
 
+            
+            TextFormField(
+              controller: createController.wage,
+              validator: (value) => TValidator.validateEmptyText('Wage', value),
+              decoration: const InputDecoration(labelText: 'Fundi Wage', prefixIcon: Icon(Iconsax.money)),
+               keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'^\d*\.?\d{0,2}$'),
+                      ),
+                    ],
+            ),
+
+             const SizedBox(height: TSizes.spaceBtwInputFields  ,),             
+
              
-
-             // Category dropdown
-
-             Obx(
-               () => materialController.isLoading.value
-               ? const TShimmerEffect(width: double.infinity, height: 55)
-                :  DropdownButtonFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Parent Garment',
-                  labelText: 'Parent Garment',
-                  prefixIcon: Icon(Iconsax.bezier),
-                ),
-                 onChanged: (newValue) => createController.selectedParent.value = newValue!,
-                items:  materialController.allItems
-                .map((item) => DropdownMenuItem(
-                    value: item,
-                    child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [Text(item.name)],),
-                  )
-                ).toList()
-                
-                ),
-             ),
-               const SizedBox(height: TSizes.spaceBtwInputFields * 2  ,),
 
                Obx(
                  () => TImageUploader(

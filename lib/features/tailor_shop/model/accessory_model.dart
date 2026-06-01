@@ -1,0 +1,93 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sokohub_admin/utils/formatters/formatter.dart';
+
+class AccessoryModel {
+  String id;
+  String name;
+  String image;
+  double unitCost;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+
+  AccessoryModel({
+    required this.id,
+    required this.name,
+    required this.unitCost,
+    required this.image,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  String get formattedDate => TFormatter.formatDate(createdAt);
+   String get formattedUpdatedAtdate => TFormatter.formatDate(updatedAt);
+
+  /// Empty helper Function
+  static AccessoryModel empty() => AccessoryModel(
+        id: '',
+        name: '',
+        image: '',
+        unitCost: 0.0,
+        createdAt: null,
+        updatedAt: null,
+      );
+
+  /// Convert model to JSON structure (for Firebase storage)
+  Map<String, dynamic> toJson() {
+    return {
+      'Name': name,
+      'Image': image,
+      'UnitCost': unitCost,
+      'CreatedAt':  createdAt ?? DateTime.now(),
+      'UpdatedAt': updatedAt,
+    };
+  }
+
+
+
+  /// Create CategoryModel from Firebase DocumentSnapshot
+ factory AccessoryModel.fromSnapshot(
+  DocumentSnapshot<Map<String, dynamic>> document,
+) {
+  final data = document.data();
+
+  if (data == null) return AccessoryModel.empty();
+
+  return AccessoryModel(
+    id: document.id,
+    name: data['Name'] ?? '',
+    unitCost: data['UnitCost'] ?? 0.0,
+    image: data['Image'] ?? '',
+
+    createdAt: data['CreatedAt'] != null
+        ? (data['CreatedAt'] as Timestamp).toDate()
+        : null,
+
+    updatedAt: data['UpdatedAt'] != null
+        ? (data['UpdatedAt'] as Timestamp).toDate()
+        : null,
+  );
+}
+
+  /// CopyWith Method
+  AccessoryModel copyWith({
+    String? id,
+    String? name,
+    String? image,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return AccessoryModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      unitCost: unitCost ,
+      image: image ?? this.image,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'AccessoryModel(name: $name, unitCost : $unitCost)';
+  }
+}

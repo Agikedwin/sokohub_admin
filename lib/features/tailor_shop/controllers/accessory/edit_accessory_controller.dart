@@ -2,21 +2,21 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/features/media/controllers/media_controller.dart';
 import 'package:sokohub_admin/features/media/models/image_model.dart';
-import 'package:sokohub_admin/features/tailor_shop/controllers/garment/material_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/accessory/accessory_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/material/material_controller.dart';
-import 'package:sokohub_admin/features/tailor_shop/model/garment.dart';
+import 'package:sokohub_admin/features/tailor_shop/model/accessory_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/material_model.dart';
-import 'package:sokohub_admin/features/tailor_shop/repository/garment/garment_repository.dart';
+import 'package:sokohub_admin/features/tailor_shop/repository/accessory/accessory_repository.dart';
 import 'package:sokohub_admin/features/tailor_shop/repository/material/material_repository.dart';
 import 'package:sokohub_admin/utils/helpers/network_manager.dart';
 import 'package:sokohub_admin/utils/popups/full_screen_loader.dart';
 import 'package:sokohub_admin/utils/popups/loaders.dart';
 
-class EditGarmentController extends GetxController  {
+class EditAccessoryController extends GetxController  {
 
-  static EditGarmentController get instance => Get.find();
+  static EditAccessoryController get instance => Get.find();
 
-  final selectedParent = GarmentModel.empty().obs;
+  final selectedParent = AccessoryModel.empty().obs;
   final isLoading = false.obs;
   RxString imageURL = ''.obs;
   final isFeatured = false.obs;
@@ -27,17 +27,12 @@ class EditGarmentController extends GetxController  {
 
   
   // Init Data
-void init(GarmentModel material){
-  name.text = material.name.trim();
-  imageURL.value = material.image;
-  isFeatured.value =material.isFeatured;
+void init(AccessoryModel measurement){
+  name.text = measurement.name.trim();
+  imageURL.value = measurement.image;
+  unitCost.text =  measurement.unitCost.toString();
 
 
-  if(material.parentId.isNotEmpty){
-    selectedParent.value = GarmentController.instance.allItems.where((m) => m.id == material.parentId).single;
-  }
-
-  material.parentId = selectedParent.value.id;
 }
   
 
@@ -46,7 +41,7 @@ void init(GarmentModel material){
 
   // Register new category
 
-  Future<void> updateGarment(GarmentModel material) async {
+  Future<void> updateAccessory(AccessoryModel material) async {
 
 
     try {
@@ -72,17 +67,16 @@ void init(GarmentModel material){
        
            material.name = name.text.trim();
             material.image = imageURL.value;
-            material.isFeatured = isFeatured.value;
-            material.parentId = selectedParent.value.id;
+            material.unitCost = double.tryParse(unitCost.text.toString()) ?? 0.0;
             material.updatedAt = DateTime.now();
            
 
           
-           await GarmentRepository.instance.updateGarment(material);
+           await AccessoryRepository.instance.updateAccessory(material);
 
            // Update Data list
 
-          GarmentController.instance.updateItemFromlist(material);
+          AccessoryController.instance.updateItemFromlist(material);
           
          
 
@@ -107,7 +101,7 @@ void init(GarmentModel material){
 
   // Method to reset fields
  void resetFields() {
-  selectedParent(GarmentModel.empty());
+  selectedParent(AccessoryModel.empty());
   isLoading(false);
   isFeatured(false);
   name.clear();

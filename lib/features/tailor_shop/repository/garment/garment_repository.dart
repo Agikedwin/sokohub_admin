@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sokohub_admin/features/online_shop/models/category_model.dart';
-import 'package:sokohub_admin/features/tailor_shop/model/garment.dart';
+import 'package:sokohub_admin/features/tailor_shop/model/garment_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/material_model.dart';
 import 'package:sokohub_admin/utils/exceptions/firebase_exceptions.dart';
 import 'package:sokohub_admin/utils/exceptions/format_exceptions.dart';

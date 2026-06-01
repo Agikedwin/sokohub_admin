@@ -79,6 +79,8 @@ class ITSidebar extends StatelessWidget {
                    Text('TAILOR', style: Theme.of(context).textTheme.bodySmall!.apply(letterSpacingDelta: 1.2),),
                    const ITMenuItemes(route: ITRoutes.material, icon: Iconsax.magicpen, itemName: 'Material',),
                     const ITMenuItemes(route: ITRoutes.garment, icon: Iconsax.gallery_add, itemName: 'Garment',),
+                    const ITMenuItemes(route: ITRoutes.measurement, icon: Iconsax.rulerpen, itemName: 'Measurement',),
+                    const ITMenuItemes(route: ITRoutes.accessory, icon: Iconsax.archive_book, itemName: 'Accessory',),
 
                       // OTHER Menu ITEMS
                    Text('ACTIONS', style: Theme.of(context).textTheme.bodySmall!.apply(letterSpacingDelta: 1.2),),

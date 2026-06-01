@@ -45,7 +45,7 @@ class CreateMaterialForm extends StatelessWidget {
              TextFormField(
               controller: createController.unitCost,
               validator: (value) => TValidator.validateEmptyText('Unit Cost', value),
-              decoration: const InputDecoration(labelText: 'Unit Const', prefixIcon: Icon(Iconsax.money)),
+              decoration: const InputDecoration(labelText: 'Unit Cost', prefixIcon: Icon(Iconsax.money)),
             ),
 
              const SizedBox(height: TSizes.spaceBtwInputFields  ,),

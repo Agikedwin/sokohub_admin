@@ -48,10 +48,8 @@ bool containsSearchQuery(T item, String query);
 
       /// Fetch categories from data source
       if(allItems.isEmpty){
-         print('================211');
         fetchedItems = await  fetchItems();  //categoryRepository.getAllCategories();
       }else{
-        print('================22');
       }
        
       /// Update the category list

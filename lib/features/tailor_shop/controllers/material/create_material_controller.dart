@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/features/media/controllers/media_controller.dart';
 import 'package:sokohub_admin/features/media/models/image_model.dart';
-import 'package:sokohub_admin/features/online_shop/models/category_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/material/material_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/material_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/repository/material/material_repository.dart';
@@ -70,6 +69,7 @@ class CreateMaterialController extends GetxController {
            // Update Data list
 
            MaterialController.instance.addItemTolist(newRecord);
+           
 
            resetFields();
 
@@ -95,6 +95,7 @@ class CreateMaterialController extends GetxController {
   isFeatured(false);
   name.clear();
   imageURL.value = '';
+  
  }
 
 // Pick  thimbnail image from media

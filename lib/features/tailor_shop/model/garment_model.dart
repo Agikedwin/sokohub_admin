@@ -6,6 +6,7 @@ class GarmentModel {
   String name;
   String image;
   String parentId;
+  double wage;
   bool isFeatured;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -14,6 +15,7 @@ class GarmentModel {
     required this.id,
     required this.name,
     required this.image,
+    required this.wage,
      this.isFeatured = true,
      this.parentId = '',
     this.createdAt,
@@ -30,6 +32,7 @@ class GarmentModel {
         image: '',
         isFeatured: false,
         parentId: '',
+        wage: 0.0,
         createdAt: null,
         updatedAt: null,
       );
@@ -39,6 +42,7 @@ class GarmentModel {
     return {
       'Name': name,
       'Image': image,
+      'Wage':wage,
       'ParentId': parentId,
       'IsFeatured': isFeatured,
       'CreatedAt':  createdAt ?? DateTime.now(),
@@ -60,6 +64,7 @@ class GarmentModel {
     id: document.id,
     name: data['Name'] ?? '',
     image: data['Image'] ?? '',
+    wage:  data['Wage'] ?? 0.0,
     parentId: data['ParentId'] ?? '',
     isFeatured: data['IsFeatured'] ?? false,
 
@@ -78,6 +83,7 @@ class GarmentModel {
     String? id,
     String? name,
     String? image,
+    double? wage,
     String? parentId,
     bool? isFeatured,
     DateTime? createdAt,
@@ -87,6 +93,7 @@ class GarmentModel {
       id: id ?? this.id,
       name: name ?? this.name,
       image: image ?? this.image,
+      wage:  wage ?? this.wage,
       parentId: parentId ?? this.parentId,
       isFeatured: isFeatured ?? this.isFeatured,
       createdAt: createdAt ?? this.createdAt,
