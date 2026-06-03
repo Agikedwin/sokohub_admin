@@ -15,6 +15,7 @@ abstract class TBaseController<T> extends GetxController{
    RxList<T> filteredItems = <T>[].obs; 
    RxList<bool> selectedRows = <bool>[].obs;
   final searchTextController = TextEditingController();
+  
 
 /// Abstract method to be implemented by subclass for fetching items
 Future<List<T>> fetchItems();

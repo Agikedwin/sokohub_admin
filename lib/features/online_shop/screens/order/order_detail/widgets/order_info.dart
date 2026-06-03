@@ -24,7 +24,7 @@ class OrderInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Heading
-          Text('Order Infomation', style:  Theme.of(context).textTheme.headlineMedium,),
+          Text('Order Information', style:  Theme.of(context).textTheme.headlineMedium,),
           const SizedBox(height: TSizes.spaceBtwSections ,),     
           
           Row(

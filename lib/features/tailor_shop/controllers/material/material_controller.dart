@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/data/abstract/base_data_table_controller.dart';
 
@@ -12,6 +13,10 @@ class MaterialController extends TBaseController<MaterialModel>{
 
 
   final materialRepository = Get.put(MaterialRepository());
+
+  TextEditingController materialTextField = TextEditingController();
+
+  Rx<MaterialModel> selectedMaterial = MaterialModel.empty().obs;
 
 
   @override

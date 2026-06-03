@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:sokohub_admin/common/widgets/layouts/templates/site_layout.dart';
-import 'package:sokohub_admin/features/online_shop/models/cart_item_model.dart';
-import 'package:sokohub_admin/features/online_shop/models/order_model.dart';
 
 import 'package:sokohub_admin/features/online_shop/screens/order/order_detail/responsive_screens/order_mobile.dart';
 import 'package:sokohub_admin/features/online_shop/screens/order/order_detail/responsive_screens/order_desktop.dart';
-import 'package:sokohub_admin/utils/constants/enums.dart';
 
 class OrderDetailScreen extends StatelessWidget {
   const OrderDetailScreen({super.key});

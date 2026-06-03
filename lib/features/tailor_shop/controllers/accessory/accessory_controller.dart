@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/data/abstract/base_data_table_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/garment/garment_controller.dart';
@@ -32,6 +33,11 @@ class AccessoryController extends TBaseController<AccessoryModel>{
     final RxList<AccessoryModel> alreadySelectedAccessory =
     <AccessoryModel>[].obs;
 
+    final RxList<TextEditingController> valueControllers =
+      <TextEditingController>[].obs;
+
+    RxMap<String, String> textFieldList = <String, String>{}.obs;
+
     
   @override
   bool containsSearchQuery(AccessoryModel item, String query) {
@@ -59,6 +65,30 @@ class AccessoryController extends TBaseController<AccessoryModel>{
    
     selectedAccessory.assignAll(data);
   } 
+
+  // Populate the input text
+   getEnteredValues(GarmentModel suggestion) {
+
+    valueControllers.clear();
+   // Create textfields of each item
+    for (var item in allItems) {
+      valueControllers.add(
+        TextEditingController(),
+      );
+    }
+
+    // Do mapping here
+    final Map<String, String> data = {};
+
+    for (int i = 0; i < allItems.length; i++) {
+      data[allItems[i].id] = valueControllers[i].text;
+    }
+
+    textFieldList.value = data;
+    textFieldList.refresh();
+
+   // return data;
+  }
 
     Future<List<AccessoryModel>> loadSelectedAccessories(String garmentId) async{
     accessoryLoading.value = true;

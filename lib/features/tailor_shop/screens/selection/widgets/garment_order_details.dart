@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
-import 'package:sokohub_admin/features/tailor_shop/controllers/accessory/accessory_controller.dart';
+import 'package:sokohub_admin/features/online_shop/models/cart_item_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/garment/garment_controller.dart';
-import 'package:sokohub_admin/features/tailor_shop/controllers/measuremnt/measurement_controller.dart';
-import 'package:sokohub_admin/features/tailor_shop/model/garment_model.dart';
+
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 import 'package:sokohub_admin/utils/device/device_utility.dart';
 
-class GarmentInfo extends StatelessWidget {
-  const GarmentInfo({super.key, required this.garment});
+class GarmentOrderDetails extends StatelessWidget {
+  const GarmentOrderDetails({super.key,  required this.order});
 
-  final GarmentModel garment;
-
+final CartItemModel order;
   @override
   Widget build(BuildContext context) {
-    final garmentController = GarmentController.instance;
-    garmentController.selectedGarment.value = garment;
-    final accessController = Get.put(AccessoryController());
-    accessController.loadSelectedAccessories(garment.id);
+    // controllers to fetch Garments Measuremnts and Accessories
+    
 
-    final measuremntController = Get.put(MeasurementController());
-    measuremntController.loadSelectedMeasuremnts(garment.id);
+    
+    
+
+    
     return  TRoundedContainer(
       padding: EdgeInsets.all(TSizes.defaultSpace),
       child: Column(
@@ -41,15 +40,15 @@ class GarmentInfo extends StatelessWidget {
                 child: Row(
                   children: [
                      TRoundedImage(
-                      imageType: garment.image.isNotEmpty ? ImageType.network : ImageType.asset, 
-                      image: garment.image.isNotEmpty ? garment.image : TImages.productImage10,
+                      imageType:  ImageType.asset, 
+                      image:  TImages.productImage10,
                       ),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('Garment Name', style: Theme.of(context).textTheme.labelMedium,),
-                      Text('${garment.name.toString().capitalize}', style: Theme.of(context).textTheme.titleLarge,),
+                      Text('T-Shirt', style: Theme.of(context).textTheme.titleLarge,),
 
                         ],
                       ),
@@ -63,7 +62,7 @@ class GarmentInfo extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('Date ', style: Theme.of(context).textTheme.labelMedium,),
-                      Text(garment.formattedDate, style: Theme.of(context).textTheme.titleLarge,),
+                      Text('2026-o6-02', style: Theme.of(context).textTheme.titleLarge,),
 
                         ],
                       ),
@@ -73,12 +72,23 @@ class GarmentInfo extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Unit Cost', style: Theme.of(context).textTheme.labelMedium,),
-                      Text('\Ksh ${garment.wage.toString()}' , style: Theme.of(context).textTheme.titleLarge,),
+                          Text('OrderId', style: Theme.of(context).textTheme.labelMedium,),
+                      Text('ORDER001' , style: Theme.of(context).textTheme.titleLarge,),
+
+                        ],
+                      ),
+                    ),
+                     Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Ordered By', style: Theme.of(context).textTheme.labelMedium,),
+                      Text('Melisa' , style: Theme.of(context).textTheme.titleLarge,),
 
                         ],
                       ),
                     )
+                    
             ],
           )
 

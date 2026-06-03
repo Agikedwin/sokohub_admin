@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/data/abstract/base_data_table_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/garment_model.dart';
@@ -14,6 +15,8 @@ class GarmentController extends TBaseController<GarmentModel>{
   final materialRepository = Get.put(GarmentRepository());
 
     Rx<GarmentModel> selectedGarment = GarmentModel.empty().obs;
+
+    TextEditingController garmentTextField = TextEditingController();
 
     
 

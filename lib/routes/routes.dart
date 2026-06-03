@@ -61,15 +61,19 @@ class ITRoutes {
   static const createMeasurement = '/createMeasurement';
   static const editMeasurement = '/editMeasurement';
 
-   // measurement
+   // Accessory
 
   static const accessory = '/accessory';
   static const createAccessory= '/createAccessory';
   static const editAccessory = '/editAccessory';
 
+  // garment info
   static const garmentInfo = '/garmentInfo';
 
+  // Selection
+  static const garmentSelection = '/garmentSelection';
+
   static List siderbarMenuItems = [
-    dashboard, media, categories, brands, banners, customers, orders, ordersDetail, material, garment, measurement, accessory
+    dashboard, media, categories, brands, banners, customers, orders, ordersDetail, material, garment, measurement, accessory, garmentSelection
   ];
 }

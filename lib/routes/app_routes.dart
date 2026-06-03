@@ -16,7 +16,6 @@ import 'package:sokohub_admin/features/online_shop/screens/category/all_categori
 import 'package:sokohub_admin/features/online_shop/screens/category/create_category/create_categories.dart';
 import 'package:sokohub_admin/features/online_shop/screens/category/edit_category/edit_category.dart';
 import 'package:sokohub_admin/features/online_shop/screens/customer/all_customers/customers.dart';
-import 'package:sokohub_admin/features/online_shop/screens/customer/all_customers/responsive_screens/customer_mobile.dart';
 import 'package:sokohub_admin/features/online_shop/screens/customer/customer_detail/customer.dart';
 import 'package:sokohub_admin/features/online_shop/screens/order/all_orders/orders.dart';
 import 'package:sokohub_admin/features/online_shop/screens/order/order_detail/order_detail.dart';
@@ -37,10 +36,10 @@ import 'package:sokohub_admin/features/tailor_shop/screens/garment/edit_garment/
 import 'package:sokohub_admin/features/tailor_shop/screens/material/all_material/material.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/material/create_material/create_material.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/material/edit_material/edit_material.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/material/edit_material/responsive_screens/edit_category_mobile.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/measurement/all_measurements/measurements.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/measurement/create_measurements/create_measurements.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/measurement/edit_measurements/edit_measurements.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/client_garment_selection.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/routes/routes_middleware.dart';
 
@@ -113,7 +112,10 @@ class ITAppRoutes {
        GetPage(name: ITRoutes.editAccessory, page: () => const EditAccessoryScreen(), middlewares: [ITRoutesMiddleware()]),
        GetPage(name: ITRoutes.createAccessory, page: () => const CreateAccessoryScreen(), middlewares: [ITRoutesMiddleware()]),
 
-       GetPage(name: ITRoutes.garmentInfo, page: () => const GarmentAttributeScreen(), middlewares: [ITRoutesMiddleware()])
+       GetPage(name: ITRoutes.garmentInfo, page: () => const GarmentAttributeScreen(), middlewares: [ITRoutesMiddleware()]),
+
+       // Garment client selection
+       GetPage(name: ITRoutes.garmentSelection, page: () => const ClientGarmentSelectionScreen(), middlewares: [ITRoutesMiddleware()])
 
   ];
 }

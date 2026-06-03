@@ -9,15 +9,9 @@ import 'package:sokohub_admin/common/widgets/icons/t_circular_icon.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/customer/customer_controller.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/order/employee_order_controller.dart';
-import 'package:sokohub_admin/features/online_shop/controllers/order/order_detail_controller.dart';
-import 'package:sokohub_admin/features/online_shop/models/cart_item_model.dart';
-import 'package:sokohub_admin/features/online_shop/models/employee_order_assignment_model.dart';
 import 'package:sokohub_admin/features/online_shop/models/order_model.dart';
-import 'package:sokohub_admin/features/online_shop/screens/customer/customer_detail/table/customer_order_table.dart';
-import 'package:sokohub_admin/features/persionalizations/controllers/user_controller.dart';
 import 'package:sokohub_admin/features/persionalizations/models/user_model.dart';
-import 'package:sokohub_admin/features/persionalizations/screen/user/widgets/show_customers_dialogue.dart';
-import 'package:sokohub_admin/utils/constants/api_constants.dart';
+import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
@@ -82,22 +76,9 @@ class OrderItems extends StatelessWidget {
                                 maxLines: 1,
 
                               ),
-                              Obx(
-                                () => MultiSelectDialogField(
-                                    buttonText: const Text('Assign Tailor'),
-                                    title: const Text('Tailors'),
-                                  
-                                    items: userController.allItems.map((user) => MultiSelectItem(user, user.fullName)).toList(),
-                                    listType: MultiSelectListType.CHIP,
-                                    initialValue: List<UserModel>.from(employeeController.userAssigned.where((selected) => selected.id == item.variationId)),
-                                    onSelectionChanged: (value){
-                                      print(value);
-                                    },
-                                    onConfirm: (values){
-                                     employeeController.assignRemoveUser(values, item); 
-                                    },
-                                    ),
-                              ),
+                             // TCircularIcon(icon: Icons.forward, backgroundColor: TColors.primary, onPressed: () => Get.toNamed(ITRoutes.garmentSelection, arguments: item),)
+                             //IconButton.outlined(onPressed: () => Get.toNamed(ITRoutes.garmentSelection, arguments: item), icon: Icon(Iconsax.arrow_right_3)),
+                             TextButton.icon(onPressed: () => Get.toNamed(ITRoutes.garmentSelection, arguments: item), label: Icon(Iconsax.edit)),
                                 ],
                               ),
                               

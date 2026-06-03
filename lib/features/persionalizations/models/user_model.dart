@@ -52,6 +52,7 @@ class UserModel {
   /// Helper methods
 
   String get fullName => '$firstName $lastName';
+  String get fullNamePhone => '$firstName $lastName($phoneNumber)';
   String get formattedPhoneNo => TFormatter.formatPhoneNumber(phoneNumber);
 
   String get formattedDate => TFormatter.formatDate(createdAt);

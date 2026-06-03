@@ -156,7 +156,7 @@ class MeasurementRepository  extends GetxController{
 
 
 
-  Future<List<GarmentMeasurementModel>> getAllccessories() async {
+  Future<List<GarmentMeasurementModel>> getAllGarmentMeasurements() async {
     
     try {
       final snapshot = await _db.collection('GarmentMeasurements').get();

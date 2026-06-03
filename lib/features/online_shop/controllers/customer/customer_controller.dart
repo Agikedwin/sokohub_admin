@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:sokohub_admin/data/abstract/base_data_table_controller.dart';
@@ -11,6 +12,9 @@ static CustomerController get instance => Get.find();
 final customerRepository = Get.put(UserRepository());
 
 RxList<UserModel> allCustomers = <UserModel>[].obs;
+
+TextEditingController selectedTextController = TextEditingController();
+Rx<UserModel> selectedClient = UserModel.empty().obs;
 
 
 @override
