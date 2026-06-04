@@ -25,6 +25,7 @@ class OrderModel {
   final DateTime? deliveryDate;
 
   final List<CartItemModel>? items;
+  final String? orderId;
 
 
   final bool billingAddressSameAsShipping;
@@ -34,6 +35,7 @@ class OrderModel {
     this.docId = '',
     this.userId = '',
     this.status,
+    this.orderId ='',
     required this.totalAmount,
     this.shippingCost = 0.0,
     this.taxCost = 0.0,
@@ -74,6 +76,7 @@ class OrderModel {
   static OrderModel empty() => OrderModel(
         id: '',
         userId: '',
+        orderId: '',
         totalAmount: 0.0,
         orderDate: DateTime.now(),
         paymentMethod: '',
@@ -87,6 +90,7 @@ class OrderModel {
       'DocId': docId,
       'UserId': userId,
       'Status': status?.name,
+      'OrderId': orderId,
       'TotalAmount': totalAmount,
       'ShippingCost': shippingCost,
       'TaxCost': taxCost,
@@ -112,6 +116,7 @@ class OrderModel {
       docId : data['docId'] ?? document.id,
       id: data['id'] ?? '',
       userId: data['UserId'] ?? '',
+      orderId: data['OrderId'] ?? '',
       status: data.containsKey('Status') ? OrderStatus.values.firstWhere(
               (e) => e.toString() == data['Status']) : OrderStatus.processing,
       totalAmount:
@@ -157,6 +162,7 @@ class OrderModel {
       id: data['id'] ?? '',
       docId: data['DocId'] ?? '',
       userId: data['UserId'] ?? '',
+      orderId: data['OrderId'] ?? '',
       status: data['Status'] != null
           ? OrderStatus.values.firstWhere(
               (e) => e.name == data['Status'],
@@ -209,6 +215,7 @@ class OrderModel {
       id: document.id,
       docId: data['DocId'] ?? '',
       userId: data['UserId'] ?? '',
+      orderId: data['OrderId'] ?? '',
       status: data['Status'] != null
           ? OrderStatus.values.firstWhere(
               (e) => e.name == data['Status'],

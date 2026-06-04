@@ -38,7 +38,7 @@ class GarmentAccessoriesWidget extends StatelessWidget {
           //TypeAheadField for brand selection
 
           Obx(() {
-            return controller.allItems.isEmpty || controller.textFieldList.isEmpty
+            return controller.selectedAccessory.isEmpty 
                 ? Center(
                     child: Text('No data')
                   )
@@ -52,7 +52,7 @@ class GarmentAccessoriesWidget extends StatelessWidget {
                       rows: List.generate(
                         controller.allItems.length,
                         (index) {
-                          final entry = controller.allItems[index];
+                          final entry = controller.selectedAccessory[index];
 
                           return DataRow(
                             cells: [
@@ -82,15 +82,16 @@ class GarmentAccessoriesWidget extends StatelessWidget {
                                   width: double.infinity,
                                   child: TextFormField(
                                     controller:
-                                        controller.valueControllers[index],
+                                        controller.valueControllersList[index][entry],
+                                        onChanged: (value) => entry.quantity = double.tryParse(value),
                                         keyboardType: const TextInputType.numberWithOptions(
-                                    decimal: true,
-                                  ),
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.allow(
-                                      RegExp(r'^\d*\.?\d{0,2}$'),
-                                    ),
-                                  ],
+                                        decimal: true,
+                                      ),
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.allow(
+                                          RegExp(r'^\d*\.?\d{0,2}$'),
+                                        ),
+                                      ],
                                         
                                     decoration: const InputDecoration(
                                       hintText: 'Enter value',

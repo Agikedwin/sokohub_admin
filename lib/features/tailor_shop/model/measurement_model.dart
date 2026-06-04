@@ -5,6 +5,7 @@ class MeasurementModel {
   String id;
   String name;
   String image;
+  double? value;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -12,6 +13,7 @@ class MeasurementModel {
     required this.id,
     required this.name,
     required this.image,
+    this.value,
     this.createdAt,
     this.updatedAt,
   });
@@ -24,6 +26,7 @@ class MeasurementModel {
         id: '',
         name: '',
         image: '',
+        value: 0,
         createdAt: null,
         updatedAt: null,
       );
@@ -33,6 +36,7 @@ class MeasurementModel {
     return {
       'Name': name,
       'Image': image,
+      'Value': value,
       'CreatedAt':  createdAt ?? DateTime.now(),
       'UpdatedAt': updatedAt,
     };
@@ -51,6 +55,7 @@ class MeasurementModel {
   return MeasurementModel(
     id: document.id,
     name: data['Name'] ?? '',
+    value: data['Value'] ?? 0,
     image: data['Image'] ?? '',
 
     createdAt: data['CreatedAt'] != null
@@ -75,6 +80,7 @@ class MeasurementModel {
       id: id ?? this.id,
       name: name ?? this.name,
       image: image ?? this.image,
+      value: value ?? this.value,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

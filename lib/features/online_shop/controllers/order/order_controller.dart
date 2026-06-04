@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sokohub_admin/data/abstract/base_data_table_controller.dart';
 import 'package:sokohub_admin/data/repositories/categories/category_repository.dart';
 import 'package:sokohub_admin/data/repositories/order/order_repository.dart';
+import 'package:sokohub_admin/features/online_shop/models/cart_item_model.dart';
 import 'package:sokohub_admin/features/online_shop/models/category_model.dart';
 import 'package:sokohub_admin/features/online_shop/models/order_model.dart';
 import 'package:sokohub_admin/features/online_shop/models/employee_order_assignment_model.dart';
@@ -20,6 +21,10 @@ class OrderController extends TBaseController<OrderModel>{
   final orderRepository = Get.put(OrderRepository());
   RxBool statusLoader = false.obs;
   var orderStatus = OrderStatus.pending.obs;
+
+  Rx<OrderModel> selectedOrder = OrderModel.empty().obs;
+
+  Rx<CartItemModel> selectedClientCart = CartItemModel.empty().obs;
   
 
 

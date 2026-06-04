@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
+import 'package:sokohub_admin/features/online_shop/controllers/order/order_controller.dart';
 import 'package:sokohub_admin/features/online_shop/models/cart_item_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/garment/garment_controller.dart';
 
@@ -17,13 +18,13 @@ class GarmentOrderDetails extends StatelessWidget {
 final CartItemModel order;
   @override
   Widget build(BuildContext context) {
-    // controllers to fetch Garments Measuremnts and Accessories
+    
+    final controller = OrderController.instance; 
+    final selectedItem = controller.selectedOrder;
+    //set selected client order
+    controller.selectedClientCart.value =order;
     
 
-    
-    
-
-    
     return  TRoundedContainer(
       padding: EdgeInsets.all(TSizes.defaultSpace),
       child: Column(
@@ -40,15 +41,15 @@ final CartItemModel order;
                 child: Row(
                   children: [
                      TRoundedImage(
-                      imageType:  ImageType.asset, 
-                      image:  TImages.productImage10,
+                      imageType: order.image!.isNotEmpty ? ImageType.network : ImageType.asset, 
+                      image:  order.image!.isNotEmpty ?  order.image : null,
                       ),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('Garment Name', style: Theme.of(context).textTheme.labelMedium,),
-                      Text('T-Shirt', style: Theme.of(context).textTheme.titleLarge,),
+                      Text(order.title, style: Theme.of(context).textTheme.titleLarge,),
 
                         ],
                       ),
@@ -62,7 +63,7 @@ final CartItemModel order;
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('Date ', style: Theme.of(context).textTheme.labelMedium,),
-                      Text('2026-o6-02', style: Theme.of(context).textTheme.titleLarge,),
+                      Text(selectedItem.value.formatedOrderDate, style: Theme.of(context).textTheme.titleLarge,),
 
                         ],
                       ),
@@ -72,8 +73,8 @@ final CartItemModel order;
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('OrderId', style: Theme.of(context).textTheme.labelMedium,),
-                      Text('ORDER001' , style: Theme.of(context).textTheme.titleLarge,),
+                          Text('Reference', style: Theme.of(context).textTheme.labelMedium,),
+                      Text(selectedItem.value.orderId ?? '',  style: Theme.of(context).textTheme.titleLarge,),
 
                         ],
                       ),

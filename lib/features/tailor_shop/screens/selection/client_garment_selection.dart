@@ -11,7 +11,7 @@ class ClientGarmentSelectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final order = CartItemModel.empty(); // Get.arguments;
+    final order =  Get.arguments; //;
     
     return ITSiteLayoutTemplate(desktop: GarmentSelectionDesktopScreen(order: order), tablet: GarmentSelectionTabletScreen(order: order), 
     mobile: GarmentSelectionMobileScreen(order: order));

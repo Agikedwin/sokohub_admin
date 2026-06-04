@@ -6,6 +6,7 @@ class AccessoryModel {
   String name;
   String image;
   double unitCost;
+  double? quantity;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -14,6 +15,7 @@ class AccessoryModel {
     required this.name,
     required this.unitCost,
     required this.image,
+    this.quantity,
     this.createdAt,
     this.updatedAt,
   });
@@ -27,6 +29,7 @@ class AccessoryModel {
         name: '',
         image: '',
         unitCost: 0.0,
+        quantity: 0.0,
         createdAt: null,
         updatedAt: null,
       );
@@ -37,6 +40,7 @@ class AccessoryModel {
       'Name': name,
       'Image': image,
       'UnitCost': unitCost,
+      'Quantity': quantity,
       'CreatedAt':  createdAt ?? DateTime.now(),
       'UpdatedAt': updatedAt,
     };
@@ -56,6 +60,7 @@ class AccessoryModel {
     id: document.id,
     name: data['Name'] ?? '',
     unitCost: data['UnitCost'] ?? 0.0,
+    quantity: data['Quantity'] ?? 0.0,
     image: data['Image'] ?? '',
 
     createdAt: data['CreatedAt'] != null
@@ -73,6 +78,7 @@ class AccessoryModel {
     String? id,
     String? name,
     String? image,
+    double? quantity,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -80,6 +86,7 @@ class AccessoryModel {
       id: id ?? this.id,
       name: name ?? this.name,
       unitCost: unitCost ,
+      quantity: quantity ?? this.quantity,
       image: image ?? this.image,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,

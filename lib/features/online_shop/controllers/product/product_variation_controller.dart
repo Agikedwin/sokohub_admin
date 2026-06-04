@@ -117,7 +117,6 @@ class ProductVariationController extends GetxController {
   void generateVariationsFromAttributes() {
   /// Close previous popup safely
    Get.back();
-   print('----------------1');
 
   final List<ProductVariationModel> variations = [];
 

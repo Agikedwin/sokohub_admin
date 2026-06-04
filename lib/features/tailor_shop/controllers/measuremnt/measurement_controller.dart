@@ -20,17 +20,21 @@ class MeasurementController extends TBaseController<MeasurementModel> {
   RxBool measurementLoading = false.obs;
 
   final RxList<MeasurementModel> selectedMeasurement = <MeasurementModel>[].obs;
+  final RxList<MeasurementModel> clientMeasurements = <MeasurementModel>[].obs;
 
   final RxList<MeasurementModel> alreadySelectedMeasurement =
       <MeasurementModel>[].obs;
 
-  final RxList<TextEditingController> valueControllers =
-      <TextEditingController>[].obs;
+  /* final RxList<TextEditingController> valueControllers =
+      <TextEditingController>[].obs; */
 
   RxMap<String, String> textFieldList = <String, String>{}.obs;
+  RxList<MeasurementModel> selectedClientMeasurements = <MeasurementModel>[].obs;
 
   RxList<GarmentMeasurementModel> selectedGarmentMeasuremnt =
       <GarmentMeasurementModel>[].obs;
+      // List to store controllers for each variiation attribute
+    List<Map<MeasurementModel, TextEditingController>> valueControllersList = [];
 
   @override
   bool containsSearchQuery(MeasurementModel item, String query) {
@@ -49,8 +53,8 @@ class MeasurementController extends TBaseController<MeasurementModel> {
 
   @override
   void onClose() {
-    for (final controller in valueControllers) {
-      controller.dispose();
+    for (final controller in valueControllersList) {
+      controller.clear();
     }
     super.onClose();
   }
@@ -64,6 +68,20 @@ class MeasurementController extends TBaseController<MeasurementModel> {
   void assignNewMeasurement(List<MeasurementModel> data) {
     selectedMeasurement.assignAll(data);
   }
+
+// Set the client provided measurements
+  void getClientMeasurements(){
+      clientMeasurements.clear();
+    for(var i =0; i <= valueControllersList.length-1; i++){
+     clientMeasurements.addAll(valueControllersList[i].keys.toList());
+
+    }
+
+    
+
+  }
+
+  
 
   // Populate the input text
   Future<void> getEnteredValues(GarmentModel garment) async {
@@ -82,28 +100,21 @@ class MeasurementController extends TBaseController<MeasurementModel> {
     final selectedMeasurements =
         allItems.where((item) => measurementIds.contains(item.id)).toList();
 
-    print(
-      '${measurementIds.length} IDs found, ${selectedMeasurements.length} measurements matched',
-    );
+     valueControllersList.clear();
 
-     valueControllers.clear();
+      for(var measurent in selectedMeasurements){
 
-    for (var item in selectedMeasurements) {
-      valueControllers.add(
-        TextEditingController(),
-      );
-    }
+     Map<MeasurementModel, TextEditingController> measurementControllers = {};
+      measurementControllers[measurent] = TextEditingController(text: measurent.value.toString());
+      valueControllersList.add(measurementControllers);
 
-    // Do mapping here
-    final Map<String, String> data = {};
+      }
 
-    for (int i = 0; i < valueControllers.length; i++) {
-      data[allItems[i].id] = valueControllers[i].text;
-    }
+    
 
-    selectedMeasurement.assignAll(selectedMeasurements);
-    textFieldList.value = data;
-    textFieldList.refresh();
+     selectedMeasurement.assignAll(selectedMeasurements);
+     //textFieldList.value = data;
+     //textFieldList.refresh();
   }
 
   Future<List<MeasurementModel>> loadSelectedMeasuremnts(

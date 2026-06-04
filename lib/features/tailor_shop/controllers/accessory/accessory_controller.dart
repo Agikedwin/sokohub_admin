@@ -24,7 +24,7 @@ class AccessoryController extends TBaseController<AccessoryModel>{
   final RxList<GarmentAccessoryModel> garmentAccessory =
     <GarmentAccessoryModel>[].obs;
 
-    final RxList<GarmentAccessoryModel> assignedGarmentAccessory =
+    final RxList<GarmentAccessoryModel> selectedGarmentAccessory =
     <GarmentAccessoryModel>[].obs;
 
     final RxList<AccessoryModel> selectedAccessory =
@@ -37,6 +37,10 @@ class AccessoryController extends TBaseController<AccessoryModel>{
       <TextEditingController>[].obs;
 
     RxMap<String, String> textFieldList = <String, String>{}.obs;
+
+     List<Map<AccessoryModel, TextEditingController>> valueControllersList = [];
+     final RxList<AccessoryModel> clientAccessory = <AccessoryModel>[].obs;
+
 
     
   @override
@@ -53,6 +57,14 @@ class AccessoryController extends TBaseController<AccessoryModel>{
   Future<List<AccessoryModel>> fetchItems()  async{
     return await accessoryRepository.getAllAccessories();
   }
+  @override
+  void onClose() {
+    for (final controller in valueControllersList) {
+      controller.clear();
+    }
+    super.onClose();
+  }
+
   
 
 
@@ -66,44 +78,65 @@ class AccessoryController extends TBaseController<AccessoryModel>{
     selectedAccessory.assignAll(data);
   } 
 
+// Set the client provided accessories
+  void getClientAccessory(){
+      clientAccessory.clear();
+    for(var i =0; i <= valueControllersList.length-1; i++){
+     clientAccessory.addAll(valueControllersList[i].keys.toList());
+
+    }
+
+    
+
+  }
+
   // Populate the input text
-   getEnteredValues(GarmentModel suggestion) {
+   Future<void> getEnteredValues(GarmentModel garment) async {
+    // Load garment accessories if not already loaded
+      final accessories =
+          await accessoryRepository.getAllGarmentAccessoryById(garment.id);
 
-    valueControllers.clear();
-   // Create textfields of each item
-    for (var item in allItems) {
-      valueControllers.add(
-        TextEditingController(),
-      );
-    }
+      selectedGarmentAccessory.assignAll(accessories);
+    
 
-    // Do mapping here
-    final Map<String, String> data = {};
+    // Extract measurement IDs
+    final measurementIds =
+        selectedGarmentAccessory.map((e) => e.accessoryId).toList();
 
-    for (int i = 0; i < allItems.length; i++) {
-      data[allItems[i].id] = valueControllers[i].text;
-    }
+    // Get matching measurement definitions
+    final selectedAccessories =
+        allItems.where((item) => measurementIds.contains(item.id)).toList();
 
-    textFieldList.value = data;
-    textFieldList.refresh();
+     valueControllersList.clear();
 
-   // return data;
+      for(var accessory in selectedAccessories){
+
+     Map<AccessoryModel, TextEditingController> accessoryControllers = {};
+      accessoryControllers[accessory] = TextEditingController(text: accessory.quantity.toString());
+      valueControllersList.add(accessoryControllers);
+
+      }
+
+    
+
+     selectedAccessory.assignAll(selectedAccessories);
+     //textFieldList.value = data;
+     //textFieldList.refresh();
   }
 
     Future<List<AccessoryModel>> loadSelectedAccessories(String garmentId) async{
     accessoryLoading.value = true;
 
     // Product categories
-    final garmentAccessory = await accessoryRepository.getAllGarmentAccessory(garmentId);
+    final garmentAccessory = await accessoryRepository.getAllGarmentAccessoryById(garmentId);
     final accessoryController = Get.put(AccessoryController());
 
     if(accessoryController.allItems.isEmpty) await accessoryController.fetchItems();
 
     final accessoryIds = garmentAccessory.map((e) => e.accessoryId).toList();
     final accessories  = accessoryController.allItems.where((element)=> accessoryIds.contains(element.id)).toList();
-    print('------------::::');
-    print(accessories.length);
-    //selectedAccessory.assignAll(accessories);
+    
+    
     alreadySelectedAccessory.assignAll(accessories);
     accessoryLoading.value = false;
 

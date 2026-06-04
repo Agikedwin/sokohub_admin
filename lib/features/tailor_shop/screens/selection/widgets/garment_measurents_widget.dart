@@ -38,7 +38,7 @@ class GarmentMeasurentsWidget extends StatelessWidget {
           //TypeAheadField for brand selection
 
           Obx(() {
-            return controller.selectedMeasurement.isEmpty || controller.textFieldList.isEmpty
+            return controller.selectedMeasurement.isEmpty 
                 ? Center(
                     child: Text('No data')
                   )
@@ -82,7 +82,8 @@ class GarmentMeasurentsWidget extends StatelessWidget {
                                   width: double.infinity,
                                   child: TextFormField(
                                     controller:
-                                        controller.valueControllers[index],
+                                        controller.valueControllersList[index][entry],
+                                        onChanged: (value) => entry.value = double.tryParse(value),
                                         keyboardType: const TextInputType.numberWithOptions(
                                         decimal: true,
                                       ),

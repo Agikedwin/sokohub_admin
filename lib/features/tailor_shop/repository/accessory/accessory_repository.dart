@@ -118,7 +118,7 @@ class AccessoryRepository  extends GetxController{
  }
 
 // get sub categories
-    Future<List<GarmentAccessoryModel>> getAllGarmentAccessory(String garmentId) async {
+    Future<List<GarmentAccessoryModel>> getAllGarmentAccessoryById(String garmentId) async {
     
     try {
       final snapshot = await _db.collection('GarmentAccessory').where('GarmentId', isEqualTo: garmentId).get();

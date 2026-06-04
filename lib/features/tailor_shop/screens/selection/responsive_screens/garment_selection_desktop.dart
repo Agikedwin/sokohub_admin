@@ -11,7 +11,6 @@ import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/mat
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/save_selection_button_widget.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/selection_note_widget.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
-import 'package:sokohub_admin/utils/device/device_utility.dart';
 
 class GarmentSelectionDesktopScreen  extends StatelessWidget {
   const GarmentSelectionDesktopScreen ({super.key,  required this.order});
