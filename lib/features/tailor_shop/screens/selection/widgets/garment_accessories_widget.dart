@@ -50,7 +50,7 @@ class GarmentAccessoriesWidget extends StatelessWidget {
                         DataColumn(label: Text('Value')),
                       ],
                       rows: List.generate(
-                        controller.allItems.length,
+                        controller.selectedAccessory.length,
                         (index) {
                           final entry = controller.selectedAccessory[index];
 

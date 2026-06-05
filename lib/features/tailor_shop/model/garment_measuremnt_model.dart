@@ -39,6 +39,20 @@ class GarmentMeasurementModel {
     };
   }
 
+  factory GarmentMeasurementModel.fromJson(Map<String, dynamic> json) {
+  return GarmentMeasurementModel(
+    id: json['Id'] ?? '',
+    garmentId: json['GarmentId'] ?? '',
+    measurementId: json['MeasurementId'] ?? '',
+    createdAt: json['CreatedAt'] != null
+        ? (json['CreatedAt'] as Timestamp).toDate()
+        : null,
+    updatedAt: json['UpdatedAt'] != null
+        ? (json['UpdatedAt'] as Timestamp).toDate()
+        : null,
+  );
+}
+
   /// Create model from Firestore document
   factory GarmentMeasurementModel.fromSnapshot(
     DocumentSnapshot<Map<String, dynamic>> document,

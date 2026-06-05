@@ -49,7 +49,22 @@ class GarmentModel {
       'UpdatedAt': updatedAt,
     };
   }
-
+factory GarmentModel.fromJson(Map<String, dynamic> json) {
+  return GarmentModel(
+    id: json['Id'] ?? '',
+    name: json['Name'] ?? '',
+    image: json['Image'] ?? '',
+    wage: (json['Wage'] ?? 0).toDouble(),
+    parentId: json['ParentId'] ?? '',
+    isFeatured: json['IsFeatured'] ?? false,
+    createdAt: json['CreatedAt'] != null
+        ? (json['CreatedAt'] as Timestamp).toDate()
+        : null,
+    updatedAt: json['UpdatedAt'] != null
+        ? (json['UpdatedAt'] as Timestamp).toDate()
+        : null,
+  );
+}
 
 
   /// Create CategoryModel from Firebase DocumentSnapshot

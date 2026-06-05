@@ -79,16 +79,32 @@ class AccessoryController extends TBaseController<AccessoryModel>{
   } 
 
 // Set the client provided accessories
-  void getClientAccessory(){
-      clientAccessory.clear();
-    for(var i =0; i <= valueControllersList.length-1; i++){
-     clientAccessory.addAll(valueControllersList[i].keys.toList());
+  void getClientAccessory() {
+  clientAccessory.clear();
 
+
+  for (final accessoryMap in valueControllersList) {
+    for (final entry in accessoryMap.entries) {
+      final accessory = entry.key;
+      final controller = entry.value;
+
+      final value = controller.text.trim();
+
+      if (value.isEmpty || double.tryParse(value) == 0) {
+        throw 'Please provide quantity for ${accessory.name}';
+      } else {
+        print('${accessory.name}: $value');
+
+        clientAccessory.add(accessory);
+      }
     }
+  }
+
+}
 
     
 
-  }
+  
 
   // Populate the input text
    Future<void> getEnteredValues(GarmentModel garment) async {

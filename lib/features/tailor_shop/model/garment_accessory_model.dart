@@ -39,6 +39,20 @@ class GarmentAccessoryModel {
     };
   }
 
+  factory GarmentAccessoryModel.fromJson(Map<String, dynamic> json) {
+  return GarmentAccessoryModel(
+    id: json['Id'] ?? '',
+    garmentId: json['GarmentId'] ?? '',
+    accessoryId: json['AccessoryId'] ?? '',
+    createdAt: json['CreatedAt'] != null
+        ? (json['CreatedAt'] as Timestamp).toDate()
+        : null,
+    updatedAt: json['UpdatedAt'] != null
+        ? (json['UpdatedAt'] as Timestamp).toDate()
+        : null,
+  );
+}
+
   /// Create model from Firestore document
   factory GarmentAccessoryModel.fromSnapshot(
     DocumentSnapshot<Map<String, dynamic>> document,

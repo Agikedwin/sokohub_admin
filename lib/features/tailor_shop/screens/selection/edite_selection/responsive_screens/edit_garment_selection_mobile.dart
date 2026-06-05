@@ -5,14 +5,15 @@ import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/data_table/table_header.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/category/category_controller.dart';
 import 'package:sokohub_admin/features/online_shop/models/cart_item_model.dart';
+import 'package:sokohub_admin/features/tailor_shop/model/client_selection_attributes_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/garment/all_garments/table/garment_data_table.dart';
 
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
-class GarmentSelectionMobileScreen  extends StatelessWidget {
-  const GarmentSelectionMobileScreen({super.key,  required this.order});
-  final CartItemModel  order;
+class EditGarmentSelectionMobileScreen  extends StatelessWidget {
+  const EditGarmentSelectionMobileScreen({super.key,  required this.selection});
+  final ClientSelectionAttributesModel  selection;
 
   @override
   Widget build(BuildContext context) {

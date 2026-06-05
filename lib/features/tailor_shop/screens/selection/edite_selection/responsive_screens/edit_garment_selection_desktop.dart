@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:sokohub_admin/features/online_shop/models/cart_item_model.dart';
+import 'package:sokohub_admin/features/tailor_shop/model/client_selection_attributes_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/client_selection.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/garment_accessories_widget.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/garment_measurents_widget.dart';
@@ -12,9 +13,9 @@ import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/sav
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/selection_note_widget.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
-class GarmentSelectionDesktopScreen  extends StatelessWidget {
-  const GarmentSelectionDesktopScreen ({super.key,  required this.order});
-final CartItemModel  order;
+class EditGarmentSelectionDesktopScreen  extends StatelessWidget {
+  const EditGarmentSelectionDesktopScreen ({super.key,  required this.selection});
+final ClientSelectionAttributesModel  selection;
   @override
   Widget build(BuildContext context) {
      
@@ -39,7 +40,7 @@ final CartItemModel  order;
                     child: Column(
                       children: [
                         // Order Info
-                        GarmentOrderDetails(order: order,),
+                        GarmentOrderDetails(order: selection.clientOrder,),
                          
                        
                        

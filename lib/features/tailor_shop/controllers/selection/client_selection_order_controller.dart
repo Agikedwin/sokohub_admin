@@ -31,23 +31,30 @@ class ClientSelectionOrderController extends GetxController {
   final isLoading = false.obs;
   TextEditingController description = TextEditingController();
 
-  // Mapped Models variables
-  final UserModel client = UserModel.empty();
-  final List<UserModel> tailorsAssigned = [];
-  final GarmentModel garment = GarmentModel.empty();
-  final MaterialModel material = MaterialModel.empty();
-  final List<AccessoryModel> accessories = [];
-  final List<MeasurementModel> measurements = [];
+
 
   // This selection order variable
-  final ClientSelectionAttributesModel selectionModel =
-      ClientSelectionAttributesModel.empty();
+  Rx<ClientSelectionAttributesModel> selectedClientSelection =
+      ClientSelectionAttributesModel.empty().obs;
+  
+  Rx<String> actionCreateEditView = 'CREAT'.obs;
 
   final formKey = GlobalKey<FormState>();
 
   // Pick thumbnail image from media
 
   // Register new category
+
+  void init(ClientSelectionAttributesModel selected){
+    print('--------------------2');
+    print(selected.client!.toJson());
+    CustomerController.instance.selectedClient.value = selected.client!;
+    final garment = GarmentController.instance.selectedGarment.value;
+    final material = MaterialController.instance.selectedMaterial.value;
+    final measurements = MeasurementController.instance;
+    final accessory = AccessoryController.instance;
+    final order = OrderController.instance;
+  }
 
   Future<void> createClientSelectionOrder() async {
     try {
@@ -66,10 +73,11 @@ class ClientSelectionOrderController extends GetxController {
 
       //selectionModel.client = CustomerController.instance.selectedClient;
 
-      ClientSelectionAttributesModel clientOrder = modelData();
+      //ClientSelectionAttributesModel clientOrder = modelData();
+      modelData();
 
-      await clientSelectionOrderRepository
-          .createClientSelectionOrder(clientOrder);
+      /* await clientSelectionOrderRepository
+          .createClientSelectionOrder(clientOrder); */
 
       resetFields();
 
@@ -82,7 +90,7 @@ class ClientSelectionOrderController extends GetxController {
     } catch (e, trace) {
       TFullScreenLoader.stopLoading();
       TLoaders.errorSnackBar(
-          title: 'OhSnap', message: 'Something went wrong: $e');
+          title: 'Oh Snap', message: 'Something went wrong: $e');
     }
   }
 

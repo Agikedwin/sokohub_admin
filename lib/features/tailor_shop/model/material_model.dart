@@ -51,7 +51,22 @@ class MaterialModel {
   }
 
 
-
+factory MaterialModel.fromJson(Map<String, dynamic> json) {
+  return MaterialModel(
+    id: json['Id'] ?? '',
+    name: json['Name'] ?? '',
+    unitCost: (json['UnitCost'] ?? 0).toDouble(),
+    image: json['Image'] ?? '',
+    parentId: json['ParentId'] ?? '',
+    isFeatured: json['IsFeatured'] ?? false,
+    createdAt: json['CreatedAt'] != null
+        ? (json['CreatedAt'] as Timestamp).toDate()
+        : null,
+    updatedAt: json['UpdatedAt'] != null
+        ? (json['UpdatedAt'] as Timestamp).toDate()
+        : null,
+  );
+}
   /// Create CategoryModel from Firebase DocumentSnapshot
  factory MaterialModel.fromSnapshot(
   DocumentSnapshot<Map<String, dynamic>> document,

@@ -70,17 +70,27 @@ class MeasurementController extends TBaseController<MeasurementModel> {
   }
 
 // Set the client provided measurements
-  void getClientMeasurements(){
-      clientMeasurements.clear();
-    for(var i =0; i <= valueControllersList.length-1; i++){
-     clientMeasurements.addAll(valueControllersList[i].keys.toList());
+  void getClientMeasurements() {
+  clientMeasurements.clear();
 
+  for (final measurementMap in valueControllersList) {
+    for (final entry in measurementMap.entries) {
+      final measurement = entry.key;
+      final controller = entry.value;
+
+      final value = controller.text.trim();
+
+      if (value.isEmpty || double.tryParse(value) == 0) {
+        throw 'Please provide value for ${measurement.name}';
+        
+        // Handle validation error
+      } else {
+        // Add valid measurement
+        clientMeasurements.add(measurement);
+      }
     }
-
-    
-
   }
-
+}
   
 
   // Populate the input text

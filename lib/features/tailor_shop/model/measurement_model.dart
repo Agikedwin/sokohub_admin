@@ -42,7 +42,20 @@ class MeasurementModel {
     };
   }
 
-
+factory MeasurementModel.fromJson(Map<String, dynamic> json) {
+  return MeasurementModel(
+    id: json['Id'] ?? '',
+    name: json['Name'] ?? '',
+    value: json['Value'] ?? 0,
+    image: json['Image'] ?? '',
+    createdAt: json['CreatedAt'] != null
+        ? (json['CreatedAt'] as Timestamp).toDate()
+        : null,
+    updatedAt: json['UpdatedAt'] != null
+        ? (json['UpdatedAt'] as Timestamp).toDate()
+        : null,
+  );
+}
 
   /// Create CategoryModel from Firebase DocumentSnapshot
  factory MeasurementModel.fromSnapshot(

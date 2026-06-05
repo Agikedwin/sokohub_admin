@@ -3,15 +3,17 @@ import 'package:get/get.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/data_table/table_header.dart';
+import 'package:sokohub_admin/common/widgets/loaders/loader_animation.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/category/category_controller.dart';
-import 'package:sokohub_admin/features/online_shop/models/cart_item_model.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/garment/all_garments/table/garment_data_table.dart';
+import 'package:sokohub_admin/features/online_shop/screens/category/all_categories/table/data_table.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/material/all_material/table/material_data_table.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/all_selections/table/garment_selection_data_table.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
-class GarmentSelectionTabletScreen  extends StatelessWidget {
-  const GarmentSelectionTabletScreen({super.key, required this.order});
- final CartItemModel order;
+class GarmentSelectionTabletScreen extends StatelessWidget {
+  const GarmentSelectionTabletScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(CategoryController());
@@ -23,7 +25,7 @@ class GarmentSelectionTabletScreen  extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Breadcrumbs
-              const TBreadcrumbsWithHeading(heading: 'Garment', breadcrumbItems: ['Garment']),
+              const TBreadcrumbsWithHeading(heading: 'Garment Selection', breadcrumbItems: ['GarmentSelection']),
               SizedBox(height: TSizes.spaceBtwSections,),
 
               // Table Body
@@ -34,13 +36,16 @@ class GarmentSelectionTabletScreen  extends StatelessWidget {
 
                   // Table Header
                  children: [
-                    ITTableHeader(buttonText: 'Create New Category', onPressed: ()  => Get.toNamed(ITRoutes.createGarment),
+                    ITTableHeader(buttonText: 'Create New', onPressed: ()  => Get.toNamed(ITRoutes.createGarmentSelection),
                     searchController: controller.searchTextController,
                     searchOnChanged: (query) => controller.searchQuery(query),
                     ),
 
                     // Table
-               //GarmentTable(),
+              Obx((){ 
+                    if(controller.isLoading.value) return const TLoaderAnimation();
+                    return const GarmentSelectionTable();
+                    }),
                  ],
 
 

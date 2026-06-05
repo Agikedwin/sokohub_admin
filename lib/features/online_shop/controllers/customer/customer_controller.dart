@@ -19,6 +19,7 @@ Rx<UserModel> selectedClient = UserModel.empty().obs;
 
 @override
   Future<List<UserModel>> fetchItems() async{
+    
     final data = await customerRepository.getAllUsers();
     allCustomers.assignAll(data);
     return data;
@@ -31,6 +32,7 @@ Rx<UserModel> selectedClient = UserModel.empty().obs;
   
   @override
   Future<void> deleteItems(UserModel item) async{
+
     await customerRepository.deleteUser(item.id);
   }
   

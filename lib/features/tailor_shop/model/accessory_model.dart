@@ -46,6 +46,28 @@ class AccessoryModel {
     };
   }
 
+  factory AccessoryModel.fromJson(Map<String, dynamic> json) {
+  return AccessoryModel(
+    id: json['Id'] ?? '',
+    name: json['Name'] ?? '',
+    unitCost: (json['UnitCost'] ?? 0.0).toDouble(),
+    quantity: (json['Quantity'] ?? 0.0).toDouble(),
+    image: json['Image'] ?? '',
+
+    createdAt: json['CreatedAt'] != null
+    ? (json['CreatedAt'] is Timestamp
+        ? (json['CreatedAt'] as Timestamp).toDate()
+        : DateTime.tryParse(json['CreatedAt'].toString()))
+    : null,
+
+updatedAt: json['UpdatedAt'] != null
+    ? (json['UpdatedAt'] is Timestamp
+        ? (json['UpdatedAt'] as Timestamp).toDate()
+        : DateTime.tryParse(json['UpdatedAt'].toString()))
+    : null,
+  );
+}
+
 
 
   /// Create CategoryModel from Firebase DocumentSnapshot

@@ -5,19 +5,26 @@ import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/shimmers/shimmer.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/customer/customer_controller.dart';
+import 'package:sokohub_admin/features/persionalizations/controllers/user_controller.dart';
+import 'package:sokohub_admin/features/persionalizations/models/user_model.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/selection/client_selection_order_controller.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
 class ClientSelection extends StatelessWidget {
-  const ClientSelection({super.key});
+  const ClientSelection({super.key, this.user});
+
+  final UserModel? user;
 
   @override
   Widget build(BuildContext context) {
     final  clientController = Get.put(CustomerController());
+    final userController = CustomerController.instance;
+    print('-----------------------');
+    print(userController.selectedClient.value.toJson());
 
-    // fetch Garment if the list is empty
-    if(clientController.allItems.isEmpty){
-      clientController.fetchItems();
-    }
+
+
+    
     return TRoundedContainer(
       child: Column(
         children: [
@@ -33,8 +40,17 @@ class ClientSelection extends StatelessWidget {
             ?   const  TShimmerEffect(width: double.infinity, height: 40)
             : TypeAheadField(
               builder: (context, ctr, FocusNode){
+                // Set default valies
+                if(userController.selectedClient.value.id != ''){
+                  print('---------------');
+                  ctr.text = userController.selectedClient.value.email; 
+                }
+                      
+
+                clientController.selectedTextController = ctr;
+
                 return TextFormField(
-                  controller: clientController.selectedTextController = ctr,
+                  controller: ctr, // clientController.selectedTextController = ctr,
                   focusNode: FocusNode,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -45,14 +61,14 @@ class ClientSelection extends StatelessWidget {
               }, 
               suggestionsCallback: (pattern){
                 // Return filtered brands suggestions on the search pattern
-                return clientController.allItems.where((garment) =>  garment.fullNamePhone.toLowerCase().contains(pattern.toLowerCase())).toList();               
+                return clientController.allItems.where((garment) =>  garment.email.toLowerCase().contains(pattern.toLowerCase())).toList();               
               },
               itemBuilder:(context, suggestion){
-                return ListTile(title: Text(suggestion.fullName),);
+                return ListTile(title: Text(suggestion.email),);
               },
               onSelected: (suggestion){
                 clientController.selectedClient.value = suggestion;
-                clientController.selectedTextController.text = suggestion.fullNamePhone; 
+                clientController.selectedTextController.text = suggestion.email; 
 
                 
               }, 
