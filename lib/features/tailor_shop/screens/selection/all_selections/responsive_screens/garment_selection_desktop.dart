@@ -45,7 +45,7 @@ class GarmentSelectionDesktopScreen extends StatelessWidget {
                   // Table Header
                  children: [
                     ITTableHeader(
-                      buttonText: '',
+                      buttonText: 'Create New',
                      onPressed: ()  => Get.toNamed(ITRoutes.createGarmentSelection),
                      searchController: controller.searchTextController,
                       searchOnChanged: (query) => controller.searchQuery(query),

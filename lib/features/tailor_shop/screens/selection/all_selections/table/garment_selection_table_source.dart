@@ -16,6 +16,7 @@ class GarmentSelectionRows extends DataTableSource {
     final garmentSelection = controller.filteredItems[index];
     return DataRow2(
         selected: controller.selectedRows[index],
+        onTap: () => Get.toNamed(ITRoutes.clientGarment, parameters: {'clientGarmentId': garmentSelection.id}),
         onSelectChanged: (value) =>
             controller.selectedRows[index] = value ?? false,
         cells: [

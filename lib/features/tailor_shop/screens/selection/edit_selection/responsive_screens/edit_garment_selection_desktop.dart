@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
-import 'package:sokohub_admin/features/online_shop/models/cart_item_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/client_selection_attributes_model.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/client_selection.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/garment_accessories_widget.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/garment_measurents_widget.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/edit_selection/widgets/client_selection.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/edit_selection/widgets/garment_accessories_widget.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/edit_selection/widgets/garment_measurents_widget.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/edit_selection/widgets/garment_order_details.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/edit_selection/widgets/garment_selection_widget.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/edit_selection/widgets/material_selection_widget.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/edit_selection/widgets/save_selection_button_widget.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/edit_selection/widgets/selection_note_widget.dart';
 
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/garment_order_details.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/garment_selection_widget.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/material_selection_widget.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/save_selection_button_widget.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/selection_note_widget.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
 class EditGarmentSelectionDesktopScreen  extends StatelessWidget {
@@ -18,7 +17,8 @@ class EditGarmentSelectionDesktopScreen  extends StatelessWidget {
 final ClientSelectionAttributesModel  selection;
   @override
   Widget build(BuildContext context) {
-     
+
+  
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -65,19 +65,19 @@ final ClientSelectionAttributesModel  selection;
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                        
-                        ClientSelection(),
+                        ClientSelection(user: selection.client!),
                         SizedBox(height: TSizes.spaceBtwItems, ),
                         
-                        GarmentSelectionWidget(),
+                        GarmentSelectionWidget(garment : selection.garment),
                         SizedBox(height: TSizes.spaceBtwItems, ),
 
-                        MaterialSelectionWidget(),
+                        MaterialSelectionWidget(material : selection.material),
                         SizedBox(height: TSizes.spaceBtwItems, ),
 
-                        SelectionNoteWidget(),
+                        SelectionNoteWidget(note: selection.description),
 
                         SizedBox(height: TSizes.spaceBtwItems, ),
-                        SaveSelectionButtonWidget()
+                        SaveSelectionButtonWidget(selection: selection)
                       ],
                     ),
                   ),
@@ -88,7 +88,7 @@ final ClientSelectionAttributesModel  selection;
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GarmentMeasurentsWidget(),
+                      GarmentMeasurentsWidget(garmentId: selection.garment),
                       
                       SizedBox(height: TSizes.spaceBtwItems, ),
 

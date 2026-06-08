@@ -37,6 +37,7 @@ class AccessoryModel {
   /// Convert model to JSON structure (for Firebase storage)
   Map<String, dynamic> toJson() {
     return {
+       'Id': id,
       'Name': name,
       'Image': image,
       'UnitCost': unitCost,

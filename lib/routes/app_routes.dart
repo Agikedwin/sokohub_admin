@@ -33,6 +33,7 @@ import 'package:sokohub_admin/features/tailor_shop/screens/garment/all_garments/
 import 'package:sokohub_admin/features/tailor_shop/screens/garment/attribute/garment_attribute.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/garment/create_garment/create_garment.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/garment/edit_garment/edit_garment.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/garment_orders/client_garment_order.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/material/all_material/material.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/material/create_material/create_material.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/material/edit_material/edit_material.dart';
@@ -42,7 +43,7 @@ import 'package:sokohub_admin/features/tailor_shop/screens/measurement/edit_meas
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/all_selections/garment_selection.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/all_selections/responsive_screens/garment_selection_desktop.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/create_selection/client_garment_selection.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/edite_selection/edit_garment_selection.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/edit_selection/edit_garment_selection.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/routes/routes_middleware.dart';
 
@@ -118,11 +119,15 @@ class ITAppRoutes {
        GetPage(name: ITRoutes.garmentInfo, page: () => const GarmentAttributeScreen(), middlewares: [ITRoutesMiddleware()]),
 
        // Garment client selection
-       GetPage(name: ITRoutes.garmentSelection, page: () => const ClientGarmentSelectionScreen(), middlewares: [ITRoutesMiddleware()]),
+       GetPage(name: ITRoutes.createGarmentSelection, page: () => const CreateClientGarmentSelectionScreen(), middlewares: [ITRoutesMiddleware()]),
 
        // clietSelection
       GetPage(name: ITRoutes.clientSelection, page: () => const GarmentSelectionScreen(), middlewares: [ITRoutesMiddleware()]),
+      
       GetPage(name: ITRoutes.editGarmentSelection, page: () => const EditClientGarmentSelectionScreen(), middlewares: [ITRoutesMiddleware()]),
+
+      //client Garment
+      GetPage(name: ITRoutes.clientGarment, page: () => const ClientGarmentOrderScreen(), middlewares: [ITRoutesMiddleware()]),
 
   ];
 }

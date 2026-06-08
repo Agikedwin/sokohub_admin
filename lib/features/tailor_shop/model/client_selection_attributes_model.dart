@@ -7,6 +7,7 @@ import 'package:sokohub_admin/features/tailor_shop/model/garment_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/material_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/measurement_model.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
+import 'package:sokohub_admin/utils/formatters/formatter.dart';
 
 class ClientSelectionAttributesModel {
   String id;
@@ -42,7 +43,8 @@ class ClientSelectionAttributesModel {
     this.deliveryDate,
     required this.orderId,
   });
-
+String get formattedDate => TFormatter.formatDate(orderDate);
+ String get formattedUpdatedAtdate => TFormatter.formatDate(deliveryDate);
   /// Empty helper
   static ClientSelectionAttributesModel empty() =>
       ClientSelectionAttributesModel(
@@ -91,10 +93,10 @@ class ClientSelectionAttributesModel {
   /// Create model from JSON
   /// Create model from JSON
 factory ClientSelectionAttributesModel.fromJson(
-  Map<String, dynamic> json,
+  Map<String, dynamic> json, String id
 ) {
   return ClientSelectionAttributesModel(
-    id: json['Id'] ?? '',
+    id: id,
     userId: json['UserId'] ?? '',
     status: json['Status'] != null
         ? OrderStatus.values.firstWhere(
@@ -142,7 +144,7 @@ factory ClientSelectionAttributesModel.fromSnapshot(
     }
 
     return ClientSelectionAttributesModel(
-      id: data['Id']?.toString() ?? document.id,
+      id:  document.id,
       userId: data['UserId']?.toString() ?? '',
 
       

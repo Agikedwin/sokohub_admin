@@ -5,26 +5,18 @@ import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/shimmers/shimmer.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/customer/customer_controller.dart';
-import 'package:sokohub_admin/features/persionalizations/controllers/user_controller.dart';
 import 'package:sokohub_admin/features/persionalizations/models/user_model.dart';
-import 'package:sokohub_admin/features/tailor_shop/controllers/selection/client_selection_order_controller.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
 class ClientSelection extends StatelessWidget {
-  const ClientSelection({super.key, this.user});
+  const ClientSelection({super.key, required this.user});
 
-  final UserModel? user;
+  final UserModel user;
 
   @override
   Widget build(BuildContext context) {
     final  clientController = Get.put(CustomerController());
-    final userController = CustomerController.instance;
-    print('-----------------------');
-    print(userController.selectedClient.value.toJson());
 
-
-
-    
     return TRoundedContainer(
       child: Column(
         children: [
@@ -41,9 +33,8 @@ class ClientSelection extends StatelessWidget {
             : TypeAheadField(
               builder: (context, ctr, FocusNode){
                 // Set default valies
-                if(userController.selectedClient.value.id != ''){
-                  print('---------------');
-                  ctr.text = userController.selectedClient.value.email; 
+                if(user.id != '' || user.email != '' || user.fullName != ''){
+                  ctr.text = user.email; 
                 }
                       
 

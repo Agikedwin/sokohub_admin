@@ -116,6 +116,7 @@ class MeasurementController extends TBaseController<MeasurementModel> {
 
      Map<MeasurementModel, TextEditingController> measurementControllers = {};
       measurementControllers[measurent] = TextEditingController(text: measurent.value.toString());
+      
       valueControllersList.add(measurementControllers);
 
       }
@@ -123,6 +124,29 @@ class MeasurementController extends TBaseController<MeasurementModel> {
     
 
      selectedMeasurement.assignAll(selectedMeasurements);
+     //textFieldList.value = data;
+     //textFieldList.refresh();
+  }
+
+  Future<void> getEditEnteredValues(List<MeasurementModel> entries) async {
+   alreadySelectedMeasurement.value;
+
+     valueControllersList.clear();
+
+    // Create Textfields
+      for(var measurement in entries){
+
+     Map<MeasurementModel, TextEditingController> measurementControllers = {};
+      measurementControllers[measurement] = TextEditingController(text: measurement.value.toString());
+      valueControllersList.add(measurementControllers);
+
+      }
+      // populate textfields with values
+
+
+    
+
+     selectedMeasurement.assignAll(entries);
      //textFieldList.value = data;
      //textFieldList.refresh();
   }

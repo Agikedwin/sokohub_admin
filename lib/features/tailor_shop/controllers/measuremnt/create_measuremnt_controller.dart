@@ -2,15 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/features/media/controllers/media_controller.dart';
 import 'package:sokohub_admin/features/media/models/image_model.dart';
-import 'package:sokohub_admin/features/online_shop/models/category_model.dart';
-import 'package:sokohub_admin/features/tailor_shop/controllers/garment/garment_controller.dart';
-import 'package:sokohub_admin/features/tailor_shop/controllers/material/material_controller.dart';
+
 import 'package:sokohub_admin/features/tailor_shop/controllers/measuremnt/measurement_controller.dart';
-import 'package:sokohub_admin/features/tailor_shop/model/garment_model.dart';
-import 'package:sokohub_admin/features/tailor_shop/model/material_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/measurement_model.dart';
-import 'package:sokohub_admin/features/tailor_shop/repository/garment/garment_repository.dart';
-import 'package:sokohub_admin/features/tailor_shop/repository/material/material_repository.dart';
 import 'package:sokohub_admin/features/tailor_shop/repository/measurement/measurement_repository.dart';
 import 'package:sokohub_admin/utils/helpers/network_manager.dart';
 import 'package:sokohub_admin/utils/popups/full_screen_loader.dart';

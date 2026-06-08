@@ -8,21 +8,21 @@ import 'package:sokohub_admin/features/tailor_shop/controllers/accessory/accesso
 import 'package:sokohub_admin/features/tailor_shop/controllers/garment/garment_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/material/material_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/measuremnt/measurement_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/selection/garment_selection_controller.dart';
 
-import 'package:sokohub_admin/features/tailor_shop/model/accessory_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/client_selection_attributes_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/garment_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/material_model.dart';
 
-import 'package:sokohub_admin/features/tailor_shop/model/measurement_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/repository/selection/client_selection_order_repository.dart';
+import 'package:sokohub_admin/utils/constants/enums.dart';
 
 import 'package:sokohub_admin/utils/helpers/network_manager.dart';
 import 'package:sokohub_admin/utils/popups/full_screen_loader.dart';
 import 'package:sokohub_admin/utils/popups/loaders.dart';
 
-class ClientSelectionOrderController extends GetxController {
-  static ClientSelectionOrderController get instance => Get.find();
+class EditClientSelectionOrderController extends GetxController {
+  static EditClientSelectionOrderController get instance => Get.find();
 
   final clientSelectionOrderRepository =
       Get.put(ClientSelectionOrderRepository());
@@ -46,17 +46,22 @@ class ClientSelectionOrderController extends GetxController {
   // Register new category
 
   void init(ClientSelectionAttributesModel selected){
-    print('--------------------2');
-    print(selected.client!.toJson());
+    
     CustomerController.instance.selectedClient.value = selected.client!;
-    final garment = GarmentController.instance.selectedGarment.value;
-    final material = MaterialController.instance.selectedMaterial.value;
-    final measurements = MeasurementController.instance;
-    final accessory = AccessoryController.instance;
-    final order = OrderController.instance;
+
+    // init measurements and accessories
+    MeasurementController.instance.getEditEnteredValues(selected.measurements);
+    AccessoryController.instance.getEditEnteredValues(selected.accessories);
+
+    // Set fetched items from collection
+    CustomerController.instance.selectedClient.value = selected.client!;
+    GarmentController.instance.selectedGarment.value = selected.garment;
+    MaterialController.instance.selectedMaterial.value = selected.material;
+
+    
   }
 
-  Future<void> createClientSelectionOrder() async {
+  Future<void> editClientSelectionOrder(ClientSelectionAttributesModel model) async {
     try {
       // Start loading
       TFullScreenLoader.popUpCircular();
@@ -73,11 +78,10 @@ class ClientSelectionOrderController extends GetxController {
 
       //selectionModel.client = CustomerController.instance.selectedClient;
 
-      //ClientSelectionAttributesModel clientOrder = modelData();
-      modelData();
+      ClientSelectionAttributesModel clientOrder = modelData(model.id);
 
-      /* await clientSelectionOrderRepository
-          .createClientSelectionOrder(clientOrder); */
+       await clientSelectionOrderRepository
+          .updateClientSelectionOrder(clientOrder); 
 
       resetFields();
 
@@ -87,14 +91,19 @@ class ClientSelectionOrderController extends GetxController {
       // Success message
       TLoaders.successSnackBar(
           title: 'Congratulations', message: 'New record successfully added');
+
+      GarmentSelectionController.instance.addItemTolist(clientOrder);
+      
+      Get.back();
     } catch (e, trace) {
+      print(trace);
       TFullScreenLoader.stopLoading();
       TLoaders.errorSnackBar(
           title: 'Oh Snap', message: 'Something went wrong: $e');
     }
   }
 
-  ClientSelectionAttributesModel modelData() {
+  ClientSelectionAttributesModel modelData(String selectionId) {
     // instances
     final user = CustomerController.instance.selectedClient.value;
     final garment = GarmentController.instance.selectedGarment.value;
@@ -112,11 +121,13 @@ class ClientSelectionOrderController extends GetxController {
 
     // client Model
     ClientSelectionAttributesModel model = ClientSelectionAttributesModel(
-        id: '',
+        id: selectionId,
         userId: order.selectedOrder.value.userId,
         client: UserModel(
             id: user.id,
             email: user.email,
+            lastName: user.firstName,
+            phoneNumber: user.phoneNumber,
             isEmailVerified: user.isEmailVerified,
             isProfileActive: user.isProfileActive),
         tailorsAssigned: [],
@@ -136,7 +147,9 @@ class ClientSelectionOrderController extends GetxController {
         orderDate: DateTime.now(),
         paymentMethod: '',
         orderId: order.selectedOrder.value.orderId ?? '',
-        description: description.text.trim().toString());
+        description: description.text.trim().toString(),
+        status: OrderStatus.processing
+        );
 
     return model;
   }

@@ -75,6 +75,8 @@ class ClientSelectionOrderRepository  extends GetxController{
   /// Fuction to update user data in Firestore
 
   Future<ClientSelectionAttributesModel> updateClientSelectionOrder(ClientSelectionAttributesModel clientOrder) async {
+    print('Editing  selection ');
+    print(clientOrder.toJson());
     try {
       await _db
           .collection('ClientSelectionOrder')
@@ -84,7 +86,8 @@ class ClientSelectionOrderRepository  extends GetxController{
       throw TFirebaseException(e.code).message;    
     } on PlatformException catch (e) {
       throw TFormatException(e.code).message;
-    } catch (e) {
+    } catch (e, trace) {
+      print(trace);
       throw 'Some thing went wrong, Please try again';
     }
     return ClientSelectionAttributesModel.empty();
@@ -99,7 +102,8 @@ class ClientSelectionOrderRepository  extends GetxController{
       throw TFirebaseException(e.code).message;    
     } on PlatformException catch (e) {
       throw TFormatException(e.code).message;
-    } catch (e) {
+    } catch (e, trace) {
+      print(trace);
       throw 'Some thing went wrong, Please try again';
     }
   }

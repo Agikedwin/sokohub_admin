@@ -140,6 +140,26 @@ class AccessoryController extends TBaseController<AccessoryModel>{
      //textFieldList.refresh();
   }
 
+  Future<void> getEditEnteredValues(List<AccessoryModel>  accessories) async {
+    
+
+     valueControllersList.clear();
+
+      for(var accessory in accessories){
+
+     Map<AccessoryModel, TextEditingController> accessoryControllers = {};
+      accessoryControllers[accessory] = TextEditingController(text: accessory.quantity.toString());
+      valueControllersList.add(accessoryControllers);
+
+      }
+
+    
+
+     selectedAccessory.assignAll(accessories);
+     //textFieldList.value = data;
+     //textFieldList.refresh();
+  }
+
     Future<List<AccessoryModel>> loadSelectedAccessories(String garmentId) async{
     accessoryLoading.value = true;
 

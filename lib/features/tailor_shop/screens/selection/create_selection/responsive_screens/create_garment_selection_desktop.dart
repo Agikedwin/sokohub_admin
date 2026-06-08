@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:sokohub_admin/features/online_shop/models/cart_item_model.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/client_selection.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/garment_accessories_widget.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/garment_measurents_widget.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/create_selection/widgets/client_selection.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/create_selection/widgets/garment_accessories_widget.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/create_selection/widgets/garment_measurents_widget.dart';
 
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/garment_order_details.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/garment_selection_widget.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/material_selection_widget.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/save_selection_button_widget.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/widgets/selection_note_widget.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/create_selection/widgets/garment_order_details.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/create_selection/widgets/garment_selection_widget.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/create_selection/widgets/material_selection_widget.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/create_selection/widgets/save_selection_button_widget.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/selection/create_selection/widgets/selection_note_widget.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
 class CreateGarmentSelectionDesktopScreen  extends StatelessWidget {

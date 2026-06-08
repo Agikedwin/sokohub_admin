@@ -7,13 +7,12 @@ import 'package:sokohub_admin/features/tailor_shop/screens/selection/create_sele
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/create_selection/responsive_screens/create_garment_selection_mobile.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/create_selection/responsive_screens/create_garment_selection_tablet.dart';
 
-class ClientGarmentSelectionScreen extends StatelessWidget {
-  const ClientGarmentSelectionScreen({super.key});
+class CreateClientGarmentSelectionScreen extends StatelessWidget {
+  const CreateClientGarmentSelectionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final order =  CartItemModel.empty(); // Get.arguments; //;
-    final controller = Get.put(OrderController());
+    final order =   Get.arguments; 
     
     return ITSiteLayoutTemplate(desktop: CreateGarmentSelectionDesktopScreen(order: order), tablet: CreateGarmentSelectionTabletScreen(order: order), 
     mobile: CreateGarmentSelectionMobileScreen(order: order));

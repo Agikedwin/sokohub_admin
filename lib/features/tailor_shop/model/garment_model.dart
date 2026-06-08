@@ -40,6 +40,7 @@ class GarmentModel {
   /// Convert model to JSON structure (for Firebase storage)
   Map<String, dynamic> toJson() {
     return {
+      'Id': id,
       'Name': name,
       'Image': image,
       'Wage':wage,
@@ -50,6 +51,7 @@ class GarmentModel {
     };
   }
 factory GarmentModel.fromJson(Map<String, dynamic> json) {
+  
   return GarmentModel(
     id: json['Id'] ?? '',
     name: json['Name'] ?? '',

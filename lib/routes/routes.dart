@@ -70,9 +70,6 @@ class ITRoutes {
   // garment info
   static const garmentInfo = '/garmentInfo';
 
-  // Selection
-  static const garmentSelection = '/garmentSelection';
-
   
 
   // createGarmentSelection
@@ -81,7 +78,12 @@ class ITRoutes {
   static const createGarmentSelection = '/createGarmentSelection';
   static const editGarmentSelection = '/editGarmentSelection'; 
 
+   // clientGarment info
+  static const clientGarment = '/clientGarment';
+
   static List siderbarMenuItems = [
-    dashboard, media, categories, brands, banners, customers, orders, ordersDetail, material, garment, measurement, accessory, garmentSelection,clientSelection, editGarmentSelection
+    dashboard, media, categories, brands, banners, customers, orders, ordersDetail,
+     material, garment, measurement, accessory, createGarmentSelection,clientSelection, 
+      createGarmentSelection, editGarmentSelection, clientGarment
   ];
 }

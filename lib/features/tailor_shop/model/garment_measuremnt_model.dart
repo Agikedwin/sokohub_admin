@@ -32,6 +32,7 @@ class GarmentMeasurementModel {
   /// Convert model to JSON
   Map<String, dynamic> toJson() {
     return {
+       'Id': id,
       'GarmentId': garmentId,
       'MeasurementId': measurementId,
       'CreatedAt': createdAt ?? DateTime.now(),

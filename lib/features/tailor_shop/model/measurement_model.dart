@@ -34,6 +34,7 @@ class MeasurementModel {
   /// Convert model to JSON structure (for Firebase storage)
   Map<String, dynamic> toJson() {
     return {
+       'Id': id,
       'Name': name,
       'Image': image,
       'Value': value,
