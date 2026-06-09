@@ -16,8 +16,7 @@ class ClientSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final  clientController = Get.put(CustomerController());
-    
+    final  clientController = CustomerController.instance; 
 
 
 

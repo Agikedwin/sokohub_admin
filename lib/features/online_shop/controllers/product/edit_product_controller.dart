@@ -108,7 +108,7 @@ class EditProductController extends GetxController {
     }
   }
 
-  Future<List<CategoryModel>> loadSelectedCategories(String productId) async{
+  Future<List<CategoryModel>> loadSelectedCategories(String productId) async{ 
     selectedCategoriesLoader.value = true;
 
     // Product categories

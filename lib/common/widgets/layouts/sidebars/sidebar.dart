@@ -71,17 +71,18 @@ class ITSidebar extends StatelessWidget {
                     const ITMenuItemes(route: ITRoutes.brands, icon: Iconsax.dcube, itemName: 'Brands',),
                     const ITMenuItemes(route: ITRoutes.banners, icon: Iconsax.picture_frame, itemName: 'Banners',),
                     const ITMenuItemes(route: ITRoutes.products, icon: Iconsax.shopping_bag, itemName: 'Prouducts',),
-                     const ITMenuItemes(route: ITRoutes.customers, icon: Iconsax.profile_2user, itemName: 'Customers',),
-                      const ITMenuItemes(route: ITRoutes.orders, icon: Iconsax.box, itemName: 'Orders',),
+                    const ITMenuItemes(route: ITRoutes.customers, icon: Iconsax.profile_2user, itemName: 'Customers',),
+                    const ITMenuItemes(route: ITRoutes.orders, icon: Iconsax.box, itemName: 'Orders',),
 
 
                       // ITailor
                    Text('TAILOR', style: Theme.of(context).textTheme.bodySmall!.apply(letterSpacingDelta: 1.2),),
                    const ITMenuItemes(route: ITRoutes.material, icon: Iconsax.magicpen, itemName: 'Material',),
-                    const ITMenuItemes(route: ITRoutes.garment, icon: Iconsax.gallery_add, itemName: 'Garment',),
-                    const ITMenuItemes(route: ITRoutes.measurement, icon: Iconsax.rulerpen, itemName: 'Measurement',),
+                   const ITMenuItemes(route: ITRoutes.garment, icon: Iconsax.gallery_add, itemName: 'Garment',),
+                   const ITMenuItemes(route: ITRoutes.measurement, icon: Iconsax.rulerpen, itemName: 'Measurement',),
                     const ITMenuItemes(route: ITRoutes.accessory, icon: Iconsax.archive_book, itemName: 'Accessory',),
-                     const ITMenuItemes(route: ITRoutes.clientSelection, icon: Iconsax.user_octagon1, itemName: 'Tasks',), 
+                    const ITMenuItemes(route: ITRoutes.clientSelection, icon: Iconsax.user_octagon1, itemName: 'Selection',), 
+                    const ITMenuItemes(route: ITRoutes.task, icon: Iconsax.task, itemName: 'Tasks',), 
 
                       // OTHER Menu ITEMS
                    Text('ACTIONS', style: Theme.of(context).textTheme.bodySmall!.apply(letterSpacingDelta: 1.2),),

@@ -71,7 +71,7 @@ String get formattedDate => TFormatter.formatDate(orderDate);
       'Id': id,
       'UserId': userId,
       'Status': status?.name,
-      //'Client': client?.toJson(),
+      'Client': client?.toJson(),
       'Description': description,
       /* 'TailorsAssigned':
           tailorsAssigned.map((tailor) => tailor.toJson()).toList(), */
@@ -104,7 +104,9 @@ factory ClientSelectionAttributesModel.fromJson(
             orElse: () => OrderStatus.processing,
           )
         : OrderStatus.processing,
-    
+    client: json['Client'] != null
+        ? UserModel.fromJson(json['id'],json['Client'])
+        : UserModel.empty(),
     
     garment: json['Garment'] != null
         ? GarmentModel.fromJson(json['Garment'])

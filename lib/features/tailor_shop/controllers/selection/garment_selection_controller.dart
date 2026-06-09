@@ -5,9 +5,6 @@ import 'package:sokohub_admin/features/tailor_shop/model/client_selection_attrib
 
 
 import 'package:sokohub_admin/features/tailor_shop/repository/selection/garment_selection_repository.dart';
-import 'package:sokohub_admin/utils/helpers/network_manager.dart';
-import 'package:sokohub_admin/utils/popups/full_screen_loader.dart';
-import 'package:sokohub_admin/utils/popups/loaders.dart';
 
 
 
@@ -22,7 +19,6 @@ class GarmentSelectionController extends TBaseController<ClientSelectionAttribut
 
   Rx<ClientSelectionAttributesModel> selectedGarmentSelection = ClientSelectionAttributesModel.empty().obs;
 
-  Rx<ClientSelectionAttributesModel> clientGarmentSelection = ClientSelectionAttributesModel.empty().obs;
 
 
   @override
@@ -47,47 +43,6 @@ class GarmentSelectionController extends TBaseController<ClientSelectionAttribut
     sortByProperty(sortColumnIndex, ascending, (ClientSelectionAttributesModel garmentSelection) => garmentSelection.client!.fullName.toLowerCase());
   }
 
-  Future<void> getClientDelectionOrdersById(String clientSelectionId) async{
-
-    try {
-      // Start loading
-      isLoading.value = true;
-     // TFullScreenLoader.popUpCircular() ;
-
-      //Check Internet
-      final isConnected = await NetworkManager.instance.isConnected();
-      if (!isConnected) {
-        TFullScreenLoader.stopLoading();
-        TLoaders.warningSnackBar(title: 'Check your internet connection');
-        return;
-      }
-
-      
-
-      final result = await garmentSelectionRepository
-          .getAllGarmentSelectionsById(clientSelectionId); 
-
-
-          clientGarmentSelection.value = result;
-
-          isLoading.value = false;
-
-
-        //  TFullScreenLoader.stopLoading();
-           
-
-      
-    } catch (e, trace) {
-      print(trace);
-       isLoading.value = false;
-      TFullScreenLoader.stopLoading();
-
-      TLoaders.errorSnackBar(
-          title: 'Oh Snap', message: 'Something went wrong: $e');
-    }
-
-  }
   
-
 
 }

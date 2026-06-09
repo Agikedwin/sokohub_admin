@@ -26,9 +26,8 @@ class OrderItems extends StatelessWidget {
 
 
   @override
-  Widget build(BuildContext context) {
-    //final userController = CustomerController.instance;
-    //final employeeController = Get.put(EmployeeOrderController());  
+  Widget build(BuildContext context) { 
+    
         
     final subTotal = order.items!.fold(0.0, (previousvalue, element) => previousvalue + (element.price * element.quantity));
     return   TRoundedContainer(

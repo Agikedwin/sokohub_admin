@@ -94,7 +94,20 @@ class CreateClientSelectionOrderController extends GetxController {
     final measurements = MeasurementController.instance;
     final accessory = AccessoryController.instance;
     final order = OrderController.instance;
-    // final cartItem = OrderController.instance.order
+    
+    // Validate the fieds
+    if(user.id == ''){
+      throw 'Please select a client';
+
+    }
+    if(garment.id == ''){
+      throw 'Please select a garment';
+
+    }
+    if(material.id == ''){
+      throw 'Please select a material';
+
+    }
 
     // Set measurements
     measurements.getClientMeasurements();

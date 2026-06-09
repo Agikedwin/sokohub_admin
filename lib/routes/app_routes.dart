@@ -41,9 +41,10 @@ import 'package:sokohub_admin/features/tailor_shop/screens/measurement/all_measu
 import 'package:sokohub_admin/features/tailor_shop/screens/measurement/create_measurements/create_measurements.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/measurement/edit_measurements/edit_measurements.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/all_selections/garment_selection.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/selection/all_selections/responsive_screens/garment_selection_desktop.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/create_selection/client_garment_selection.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/edit_selection/edit_garment_selection.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/tasks/all_tasks/tasks.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/tasks/create_task/create_task.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/routes/routes_middleware.dart';
 
@@ -126,8 +127,13 @@ class ITAppRoutes {
       
       GetPage(name: ITRoutes.editGarmentSelection, page: () => const EditClientGarmentSelectionScreen(), middlewares: [ITRoutesMiddleware()]),
 
-      //client Garment
+      //client Garment  
       GetPage(name: ITRoutes.clientGarment, page: () => const ClientGarmentOrderScreen(), middlewares: [ITRoutesMiddleware()]),
+
+      //TasksScreen
+      GetPage(name: ITRoutes.task, page: () => const TasksScreen(), middlewares: [ITRoutesMiddleware()]),
+      GetPage(name: ITRoutes.createTask, page: () => const CreateTasksScreen(), middlewares: [ITRoutesMiddleware()]),
+      GetPage(name: ITRoutes.editTask, page: () => const EditBrandScreen(), middlewares: [ITRoutesMiddleware()]),
 
   ];
 }

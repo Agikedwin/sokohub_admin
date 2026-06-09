@@ -4,26 +4,27 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
+import 'package:sokohub_admin/common/widgets/shimmers/shimmer.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/order/order_detail_controller.dart';
 import 'package:sokohub_admin/features/online_shop/models/order_model.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/selection/client_garment_order_controller.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
-class OrderCustomerInfo extends StatelessWidget {
-  const OrderCustomerInfo({
+class ClientInfo extends StatelessWidget {
+  const ClientInfo({
     super.key,
-    required this.order,
+    //required this.order,
   });
 
-  final OrderModel order;
+  //final OrderModel order;
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(OrderDetailController());
-    controller.order.value = order;
-    controller.getCustomerOfCurrentOrder();
+     final controller = ClientGarmentOrderController.instance;
+     final client = controller.clientGarmentSelection.value.client;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -33,7 +34,7 @@ class OrderCustomerInfo extends StatelessWidget {
             children: [
               // Personal information
               Text(
-                'Customer',
+                'Client',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
         
@@ -41,13 +42,15 @@ class OrderCustomerInfo extends StatelessWidget {
         
               Obx(
                 (){
-                  return Row(
+
+                  return controller.isLoading.value ? TShimmerEffect(width: double.infinity, height: 60)
+                   : Row(
                 children: [
                   TRoundedImage(
                     padding: 0,
                     backgroundColor: TColors.primaryBackground,
-                    image: controller.customer.value.profilePicture.isNotEmpty ? controller.customer.value.profilePicture : TImages.user,
-                    imageType: controller.customer.value.profilePicture.isNotEmpty  ? ImageType.network : ImageType.asset,
+                    image: client!.profilePicture.isNotEmpty ? client.profilePicture: TImages.user,
+                    imageType: client.profilePicture.isNotEmpty  ? ImageType.network : ImageType.asset,
                   ),
         
                   const SizedBox(width: TSizes.spaceBtwItems),
@@ -58,14 +61,14 @@ class OrderCustomerInfo extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          controller.customer.value.firstName,
+                          client.firstName,
                           style: Theme.of(context).textTheme.titleLarge,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
         
                          Text(
-                          controller.customer.value.email,
+                          client.email,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
@@ -84,8 +87,9 @@ class OrderCustomerInfo extends StatelessWidget {
 
               // Contact Info  
               
-              Obx(
-                () => SizedBox(
+              /* Obx(
+                () =>  controller.isLoading.value ? TShimmerEffect(width: double.infinity, height: 60) 
+                : SizedBox(
                   width: double.infinity,
                   child: TRoundedContainer(
                     padding: const EdgeInsets.all(TSizes.spaceBtwSections),
@@ -93,24 +97,24 @@ class OrderCustomerInfo extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                        'Contact Info',
+                        'Tasks',
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                         Text(
-                         controller.customer.value.fullName,
+                         client!.fullName,
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
 
                         const SizedBox(height: TSizes.spaceBtwItems / 2),                        
                         Text(
-                          controller.customer.value.email,
+                          client.email,
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                         
                         const SizedBox(height: TSizes.spaceBtwSections / 2),
                                                 
                         Text(
-                           controller.customer.value.formattedPhoneNo.isNotEmpty ? controller.customer.value.formattedPhoneNo : '(+254 **** ***)',
+                           client.formattedPhoneNo.isNotEmpty ? client.formattedPhoneNo : '(+254 **** ***)',
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                       ],
@@ -121,38 +125,7 @@ class OrderCustomerInfo extends StatelessWidget {
                const SizedBox(height: TSizes.spaceBtwSections / 2),
         
               // contact info
-              SizedBox(
-                width: double.infinity,
-                child: TRoundedContainer(
-                  padding: const EdgeInsets.all(TSizes.spaceBtwSections),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Shipping address',
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-        
-        
-                      Text(
-                        order.shippingAddress != null ? order.shippingAddress!.name : 'Some Address',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-        
-                      const SizedBox(height: TSizes.spaceBtwItems / 2),
-        
-                      Text(
-                        order.shippingAddress != null ? order.shippingAddress!.toString() : '',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-        
-        
-                      
-                    ],
-                  ),
-                ),
-              ),
-               const SizedBox(height: TSizes.spaceBtwSections / 2),
+              
         
                SizedBox(
                 width: double.infinity,
@@ -162,7 +135,7 @@ class OrderCustomerInfo extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Billing address',
+                        'Fundis Assigned',
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
         
@@ -185,7 +158,7 @@ class OrderCustomerInfo extends StatelessWidget {
                   ),
                 ),
               ),
-                const SizedBox(height: TSizes.spaceBtwSections),
+                const SizedBox(height: TSizes.spaceBtwSections), */
         
         
         

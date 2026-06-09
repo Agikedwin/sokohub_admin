@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/garment_orders/widgets/client_garment_accessories.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/garment_orders/widgets/client_garment_measurements.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/garment_orders/widgets/client_info.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/garment_orders/widgets/employee_garment_assignment.dart';
 
-import 'package:sokohub_admin/features/tailor_shop/model/client_selection_attributes_model.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/garment_orders/widgets/garment__info.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/garment_orders/widgets/garment_info.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 
 import 'package:sokohub_admin/utils/constants/sizes.dart';
+
 
 class ClientGarmentOrderDesktop extends StatelessWidget {
   const ClientGarmentOrderDesktop({
@@ -45,17 +49,18 @@ class ClientGarmentOrderDesktop extends StatelessWidget {
                     child: Column(
                       children: [
                         // Order Info
-                        OrderInfo(),
+                        GarmentInfo(),
                         SizedBox(
                           height: TSizes.spaceBtwItems,
                         ),
 
                         // Items
-                       // OrderItems(clientOrder: clientOrder),
+                        ClientGarmentMeasurements(),
 
                         SizedBox(
                           height: TSizes.spaceBtwItems,
                         ),
+                        ClientGarmentAccessories(),
                         // Transactins
                        // OrderTransactions(clientOrder: clientOrder)
                       ],
@@ -70,7 +75,11 @@ class ClientGarmentOrderDesktop extends StatelessWidget {
                       child: Column(
                     children: [
                       // Customer Info
-                      //OrderCustomerInfo(clientOrder: clientOrder),
+                      ClientInfo(),
+                      SizedBox(
+                        width: TSizes.spaceBtwItems,
+                      ),
+                      EmployeeGarmentAssignment(),
                       SizedBox(
                         width: TSizes.spaceBtwItems,
                       ),
