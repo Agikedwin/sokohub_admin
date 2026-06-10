@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/garment_orders/widgets/client_garment_accessories.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/garment_orders/widgets/client_garment_measurements.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/garment_orders/widgets/client_garment_tast.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/garment_orders/widgets/client_info.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/garment_orders/widgets/employee_garment_assignment.dart';
 
@@ -80,9 +81,12 @@ class ClientGarmentOrderDesktop extends StatelessWidget {
                         width: TSizes.spaceBtwItems,
                       ),
                       EmployeeGarmentAssignment(),
+
                       SizedBox(
-                        width: TSizes.spaceBtwItems,
+                        height: TSizes.spaceBtwItems,
                       ),
+                      // Garment Tasks
+                      ClientGarmentTast(),
                     ],
                   ))
                 ],

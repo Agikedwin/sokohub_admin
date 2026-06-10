@@ -41,7 +41,6 @@ class GarmentSelectionRepository extends GetxController {
 
   Future<ClientSelectionAttributesModel> getAllGarmentSelectionsById(
       String clientSectionId) async {
-    print('called here  ====================================================================== $clientSectionId');
 
     try {
       final snapshot = await _db

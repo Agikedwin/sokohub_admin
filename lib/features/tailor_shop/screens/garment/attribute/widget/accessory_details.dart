@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
-import 'package:sokohub_admin/features/tailor_shop/screens/garment/attribute/tables/accessory/accessory_table.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/garment/attribute/tables/task/accessory_table.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/garment/attribute/widget/accessory_widget_popup.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';

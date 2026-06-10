@@ -8,6 +8,7 @@ import 'package:sokohub_admin/common/widgets/shimmers/shimmer.dart';
 import 'package:sokohub_admin/features/online_shop/controllers/order/order_detail_controller.dart';
 import 'package:sokohub_admin/features/online_shop/models/order_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/selection/client_garment_order_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/task/task_controller.dart';
 import 'package:sokohub_admin/utils/constants/colors.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/constants/image_strings.dart';
@@ -25,6 +26,7 @@ class ClientInfo extends StatelessWidget {
   Widget build(BuildContext context) {
      final controller = ClientGarmentOrderController.instance;
      final client = controller.clientGarmentSelection.value.client;
+     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

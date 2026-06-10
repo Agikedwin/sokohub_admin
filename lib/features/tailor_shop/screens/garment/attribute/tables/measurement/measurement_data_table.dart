@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/common/widgets/images/t_circular_image.dart';
-import 'package:sokohub_admin/common/widgets/loaders/loader_animation.dart';
 import 'package:sokohub_admin/common/widgets/shimmers/shimmer.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/measuremnt/measurement_controller.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
-import 'package:sokohub_admin/utils/popups/full_screen_loader.dart';
-import 'package:sokohub_admin/utils/popups/loaders.dart';
 
 
 class MeasurementAttributeTable extends StatelessWidget {
@@ -18,7 +15,7 @@ class MeasurementAttributeTable extends StatelessWidget {
     return Obx(
       (){
 
-        return controller.alreadySelectedMeasurement.isEmpty ?Center(child: Column(children: [TShimmerEffect(width: 40, height: 40) ],),):
+        return controller.alreadySelectedMeasurement.isEmpty ?Center(child: Column(children: [TShimmerEffect(width: double.infinity, height: 40) ],),):
         SizedBox(
           width: double.infinity,
           child:

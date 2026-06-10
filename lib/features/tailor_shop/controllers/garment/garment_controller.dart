@@ -15,6 +15,7 @@ class GarmentController extends TBaseController<GarmentModel>{
   final materialRepository = Get.put(GarmentRepository());
 
     Rx<GarmentModel> selectedGarment = GarmentModel.empty().obs;
+    RxList<GarmentModel> currentGarmentSelected = <GarmentModel>[].obs;
 
     TextEditingController garmentTextField = TextEditingController();
 

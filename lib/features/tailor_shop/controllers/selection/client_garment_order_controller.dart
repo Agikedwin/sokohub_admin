@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/garment/garment_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/client_selection_attributes_model.dart';
 
 
@@ -16,6 +17,7 @@ class ClientGarmentOrderController extends GetxController{
 
 
   final garmentSelectionRepository = Get.put(GarmentSelectionRepository());
+  final  garmentController = GarmentController.instance;
 
   RxBool isLoading = false.obs;
 
@@ -27,12 +29,12 @@ class ClientGarmentOrderController extends GetxController{
 @override
   void onInit() {
     final clientGarmentId = Get.parameters['clientGarmentId'];
-    getClientDelectionOrdersById(clientGarmentId!);
+    getClientSelectionOrdersById(clientGarmentId!);
     super.onInit();
   }
 
 
-  Future<void> getClientDelectionOrdersById(String clientSelectionId) async{
+  Future<void> getClientSelectionOrdersById(String clientSelectionId) async{
 
     try {
       // Start loading
@@ -54,9 +56,13 @@ class ClientGarmentOrderController extends GetxController{
 
 
           clientGarmentSelection.value = result;
+         
+          // Set the selection garment
+          garmentController.currentGarmentSelected.clear();
+          garmentController.currentGarmentSelected.add(result.garment);
 
           isLoading.value = false;
-          clientGarmentSelection.refresh();
+          //clientGarmentSelection.refresh();
 
 
         //  TFullScreenLoader.stopLoading();

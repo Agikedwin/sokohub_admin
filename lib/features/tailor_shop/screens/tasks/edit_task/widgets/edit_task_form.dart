@@ -3,18 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
-import 'package:sokohub_admin/common/widgets/images/image_uploader.dart';
-import 'package:sokohub_admin/common/widgets/shimmers/shimmer.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/task/edit_task_controller.dart';
-import 'package:sokohub_admin/features/tailor_shop/controllers/task/task_controller.dart';
 
-import 'package:sokohub_admin/features/tailor_shop/controllers/material/edit_material_controller.dart';
-import 'package:sokohub_admin/features/tailor_shop/controllers/material/material_controller.dart';
+
+
 import 'package:sokohub_admin/features/tailor_shop/model/task_model.dart';
-import 'package:sokohub_admin/features/tailor_shop/model/material_model.dart';
-import 'package:sokohub_admin/features/tailor_shop/model/task_model.dart';
-import 'package:sokohub_admin/utils/constants/enums.dart';
-import 'package:sokohub_admin/utils/constants/image_strings.dart';
+
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 import 'package:sokohub_admin/utils/validators/validation.dart';
 
@@ -67,7 +61,7 @@ class EditTasksForm extends StatelessWidget {
 
 
              TextFormField(
-              controller: editController.cost,
+              controller: editController.duration,
               validator: (value) => TValidator.validateEmptyText('Task Duration', value),
               decoration: const InputDecoration(labelText: 'Task Duration in hrs', prefixIcon: Icon(Iconsax.money)),
                keyboardType: const TextInputType.numberWithOptions(

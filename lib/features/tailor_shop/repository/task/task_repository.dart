@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:sokohub_admin/features/tailor_shop/model/garment_tasks_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/task_model.dart';
 import 'package:sokohub_admin/utils/exceptions/firebase_exceptions.dart';
 import 'package:sokohub_admin/utils/exceptions/format_exceptions.dart';
@@ -90,14 +91,12 @@ class TasksRepository extends GetxController  {
   /// Fuction to update user data in Firestore
 
   Future<TaskModel> updateTask(
-      TaskModel clientOrder) async {
-    print('Editing  selection ');
-    print(clientOrder.toJson());
+      TaskModel task) async {
     try {
       await _db
           .collection('Task')
-          .doc(clientOrder.id)
-          .update(clientOrder.toJson());
+          .doc(task.id)
+          .update(task.toJson());
     } on TFirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
     } on PlatformException catch (e) {
@@ -118,6 +117,71 @@ class TasksRepository extends GetxController  {
           .collection('Task')
           .where('EmployeeId', isEqualTo: employeeId)
           .where('ClientItemId', isEqualTo: clientItemId)
+          .get();
+
+      for (final doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
+    } on TFirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw TFormatException(e.code).message;
+    } catch (e, trace) {
+      print(trace);
+      throw 'Something went wrong. Please try again.';
+    }
+  }
+
+  // Garment Tasks
+
+
+  Future<String> createGarmentTask(GarmentTasksModel garmentTask) async {
+    try {
+      final data =
+          await _db.collection('GarmentTasks').add(garmentTask.toJson());
+      return data.id;
+    } on TFirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw TFormatException(e.code).message;
+    } catch (e) {
+      throw 'Some thing went wrong, Please try again';
+    }
+  }
+
+  Future<List<GarmentTasksModel>> getGarmentTasksById(
+      String garmentId) async {
+    try {
+      final snapshot = await _db
+          .collection('GarmentTasks')
+          .where('GarmentId', isEqualTo: garmentId)
+          .get();
+
+      final result = snapshot.docs
+          .map((doc) => GarmentTasksModel.fromSnapshot(doc))
+          .toList();
+
+      return result;
+    } on TFirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw TFormatException(e.code).message;
+    } catch (e, trace) {
+      print(e);
+      throw 'Some thing went wrong, Please try again';
+    }
+  }
+
+
+  Future<void> deleteGarmentTask(
+    String taskId,
+    String garmentId,    
+  ) async {
+    try {
+      final querySnapshot = await _db
+          .collection('GarmentTasks')
+          .where('GarmentId', isEqualTo: garmentId)
+          .where('TaskId', isEqualTo: taskId)
           .get();
 
       for (final doc in querySnapshot.docs) {

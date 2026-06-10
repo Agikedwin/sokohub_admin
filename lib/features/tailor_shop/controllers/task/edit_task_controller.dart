@@ -25,6 +25,8 @@ class EditTaskController extends GetxController  {
   // Init Data
 void init(TaskModel task){
   name.text = task.name.trim();
+  cost.text = task.cost.toString().trim();
+  duration.text = task.duration.toString().trim();
   
 
 

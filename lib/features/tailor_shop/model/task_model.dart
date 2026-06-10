@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sokohub_admin/utils/formatters/formatter.dart';
 
 class TaskModel {
    String? id;
@@ -6,13 +7,15 @@ class TaskModel {
    double cost;
    double duration;
   DateTime? createdAt;
+  DateTime? updatedAt;
 
    TaskModel({
     this.id,
     required this.name,
     required this.cost,
     required this.duration,
-    this.createdAt
+    this.createdAt,
+    this.updatedAt
   });
 
   /// Empty model
@@ -22,9 +25,12 @@ class TaskModel {
       name: '',
       cost: 0.0,
       duration: 0.0,
-      createdAt:  DateTime.now()
+      createdAt:  null
     );
   }
+
+  String get formattedDate => TFormatter.formatDate(createdAt);
+   String get formattedUpdatedAtdate => TFormatter.formatDate(updatedAt);
 
   /// Convert model to JSON
   Map<String, dynamic> toJson() {
@@ -33,7 +39,8 @@ class TaskModel {
       'Name': name,
       'Cost': cost,
       'Duration': duration,
-      'createdAt': createdAt
+      'CreatedAt':  createdAt ?? DateTime.now(),
+      'UpdatedAt': updatedAt,
     };
   }
 
@@ -44,6 +51,12 @@ class TaskModel {
       name: json['Name'] as String? ?? '',
       cost: (json['Cost'] as num?)?.toDouble() ?? 0.0,
       duration: (json['Duration'] as num?)?.toDouble() ?? 0.0,
+      createdAt: json['CreatedAt'] != null
+        ? (json['CreatedAt'] as Timestamp).toDate()
+        : null,
+    updatedAt: json['UpdatedAt'] != null
+        ? (json['UpdatedAt'] as Timestamp).toDate()
+        : null,
     );
   }
 
@@ -58,10 +71,16 @@ class TaskModel {
     final data = document.data()!;
 
     return TaskModel(
-      id: data['Id'] as String? ?? document.id,
+      id:  document.id,
       name: data['Name'] as String? ?? '',
       cost: (data['Cost'] as num?)?.toDouble() ?? 0.0,
       duration: (data['Duration'] as num?)?.toDouble() ?? 0.0,
+      createdAt: data['CreatedAt'] != null
+        ? (data['CreatedAt'] as Timestamp).toDate()
+        : null,
+    updatedAt: data['UpdatedAt'] != null
+        ? (data['UpdatedAt'] as Timestamp).toDate()
+        : null,
     );
   }
 

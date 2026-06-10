@@ -11,6 +11,7 @@ import 'package:sokohub_admin/features/tailor_shop/controllers/selection/client_
 import 'package:sokohub_admin/features/tailor_shop/controllers/selection/create_client_selection_order_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/selection/edit_client_selection_order_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/selection/garment_selection_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/task/edit_task_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/task/employee_garment_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/task/task_controller.dart';
 import 'package:sokohub_admin/utils/helpers/network_manager.dart';
@@ -33,7 +34,8 @@ class GeneralBinding  extends Bindings{
     Get.lazyPut(() => GarmentSelectionController(),fenix: true); 
     Get.lazyPut(() => ClientGarmentOrderController(),fenix: true); 
     Get.lazyPut(() => EmployeeGarmentController(),fenix: true);
-    Get.lazyPut(() => TasksController(),fenix: true); 
+    Get.lazyPut(() => TasksController(),fenix: true);  
+    Get.lazyPut(() => EditTaskController(),fenix: true);
      
   }
   
