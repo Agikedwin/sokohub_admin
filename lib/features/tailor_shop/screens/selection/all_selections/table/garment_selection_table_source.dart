@@ -1,6 +1,7 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/icons/table_action_icon_buttons.dart';
 import 'package:sokohub_admin/common/widgets/images/t_rounded_image.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/selection/garment_selection_controller.dart';
@@ -60,6 +61,9 @@ class GarmentSelectionRows extends DataTableSource {
             onDeletePressed: () =>
                 controller.confirmAndDeleteItem(garmentSelection),
           )),
+          DataCell(TTableActionButtons(view: true, delete: false, edit: false,
+            onViewPressed: () => Get.toNamed(ITRoutes.garmentTasks, arguments: garmentSelection))),
+           
         ]);
   }
 

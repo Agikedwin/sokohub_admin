@@ -12,8 +12,7 @@ class GarmentInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = ClientGarmentOrderController.instance;
-   
+    final controller = ClientGarmentOrderController.instance;   
     
     return  TRoundedContainer(
       child: Column(
@@ -54,10 +53,6 @@ class GarmentInfo extends StatelessWidget {
                       ],
                     ),
                 ),
-                
-            
-             
-              
             
               Expanded(
               child: Column(

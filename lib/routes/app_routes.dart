@@ -46,6 +46,7 @@ import 'package:sokohub_admin/features/tailor_shop/screens/selection/edit_select
 import 'package:sokohub_admin/features/tailor_shop/screens/tasks/all_tasks/tasks.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/tasks/create_task/create_task.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/tasks/edit_task/edit_task.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/tasks_tracking/all_tasks_tracking/tasks_tracking.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/routes/routes_middleware.dart';
 
@@ -135,6 +136,10 @@ class ITAppRoutes {
       GetPage(name: ITRoutes.task, page: () => const TasksScreen(), middlewares: [ITRoutesMiddleware()]),
       GetPage(name: ITRoutes.createTask, page: () => const CreateTasksScreen(), middlewares: [ITRoutesMiddleware()]),
       GetPage(name: ITRoutes.editTask, page: () => const EditTasksScreen(), middlewares: [ITRoutesMiddleware()]),
+
+      // Tasks
+      GetPage(name: ITRoutes.garmentTasks, page: () => const TasksTrackingScreen(), middlewares: [ITRoutesMiddleware()]),
+
 
   ];
 }

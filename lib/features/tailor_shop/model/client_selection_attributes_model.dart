@@ -6,6 +6,8 @@ import 'package:sokohub_admin/features/tailor_shop/model/accessory_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/garment_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/material_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/measurement_model.dart';
+import 'package:sokohub_admin/features/tailor_shop/model/task_model.dart';
+import 'package:sokohub_admin/features/tailor_shop/model/task_tarcker_model.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
 import 'package:sokohub_admin/utils/formatters/formatter.dart';
 
@@ -20,6 +22,7 @@ class ClientSelectionAttributesModel {
   MaterialModel material;
   List<AccessoryModel> accessories;
   List<MeasurementModel> measurements;
+  List<TaskModel>? garmentTasks;
   DateTime? orderDate;
   String paymentMethod;
   DateTime? deliveryDate;
@@ -38,6 +41,7 @@ class ClientSelectionAttributesModel {
     required this.material,
     required this.accessories,
     required this.measurements,
+    this.garmentTasks,
      this.orderDate,
     required this.paymentMethod,
     this.deliveryDate,
@@ -59,6 +63,7 @@ String get formattedDate => TFormatter.formatDate(orderDate);
         material: MaterialModel.empty(),
         accessories: [],
         measurements: [],
+        garmentTasks: [],
         orderDate: DateTime.now(),
         paymentMethod: '',
         deliveryDate: null,
@@ -82,6 +87,7 @@ String get formattedDate => TFormatter.formatDate(orderDate);
           accessories.map((accessory) => accessory.toJson()).toList(),
       'Measurements':
           measurements.map((measurement) => measurement.toJson()).toList(),
+      'GarmentTasks': garmentTasks!.map((task) => task.toJson()).toList(),
       
       'PaymentMethod': paymentMethod,
       'DeliveryDate':
@@ -120,6 +126,11 @@ factory ClientSelectionAttributesModel.fromJson(
     accessories: (json['Accessories'] as List<dynamic>? ?? [])
         .map((e) => AccessoryModel.fromJson(e))
         .toList(),
+    garmentTasks: (json['GarmentTasks'] as List<dynamic>? ?? [])
+        .map((e) => TaskModel.fromJson(e))
+        .toList(),
+    
+    
     measurements: (json['Measurements'] as List<dynamic>? ?? [])
         .map((e) => MeasurementModel.fromJson(e))
         .toList(),
@@ -294,6 +305,34 @@ factory ClientSelectionAttributesModel.fromSnapshot(
             '[ClientSelectionAttributesModel] Measurements parsing error: $e',
           );
           return <MeasurementModel>[];
+        }
+      }(),
+      garmentTasks: () {
+        try {
+          final list = data['GarmentTasks'];
+
+          if (list is! List) {
+            debugPrint(
+              '[ClientSelectionAttributesModel] Tasks is not a List: $list',
+            );
+            return <TaskModel>[];
+          }
+
+          return list.map((e) {
+            try {
+              return TaskModel.fromJson(e);
+            } catch (e) {
+              debugPrint(
+                '[ClientSelectionAttributesModel] Tasks item error: $e | value: $e',
+              );
+              return TaskModel.empty();
+            }
+          }).toList();
+        } catch (e) {
+          debugPrint(
+            '[ClientSelectionAttributesModel] Tasks parsing error: $e',
+          );
+          return <TaskModel>[];
         }
       }(),
 

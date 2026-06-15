@@ -184,7 +184,7 @@ factory UserModel.fromJson(
   Map<String, dynamic> data,
 ) {
   return UserModel(
-    id: id,
+    id: id ,
 
     firstName: data['firstName'] ?? '',
     lastName: data['lastName'] ?? '',

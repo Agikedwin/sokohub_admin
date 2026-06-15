@@ -9,10 +9,13 @@ import 'package:sokohub_admin/features/tailor_shop/controllers/garment/garment_c
 import 'package:sokohub_admin/features/tailor_shop/controllers/material/material_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/measuremnt/measurement_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/selection/garment_selection_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/task/task_controller.dart';
 
 import 'package:sokohub_admin/features/tailor_shop/model/client_selection_attributes_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/garment_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/material_model.dart';
+import 'package:sokohub_admin/features/tailor_shop/model/task_model.dart';
+import 'package:sokohub_admin/features/tailor_shop/model/task_tarcker_model.dart';
 
 import 'package:sokohub_admin/features/tailor_shop/repository/selection/client_selection_order_repository.dart';
 import 'package:sokohub_admin/utils/constants/enums.dart';
@@ -60,7 +63,7 @@ class CreateClientSelectionOrderController extends GetxController {
 
       //selectionModel.client = CustomerController.instance.selectedClient;
 
-      ClientSelectionAttributesModel clientOrder = modelData();
+      ClientSelectionAttributesModel clientOrder = garmentSelectionAttributesData();
 
      final selectionId =   await clientSelectionOrderRepository
           .createClientSelectionOrder(clientOrder); 
@@ -86,7 +89,7 @@ class CreateClientSelectionOrderController extends GetxController {
     }
   }
 
-  ClientSelectionAttributesModel modelData() {
+  ClientSelectionAttributesModel garmentSelectionAttributesData() {
     // instances
     final user = CustomerController.instance.selectedClient.value;
     final garment = GarmentController.instance.selectedGarment.value;
@@ -94,6 +97,7 @@ class CreateClientSelectionOrderController extends GetxController {
     final measurements = MeasurementController.instance;
     final accessory = AccessoryController.instance;
     final order = OrderController.instance;
+    final garmentTasks = TasksController.instance;
     
     // Validate the fieds
     if(user.id == ''){
@@ -138,6 +142,7 @@ class CreateClientSelectionOrderController extends GetxController {
             name: material.name,
             unitCost: material.unitCost,
             image: material.image),
+        garmentTasks: garmentTasks.alreadySelectedGarmentTasks,
         accessories: accessory.clientAccessory,
         measurements: measurements.clientMeasurements,
         orderDate: DateTime.now(),

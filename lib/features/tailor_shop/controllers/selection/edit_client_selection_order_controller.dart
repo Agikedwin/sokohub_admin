@@ -8,7 +8,7 @@ import 'package:sokohub_admin/features/tailor_shop/controllers/accessory/accesso
 import 'package:sokohub_admin/features/tailor_shop/controllers/garment/garment_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/material/material_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/measuremnt/measurement_controller.dart';
-import 'package:sokohub_admin/features/tailor_shop/controllers/selection/garment_selection_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/task/task_controller.dart';
 
 import 'package:sokohub_admin/features/tailor_shop/model/client_selection_attributes_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/garment_model.dart';
@@ -58,6 +58,9 @@ class EditClientSelectionOrderController extends GetxController {
     GarmentController.instance.selectedGarment.value = selected.garment;
     MaterialController.instance.selectedMaterial.value = selected.material;
 
+    // Get already assigned assigned tasks to the garment
+    TasksController.instance.loadSelectedGarmentTasks(selected.garment.id); 
+
     
   }
 
@@ -78,7 +81,7 @@ class EditClientSelectionOrderController extends GetxController {
 
       //selectionModel.client = CustomerController.instance.selectedClient;
 
-      ClientSelectionAttributesModel clientOrder = modelData(model.id);
+      ClientSelectionAttributesModel clientOrder = garmentSelectionAttributesData(model.id);
 
        await clientSelectionOrderRepository
           .updateClientSelectionOrder(clientOrder); 
@@ -92,7 +95,7 @@ class EditClientSelectionOrderController extends GetxController {
       TLoaders.successSnackBar(
           title: 'Congratulations', message: 'New record successfully added');
 
-      GarmentSelectionController.instance.addItemTolist(clientOrder);
+     // GarmentSelectionController.instance.addItemTolist(clientOrder);
       
       Get.back();
     } catch (e, trace) {
@@ -103,7 +106,7 @@ class EditClientSelectionOrderController extends GetxController {
     }
   }
 
-  ClientSelectionAttributesModel modelData(String selectionId) {
+  ClientSelectionAttributesModel garmentSelectionAttributesData(String selectionId) {
     // instances
     final user = CustomerController.instance.selectedClient.value;
     final garment = GarmentController.instance.selectedGarment.value;
@@ -111,6 +114,7 @@ class EditClientSelectionOrderController extends GetxController {
     final measurements = MeasurementController.instance;
     final accessory = AccessoryController.instance;
     final order = OrderController.instance;
+    final garmentTasks = TasksController.instance.alreadySelectedGarmentTasks;
     // final cartItem = OrderController.instance.order
 
     // Set measurements
@@ -144,8 +148,10 @@ class EditClientSelectionOrderController extends GetxController {
             image: material.image),
         accessories: accessory.clientAccessory,
         measurements: measurements.clientMeasurements,
+        garmentTasks: garmentTasks,
         orderDate: DateTime.now(),
         paymentMethod: '',
+
         orderId: order.selectedOrder.value.orderId ?? '',
         description: description.text.trim().toString(),
         status: OrderStatus.processing

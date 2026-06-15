@@ -7,6 +7,7 @@ import 'package:sokohub_admin/common/widgets/shimmers/shimmer.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/accessory/accessory_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/garment/garment_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/measuremnt/measurement_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/task/task_controller.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
 
 class GarmentSelectionWidget extends StatelessWidget {
@@ -58,7 +59,16 @@ class GarmentSelectionWidget extends StatelessWidget {
 
                 // Get list of measuremnts
                 MeasurementController.instance.getEnteredValues(suggestion);
-                AccessoryController.instance.getEnteredValues(suggestion);
+                AccessoryController.instance.getEnteredValues(suggestion); 
+                 
+
+                // Get the assigned tasks
+                TasksController.instance.loadSelectedGarmentTasks(suggestion.id); 
+                
+
+
+
+
               }, 
               
               ) 

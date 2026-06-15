@@ -39,6 +39,7 @@ class GarmentSelectionTable extends StatelessWidget {
           DataColumn2(label: Text('OrderId')),
           DataColumn2(label: Text('Date')),
           DataColumn2(label: Text('Action'), fixedWidth: 100),
+          DataColumn2(label: Text('Tasks')),
         ],
         source: GarmentSelectionRows(),
       );

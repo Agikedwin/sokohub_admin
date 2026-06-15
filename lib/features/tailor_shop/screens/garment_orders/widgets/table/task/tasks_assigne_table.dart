@@ -33,7 +33,7 @@ class TasksAssigneTable extends StatelessWidget {
                  DataColumn(label: Text('Task')),
                  DataColumn(label: Text('Cost')),
                  DataColumn(label: Text('Duration')),
-                  DataColumn(label: Text('Action')),
+                DataColumn(label: Text('Action')),
               ],
               //final OrderStatus status = entry.key;
                //   final int count = entry.value;

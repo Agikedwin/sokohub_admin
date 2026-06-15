@@ -124,6 +124,15 @@ Future<void> loadAssignedEmployee() async {
       TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
     }
   }
+
+  // Toggle Category Selection
+void toggleSelection(UserModel employee){
+  if(selectedEmployees.contains(employee)){
+    selectedEmployees.remove(employee);
+  }else{
+    selectedEmployees.add(employee);
+  }
+}
   
   void showProgressDialog() {}
   

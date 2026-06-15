@@ -50,7 +50,10 @@ class ClientSelectionOrderRepository  extends GetxController{
       throw TFirebaseException(e.code).message;    
     } on PlatformException catch (e) {
       throw TFormatException(e.code).message;
-    } catch (e) {
+    } catch (e, trace) {
+      print(trace);
+      print(e);
+
       throw 'Some thing went wrong, Please try again';
     }
   }
@@ -73,26 +76,40 @@ class ClientSelectionOrderRepository  extends GetxController{
   
 
   /// Fuction to update user data in Firestore
+Future<ClientSelectionAttributesModel> updateClientSelectionOrder(
+  ClientSelectionAttributesModel clientOrder,
+) async {
+  print('Editing selection');
 
-  Future<ClientSelectionAttributesModel> updateClientSelectionOrder(ClientSelectionAttributesModel clientOrder) async {
-    print('Editing  selection ');
-    print(clientOrder.toJson());
-    try {
-      await _db
-          .collection('ClientSelectionOrder')
-          .doc(clientOrder.id)
-          .update(clientOrder.toJson());
-    } on TFirebaseException catch (e) {
-      throw TFirebaseException(e.code).message;    
-    } on PlatformException catch (e) {
-      throw TFormatException(e.code).message;
-    } catch (e, trace) {
-      print(trace);
-      throw 'Some thing went wrong, Please try again';
-    }
-    return ClientSelectionAttributesModel.empty();
+  final data = clientOrder.toJson();
+
+  print('--- FIRESTORE PAYLOAD START ---');
+  print(data);
+  print('--- FIRESTORE PAYLOAD END ---');
+
+  try {
+    await _db
+        .collection('ClientSelectionOrder')
+        .doc(clientOrder.id)
+        .update(data);
+  } on FirebaseException catch (e, stackTrace) {
+    print('🔥 FIREBASE ERROR: ${e.code}');
+    print('🔥 FIREBASE MESSAGE: ${e.message}');
+    print('🔥 STACK TRACE: $stackTrace');
+    rethrow;
+  } on PlatformException catch (e, stackTrace) {
+    print('🔥 PLATFORM ERROR: ${e.code}');
+    print('🔥 MESSAGE: ${e.message}');
+    print('🔥 STACK TRACE: $stackTrace');
+    rethrow;
+  } catch (e, stackTrace) {
+    print('🔥 UNKNOWN ERROR: $e');
+    print('🔥 STACK TRACE: $stackTrace');
+    rethrow;
   }
 
+  return ClientSelectionAttributesModel.empty();
+}
   Future<void> deleteClientSelectionOrder(String clientOrderId) async {
 
     try {
