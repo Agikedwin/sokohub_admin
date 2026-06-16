@@ -1,8 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:sokohub_admin/features/tailor_shop/controllers/task/task_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/selection/garment_selection_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/task/employee_garment_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/model/client_selection_attributes_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/task_model.dart';
-import 'package:sokohub_admin/features/tailor_shop/repository/task/task_repository.dart';
+import 'package:sokohub_admin/features/tailor_shop/model/tracking_notes_model.dart';
+import 'package:sokohub_admin/features/tailor_shop/repository/selection/client_selection_order_repository.dart';
 import 'package:sokohub_admin/utils/helpers/network_manager.dart';
 import 'package:sokohub_admin/utils/popups/full_screen_loader.dart';
 import 'package:sokohub_admin/utils/popups/loaders.dart';
@@ -10,6 +13,8 @@ import 'package:sokohub_admin/utils/popups/loaders.dart';
 class EditTaskTrackingController extends GetxController  {
 
   static EditTaskTrackingController get instance => Get.find();
+
+  final clientSelectionOrderRepository = Get.put(ClientSelectionOrderRepository());
 
   final selectedParent = TaskModel.empty().obs;
   final isLoading = false.obs;
@@ -37,6 +42,8 @@ void init(TaskModel task){
 
   Future<void> updateTaskTracking(TaskModel task) async {
 
+    
+
 
     try {
       // Start loading
@@ -57,18 +64,35 @@ void init(TaskModel task){
       }
 
         // Map Data
+        
+        final trackingNotes = task.trackingNotes;
+       // trackingNotes!.add(TrackingNoteModel(note: 'some notes', createdAt: DateTime.now()));
+            task.trackingNotes = trackingNotes;
+            task.status = isCompleted.value ? 'Completed' : 'Pending';
+            task.completedAt =DateTime.now();
+            task.doneBy = EmployeeGarmentController.instance.selectedEmployees;
 
-       
-           task.name = name.text.trim();
-            task.trackingNotes = [];
+           
+        // Get the selected ClientSelectionAttributesModel from the arguments
+        final tasks = GarmentSelectionController.instance.selectedGarmentSelection.value.garmentTasks;
+        final docId = GarmentSelectionController.instance.selectedGarmentSelection.value.id;
+         
            
 
           
-           await TasksRepository.instance.updateTask(task);
+          await clientSelectionOrderRepository.updateGarmentTaskById(docId: docId, tasks: tasks!, updatedTask: task);
 
-           // Update Data list
+          tasks.map((task) {
+            return task.id == task.id ? task : task;
+          }).toList();
 
-          TasksController.instance.updateItemFromlist(task);
+
+           // Update Data data
+           GarmentSelectionController.instance.selectedGarmentSelection.value.garmentTasks = tasks;
+
+           // Add to the selected collection
+
+          //TasksController.instance.updateItemFromlist(task);
           
          
 
@@ -78,6 +102,10 @@ void init(TaskModel task){
         TFullScreenLoader.stopLoading();
         // Navigate back to the list
          Get.back();
+
+         // Back to the selection page
+         Get.back();
+
 
         // Success message
         TLoaders.successSnackBar(title: 'Congratulations', message: 'New record successfully added');        

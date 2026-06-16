@@ -28,18 +28,22 @@ class TasksTrackingDataTable extends StatelessWidget {
         columns:  [
           DataColumn2(
             label: Text('Task Name',),
-            fixedWidth: TDeviceUtils.isMobileScreen(Get.context!) ? null : 200 ),
-          DataColumn2(label: Text('Wage'),
-         
+            //fixedWidth: TDeviceUtils.isMobileScreen(Get.context!) ? null : 200 
+            ),
+          DataColumn2(label: Text('Done By'),         
+          ),
+          DataColumn2(label: Text('Started'),         
+          ),
+          DataColumn2(label: Text('Completed'),         
           ),
           DataColumn2(label: Text('Duration(hrs)'),
-          fixedWidth: TDeviceUtils.isMobileScreen(Get.context!) ? null : 100 
+         // fixedWidth: TDeviceUtils.isMobileScreen(Get.context!) ? null : 100 
           ),
           DataColumn2(label: Text('Status'),
-          fixedWidth: TDeviceUtils.isMobileScreen(Get.context!) ? null : 200 
+        //fixedWidth: TDeviceUtils.isMobileScreen(Get.context!) ? null : 200 
           ),
           DataColumn2(label: Text('Action'),
-          fixedWidth: TDeviceUtils.isMobileScreen(Get.context!) ? null : 100 
+          //fixedWidth: TDeviceUtils.isMobileScreen(Get.context!) ? null : 100 
           ),
         ],
         source: TasksTrackingTableSourceRows(),

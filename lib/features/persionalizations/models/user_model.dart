@@ -107,8 +107,10 @@ Map<String, dynamic> toJson() {
     'deviceToken': deviceToken,
     'createdAt': createdAt != null
         ? Timestamp.fromDate(createdAt!)
-        : FieldValue.serverTimestamp(),
-    'updatedAt': FieldValue.serverTimestamp(),
+        :  null,
+    'updatedAt': createdAt != null
+        ? Timestamp.fromDate(createdAt!)
+        :  null,
     'addresses': addresses?.map((e) => e.toJson()).toList() ?? [],
   };
 }

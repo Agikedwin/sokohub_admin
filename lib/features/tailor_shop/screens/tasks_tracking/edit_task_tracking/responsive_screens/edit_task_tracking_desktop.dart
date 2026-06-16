@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sokohub_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 
-import 'package:sokohub_admin/features/tailor_shop/model/client_selection_attributes_model.dart';
+import 'package:sokohub_admin/features/tailor_shop/model/task_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/tasks_tracking/edit_task_tracking/widgets/edit_task_tracking_form.dart';
 import 'package:sokohub_admin/routes/routes.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
@@ -9,7 +9,7 @@ import 'package:sokohub_admin/utils/constants/sizes.dart';
 class EditTaskTrackingDesktopScreen extends StatelessWidget {
   const EditTaskTrackingDesktopScreen({super.key, required this.tasks});
  
-  final ClientSelectionAttributesModel tasks;
+  final TaskModel tasks;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class EditTaskTrackingDesktopScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Breadcrumbs
-              const TBreadcrumbsWithHeading(returnToPreviousScreen: true, heading: 'Update Brand', breadcrumbItems: [ITRoutes.categories, 'Update Brand']),
+              const TBreadcrumbsWithHeading(returnToPreviousScreen: true, heading: 'Update Tasks', breadcrumbItems: [ITRoutes.garmentTasks, 'Update Tasks']),
               SizedBox(height: TSizes.spaceBtwSections,),
 
               // Form

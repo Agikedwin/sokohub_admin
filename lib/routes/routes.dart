@@ -89,11 +89,14 @@ class ITRoutes {
 
   // Garment Tasks
     static const garmentTasks= '/garmentTasks'; 
+     static const editGarmentTasks= '/editGarmentTasks'; 
+
+    
 
 
   static List siderbarMenuItems = [
     dashboard, media, categories, brands, banners, customers, orders, ordersDetail,
      material, garment, measurement, accessory, createGarmentSelection,clientSelection, 
-      createGarmentSelection, editGarmentSelection, clientGarment, task,garmentTasks
+      createGarmentSelection, editGarmentSelection, clientGarment, task,garmentTasks, editGarmentTasks
   ];
 }

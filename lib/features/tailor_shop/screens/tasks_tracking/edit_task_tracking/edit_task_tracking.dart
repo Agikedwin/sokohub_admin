@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sokohub_admin/common/widgets/layouts/templates/site_layout.dart';
-import 'package:sokohub_admin/features/tailor_shop/model/client_selection_attributes_model.dart';
+import 'package:sokohub_admin/features/tailor_shop/model/task_model.dart';
 
 
 import 'package:sokohub_admin/features/tailor_shop/screens/tasks_tracking/edit_task_tracking/responsive_screens/edit_task_tracking_desktop.dart';
@@ -15,7 +15,7 @@ class EditTaskTrackingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    // final category = Get.arguments;
-   ClientSelectionAttributesModel tasks = Get.arguments;
+   final TaskModel tasks = Get.arguments;
     return  ITSiteLayoutTemplate(
 
       desktop: EditTaskTrackingDesktopScreen(tasks: tasks ,),

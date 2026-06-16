@@ -35,6 +35,7 @@ class GarmentSelectionRows extends DataTableSource {
               const SizedBox(
                 width: TSizes.spaceBtwItems,
               ),
+              
               Expanded(
                 child: Text(
                   garmentSelection.clientOrder.title,
