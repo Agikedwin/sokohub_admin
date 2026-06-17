@@ -33,8 +33,8 @@ class ClientSelection extends StatelessWidget {
             : TypeAheadField(
               builder: (context, ctr, FocusNode){
                 // Set default valies
-                if(user.id != '' || user.email != '' || user.fullName != ''){
-                  ctr.text = user.email; 
+                if( user.email != '' || user.fullName != ''){
+                  ctr.text = user.firstName; 
                 }
                       
 
@@ -50,16 +50,21 @@ class ClientSelection extends StatelessWidget {
                   ),
                 );
               }, 
-              suggestionsCallback: (pattern){
-                // Return filtered brands suggestions on the search pattern
-                return clientController.allItems.where((garment) =>  garment.email.toLowerCase().contains(pattern.toLowerCase())).toList();               
-              },
+              suggestionsCallback: (pattern) {
+                      final query = pattern.toLowerCase();
+
+                      return clientController.allItems.where(
+                        (client) =>
+                            client.phoneNumber.toLowerCase().contains(query) ||
+                            client.fullName.toLowerCase().contains(query),
+                      ).toList();
+                    },
               itemBuilder:(context, suggestion){
-                return ListTile(title: Text(suggestion.email),);
+                return ListTile(title: suggestion.fullName != '' ? Text(suggestion.fullName) : Text(suggestion.email),);
               },
               onSelected: (suggestion){
                 clientController.selectedClient.value = suggestion;
-                clientController.selectedTextController.text = suggestion.email; 
+                clientController.selectedTextController.text = suggestion.fullName != '' ? suggestion.fullName : suggestion.email; 
 
                 
               }, 

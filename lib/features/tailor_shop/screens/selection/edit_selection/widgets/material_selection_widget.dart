@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/common/widgets/shimmers/shimmer.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/material/create_material_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/material/material_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/model/material_model.dart';
 import 'package:sokohub_admin/utils/constants/sizes.dart';
+import 'package:sokohub_admin/utils/validators/validation.dart';
 
 class MaterialSelectionWidget extends StatelessWidget {
   const MaterialSelectionWidget({super.key, required this.material});
@@ -16,6 +19,7 @@ class MaterialSelectionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final  materialController = Get.put(MaterialController());
+    final createMaterialController  = Get.put(CreateMaterialController());
 
     // fetch brands if the list is empty
     if(materialController.allItems.isEmpty){
@@ -64,7 +68,23 @@ class MaterialSelectionWidget extends StatelessWidget {
               }, 
               
               ) 
-          )
+          ),
+           const SizedBox(height: TSizes.spaceBtwInputFields  ,),   
+          TextFormField(
+              controller: createMaterialController.estimatedLength,
+              validator: (value) => TValidator.validateEmptyText('Estimated Length', value),
+              decoration: const InputDecoration(labelText: 'Estimated Length', prefixIcon: Icon(Iconsax.size5)),
+               keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'^\d*\.?\d{0,2}$'),
+                      ),
+                    ],
+            ),
+
+             const SizedBox(height: TSizes.spaceBtwInputFields  ,),     
         ],
       ),
     );

@@ -22,7 +22,7 @@ class SelectionNoteWidget extends StatelessWidget {
           children: [
             
            SizedBox(
-            height: 300,
+            height: 150,
             child: TextFormField(
               controller:  controller.description,
               expands: true,
@@ -31,7 +31,7 @@ class SelectionNoteWidget extends StatelessWidget {
               keyboardType: TextInputType.multiline,
               textAlignVertical: TextAlignVertical.top,
               decoration: const InputDecoration(
-                labelText: 'Item Note',
+                labelText: 'Note/Description',
                 hintText: 'Add your item description here ...',
                 alignLabelWithHint: true
               ),

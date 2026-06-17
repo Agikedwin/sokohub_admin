@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/utils.dart';
 import 'package:sokohub_admin/common/widgets/containers/rounded_container.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/selection/create_client_selection_order_controller.dart';
 
@@ -19,7 +17,7 @@ class SelectionNoteWidget extends StatelessWidget {
           children: [
             
            SizedBox(
-            height: 300,
+            height: 150,
             child: TextFormField(
               controller:  controller.description,
               expands: true,

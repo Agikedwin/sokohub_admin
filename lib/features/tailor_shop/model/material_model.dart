@@ -10,6 +10,7 @@ class MaterialModel {
   bool isFeatured;
   DateTime? createdAt;
   DateTime? updatedAt;
+  double? estimatedLength;
 
   MaterialModel({
     required this.id,
@@ -20,6 +21,7 @@ class MaterialModel {
      this.parentId = '',
     this.createdAt,
     this.updatedAt,
+    this.estimatedLength
   });
 
   String get formattedDate => TFormatter.formatDate(createdAt);
@@ -35,6 +37,7 @@ class MaterialModel {
         parentId: '',
         createdAt: null,
         updatedAt: null,
+        estimatedLength: 0
       );
 
   /// Convert model to JSON structure (for Firebase storage)
@@ -48,6 +51,7 @@ class MaterialModel {
       'IsFeatured': isFeatured,
       'CreatedAt':  createdAt ?? DateTime.now(),
       'UpdatedAt': updatedAt,
+      'EstimatedLength': estimatedLength
     };
   }
 
@@ -56,6 +60,7 @@ factory MaterialModel.fromJson(Map<String, dynamic> json) {
   return MaterialModel(
     id: json['Id'] ?? '',
     name: json['Name'] ?? '',
+    estimatedLength: json['EstimatedLength'] ?? 0,
     unitCost: (json['UnitCost'] ?? 0).toDouble(),
     image: json['Image'] ?? '',
     parentId: json['ParentId'] ?? '',
@@ -79,6 +84,7 @@ factory MaterialModel.fromJson(Map<String, dynamic> json) {
   return MaterialModel(
     id: document.id,
     name: data['Name'] ?? '',
+    estimatedLength: data['EstimatedLength'] ?? 0,
     unitCost: data['UnitCost'] ?? 0.0,
     image: data['Image'] ?? '',
     parentId: data['ParentId'] ?? '',

@@ -18,6 +18,7 @@ class GarmentSelectionController extends TBaseController<ClientSelectionAttribut
   TextEditingController garmentSelectionTextField = TextEditingController();
 
   Rx<ClientSelectionAttributesModel> selectedGarmentSelection = ClientSelectionAttributesModel.empty().obs;
+  Rx<double> totalGarmentAmountToPurchase = 0.0.obs;
 
 
 
@@ -33,7 +34,13 @@ class GarmentSelectionController extends TBaseController<ClientSelectionAttribut
   
   @override
   Future<List<ClientSelectionAttributesModel>> fetchItems()  async{
-    return await garmentSelectionRepository.getAllGarmentSelections();
+    final result = await garmentSelectionRepository.getAllGarmentSelections();
+    // sum purch cost
+    calculateMaterialPurchaseCost(result);
+    
+    
+
+    return result;
   }
   
 
@@ -44,5 +51,14 @@ class GarmentSelectionController extends TBaseController<ClientSelectionAttribut
   }
 
   
+
+  void calculateMaterialPurchaseCost(List<ClientSelectionAttributesModel> items){
+    print('${items.length} ===============================================');
+        final result = items.fold(0.0, (prev, items) => prev + (items.material.unitCost * items.material.estimatedLength!));
+        print(result);
+        totalGarmentAmountToPurchase(result);
+
+
+  }
 
 }

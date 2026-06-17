@@ -40,6 +40,8 @@ import 'package:sokohub_admin/features/tailor_shop/screens/material/edit_materia
 import 'package:sokohub_admin/features/tailor_shop/screens/measurement/all_measurements/measurements.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/measurement/create_measurements/create_measurements.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/measurement/edit_measurements/edit_measurements.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/quantity_cost/all_accessories/accessories_quantity_cost.dart';
+import 'package:sokohub_admin/features/tailor_shop/screens/quantity_cost/all_material/material_quantity_cost.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/all_selections/garment_selection.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/create_selection/client_garment_selection.dart';
 import 'package:sokohub_admin/features/tailor_shop/screens/selection/edit_selection/edit_garment_selection.dart';
@@ -141,6 +143,10 @@ class ITAppRoutes {
       // Tasks
       GetPage(name: ITRoutes.garmentTasks, page: () => const TasksTrackingScreen(), middlewares: [ITRoutesMiddleware()]),
       GetPage(name: ITRoutes.editGarmentTasks, page: () => const EditTaskTrackingScreen(), middlewares: [ITRoutesMiddleware()]),
+
+       // Cost Quantity
+      GetPage(name: ITRoutes.materialCost, page: () => const MaterialQuantityCostScreen(), middlewares: [ITRoutesMiddleware()]),
+      GetPage(name: ITRoutes.accessoryCost, page: () => const AccessoryQuantityCostScreen(), middlewares: [ITRoutesMiddleware()]),
 
       
 

@@ -91,12 +91,17 @@ class ITRoutes {
     static const garmentTasks= '/garmentTasks'; 
      static const editGarmentTasks= '/editGarmentTasks'; 
 
+
+  // Quantiry Cost
+    static const materialCost= '/materialCost'; 
+    static const accessoryCost= '/accessoryCost'; 
+
     
 
 
   static List siderbarMenuItems = [
     dashboard, media, categories, brands, banners, customers, orders, ordersDetail,
      material, garment, measurement, accessory, createGarmentSelection,clientSelection, 
-      createGarmentSelection, editGarmentSelection, clientGarment, task,garmentTasks, editGarmentTasks
+      createGarmentSelection, editGarmentSelection, clientGarment, task,garmentTasks, editGarmentTasks,materialCost, accessoryCost
   ];
 }

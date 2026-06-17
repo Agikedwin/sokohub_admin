@@ -73,21 +73,20 @@ class EditTaskTrackingForm extends StatelessWidget {
               Text('Task done By', style:  Theme.of(context).textTheme.titleMedium,),
             const SizedBox(height: TSizes.spaceBtwInputFields / 2 ,),
 
-
-
              Obx(
                () =>  assignedEmpController.alreadySelectedEmployees.isEmpty ? TShimmerEffect(width: double.infinity, height: 40) : Wrap(
                 spacing: TSizes.sm,
                 children: CustomerController.instance.allCustomers
                 .map((employee) =>  Padding(
                     padding: EdgeInsets.only(bottom: TSizes.sm),
-                    child: TChoiceChip(text: employee.firstName, 
+                    child: TChoiceChip(text: employee.fullName, 
                      selected: assignedEmpController.selectedEmployees.contains(employee),
                      onSelected: (value)=> assignedEmpController.toggleSelection(employee),),
                   ),                
                 ).toList()
                ),
              ),
+
               const SizedBox(height: TSizes.spaceBtwInputFields / 2 ,),
 
              

@@ -6,6 +6,7 @@ import 'package:sokohub_admin/features/online_shop/controllers/order/order_contr
 import 'package:sokohub_admin/features/persionalizations/models/user_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/accessory/accessory_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/garment/garment_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/material/create_material_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/material/material_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/measuremnt/measurement_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/task/task_controller.dart';
@@ -116,6 +117,23 @@ class EditClientSelectionOrderController extends GetxController {
     final order = OrderController.instance;
     final garmentTasks = TasksController.instance.alreadySelectedGarmentTasks;
     // final cartItem = OrderController.instance.order
+     final estimatedLength = CreateMaterialController.instance.estimatedLength;
+
+     if(user.id == ''){
+      throw 'Please select a client';
+
+    }
+    if(garment.id == ''){
+      throw 'Please select a garment';
+
+    }
+    if(material.id == ''){
+      throw 'Please select a material';
+
+    }
+    if(estimatedLength.text.trim() == ''){
+      throw 'Please enter the estimated material length';
+    }
 
     // Set measurements
     measurements.getClientMeasurements();
@@ -145,7 +163,8 @@ class EditClientSelectionOrderController extends GetxController {
             id: material.id,
             name: material.name,
             unitCost: material.unitCost,
-            image: material.image),
+            estimatedLength: double.tryParse(estimatedLength.text.trim()),
+            image: ''),
         accessories: accessory.clientAccessory,
         measurements: measurements.clientMeasurements,
         garmentTasks: garmentTasks,

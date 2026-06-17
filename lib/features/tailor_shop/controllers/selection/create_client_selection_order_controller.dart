@@ -6,6 +6,7 @@ import 'package:sokohub_admin/features/online_shop/controllers/order/order_contr
 import 'package:sokohub_admin/features/persionalizations/models/user_model.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/accessory/accessory_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/garment/garment_controller.dart';
+import 'package:sokohub_admin/features/tailor_shop/controllers/material/create_material_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/material/material_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/measuremnt/measurement_controller.dart';
 import 'package:sokohub_admin/features/tailor_shop/controllers/selection/garment_selection_controller.dart';
@@ -98,6 +99,7 @@ class CreateClientSelectionOrderController extends GetxController {
     final accessory = AccessoryController.instance;
     final order = OrderController.instance;
     final garmentTasks = TasksController.instance;
+    final estimatedLength = CreateMaterialController.instance.estimatedLength;
     
     // Validate the fieds
     if(user.id == ''){
@@ -111,6 +113,9 @@ class CreateClientSelectionOrderController extends GetxController {
     if(material.id == ''){
       throw 'Please select a material';
 
+    }
+    if(estimatedLength.text.trim() == ''){
+      throw 'Please enter the estimated material length';
     }
 
     // Set measurements
@@ -141,7 +146,8 @@ class CreateClientSelectionOrderController extends GetxController {
             id: material.id,
             name: material.name,
             unitCost: material.unitCost,
-            image: material.image),
+            estimatedLength: double.tryParse(estimatedLength.text.trim()),
+            image: ''),
         garmentTasks: garmentTasks.alreadySelectedGarmentTasks,
         accessories: accessory.clientAccessory,
         measurements: measurements.clientMeasurements,

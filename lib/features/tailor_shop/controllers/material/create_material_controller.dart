@@ -19,6 +19,7 @@ class CreateMaterialController extends GetxController {
   final isFeatured = false.obs;
   final name = TextEditingController();
     final unitCost = TextEditingController();
+    final estimatedLength = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
